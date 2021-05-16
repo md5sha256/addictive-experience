@@ -1,0 +1,13 @@
+dependencies {
+    compileOnlyApi("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
+    compileOnlyApi("org.jetbrains:annotations:20.1.0")
+    compileOnlyApi("io.leangen.geantyref:geantyref:1.3.4")
+
+    implementation("io.papermc:paperlib:1.0.6")
+}
+
+jar {
+    archiveBaseName.set("addictive-experience")
+    classifier("api")
+}
+

@@ -1,0 +1,79 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'com.github.johnrengelman.shadow' apply true
+}
+
+var relocationBase = "com.github.md5sha256.addictiveexperience.shaded"
+
+repositories {
+    maven {
+        name = "sonatype-snapshots"
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+        mavenContent {
+            snapshotsOnly()
+        }
+    }
+    maven {
+        name = "jitpack"
+        url = uri("https://jitpack.io")
+        content {
+            includeGroup "com.github.MilkBowl"
+        }
+    }
+}
+
+dependencies {
+
+    api project(":api")
+
+    implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT") {
+        exclude(group: "net.kyori", module: "adventure-api")
+    }
+    implementation("net.kyori:adventure-text-serializer-plain:4.7.0") {
+        exclude(group: "net.kyori", "module": "adventure-api")
+    }
+    implementation("io.papermc:paperlib:1.0.6")
+    implementation("org.spongepowered:configurate-yaml:4.0.0")
+
+    compileOnlyApi("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
+    compileOnlyApi("org.jetbrains:annotations:20.1.0")
+
+
+    compileOnly("com.google.inject:guice:5.0.1")
+    compileOnly("com.google.inject.extensions:guice-assistedinject:5.0.1")
+
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+
+}
+
+processResources {
+    filesMatching("plugin.yml") {
+        filter(tokens: [version: project.version], ReplaceTokens)
+    }
+}
+
+jar {
+    archiveBaseName.set("addictive-experience")
+    classifier("implementation")
+}
+
+shadowJar {
+    archiveBaseName.set("addictive-experience")
+    classifier("")
+    relocate("com.google.inject", "${relocationBase}.inject")
+    relocate("io.leangen.geantyref", "${relocationBase}.geantyref")
+    relocate("io.papermc.lib", "${relocationBase}.paperlib")
+    relocate("net.kyori.adventure.text.minimessage", "${relocationBase}.text.minimessage")
+    relocate("net.kyori.adventure.text.serializer.plain", "${relocationBase}.text.serializer.plain")
+    relocate("org.aopalliance", "${relocationBase}.aopalliance")
+    relocate("org.spongepowered.configurate", "${relocationBase}.configurate")
+    relocate("org.yaml.snakeyaml", "${relocationBase}.snakeyaml")
+    relocate("javax.inject", "${relocationBase}.javax.inject")
+}
+
+assemble {
+    dependsOn(shadowJar)
+}
+
+
