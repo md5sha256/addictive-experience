@@ -1,0 +1,4 @@
+name: AddictiveExperience
+version: "@version@"
+main: com.github.md5sha256.addictiveexperience.AddictiveExperience
+api-version: 1.16

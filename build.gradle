@@ -1,0 +1,110 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java-library'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+
+group = "com.github.md5sha256"
+version = "0.0.1-SNAPSHOT"
+
+var relocationBase = "com.github.md5sha256.addictiveexperience.shaded"
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "sonatype-snapshots"
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+        mavenContent {
+            snapshotsOnly()
+        }
+    }
+    maven {
+        name = "jitpack"
+        url = uri("https://jitpack.io")
+        content {
+            includeGroup "com.github.MilkBowl"
+        }
+    }
+    maven {
+        name = "spigot-repo"
+        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+        content {
+            includeGroup "org.bukkit"
+            includeGroup "org.spigotmc"
+        }
+    }
+    maven {
+        name = "paper-repo"
+        url = uri("https://papermc.io/repo/repository/maven-public/")
+    }
+}
+
+dependencies {
+
+    implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT") {
+        exclude(group: "net.kyori", module: "adventure-api")
+    }
+    implementation("net.kyori:adventure-text-serializer-plain:4.7.0") {
+        exclude(group: "net.kyori", "module": "adventure-api")
+    }
+    implementation("io.papermc:paperlib:1.0.6")
+    implementation("org.spongepowered:configurate-yaml:4.0.0")
+
+    compileOnlyApi("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
+    compileOnlyApi("org.jetbrains:annotations:20.1.0")
+
+
+    compileOnly("com.google.inject:guice:5.0.1")
+    compileOnly("com.google.inject.extensions:guice-assistedinject:5.0.1")
+
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+
+}
+
+tasks.withType(JavaCompile) {
+    Provider<JavaCompiler> compilerProvider = javaToolchains.compilerFor {
+        JavaLanguageVersion.of(8)
+    }
+    JavaCompiler compiler = compilerProvider.orNull
+
+    if (compiler != null && compiler.metadata.languageVersion.asInt() > 9) {
+        // Mark release as 8 if the compiler is Java 10 or newer
+        options.release.set(8)
+    } else {
+        // Only use the legacy compiler options otherwise
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    options.encoding = "UTF-8"
+}
+
+processResources {
+    filesMatching("plugin.yml") {
+        filter(tokens: [version: project.version], ReplaceTokens)
+    }
+}
+
+jar {
+    classifier("original")
+}
+
+shadowJar {
+    classifier("")
+    relocate("com.google.inject", "${relocationBase}.inject")
+    relocate("io.leangen.geantyref", "${relocationBase}.geantyref")
+    relocate("io.papermc.lib", "${relocationBase}.paperlib")
+    relocate("net.kyori.adventure.text.minimessage", "${relocationBase}.text.minimessage")
+    relocate("net.kyori.adventure.text.serializer.plain", "${relocationBase}.text.serializer.plain")
+    relocate("org.aopalliance", "${relocationBase}.aopalliance")
+    relocate("org.spongepowered.configurate", "${relocationBase}.configurate")
+    relocate("org.yaml.snakeyaml", "${relocationBase}.snakeyaml")
+    relocate("javax.inject", "${relocationBase}.javax.inject")
+}
+
+assemble {
+    dependsOn(shadowJar)
+}
+
+
