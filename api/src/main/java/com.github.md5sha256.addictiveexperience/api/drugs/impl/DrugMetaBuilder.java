@@ -2,6 +2,7 @@ package com.github.md5sha256.addictiveexperience.api.drugs.impl;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.slur.ISlurEffect;
+import com.google.common.base.Preconditions;
 import org.bukkit.potion.PotionEffect;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +11,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 
 public final class DrugMetaBuilder {
 
@@ -22,12 +25,30 @@ public final class DrugMetaBuilder {
     public DrugMetaBuilder() {
     }
 
-    public DrugMetaBuilder effects(@NotNull PotionEffect... effects) {
-        return effects(Arrays.asList(effects));
+    public DrugMetaBuilder(@NotNull DrugMetaBuilder builder) {
+        this.enabled = builder.enabled;
+        this.effect = builder.effect;
+        if (builder.effects != null) {
+            this.effects = new HashSet<>(builder.effects);
+        }
+        this.slurDurationMillis = builder.slurDurationMillis;
+        this.overdoseThreshold = builder.overdoseThreshold;
     }
 
-    public DrugMetaBuilder effects(Collection<PotionEffect> effects) {
-        this.effects = effects;
+    public DrugMetaBuilder(@NotNull DrugMeta meta) {
+        this.effects = new HashSet<>(meta.effects());
+        this.enabled = meta.drugEnabled();
+        this.effect = meta.effect().orElse(null);
+        this.slurDurationMillis = meta.slurDurationMillis();
+        this.overdoseThreshold = meta.overdoseThreshold();
+    }
+
+    public DrugMetaBuilder effects(@NotNull PotionEffect... effects) {
+        return effects(Arrays.asList(Objects.requireNonNull(effects)));
+    }
+
+    public DrugMetaBuilder effects(@NotNull Collection<PotionEffect> effects) {
+        this.effects = Objects.requireNonNull(effects);
         return this;
     }
 
@@ -55,7 +76,7 @@ public final class DrugMetaBuilder {
         if (this.effects == null) {
             this.effects = Collections.emptySet();
         }
-        if (this.slurDurationMillis < 0 && this.slurDurationMillis != -1) {
+        if (this.slurDurationMillis < 0) {
             throw new IllegalArgumentException("Invalid slur duration: " + this.slurDurationMillis);
         }
         if (this.overdoseThreshold < 1) {

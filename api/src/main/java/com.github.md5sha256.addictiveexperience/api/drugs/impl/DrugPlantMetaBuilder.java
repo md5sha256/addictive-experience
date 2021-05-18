@@ -19,6 +19,15 @@ public final class DrugPlantMetaBuilder {
     public DrugPlantMetaBuilder() {
     }
 
+    public DrugPlantMetaBuilder(@NotNull DrugPlantMetaBuilder builder) {
+        this.growthTimeMillis = builder.growthTimeMillis;
+        this.seedDropProbability = builder.seedDropProbability;
+        this.seedDropAmount = builder.seedDropAmount;
+        this.harvestProbability = builder.harvestProbability;
+        this.harvestAmount = builder.harvestAmount;
+        this.seed = builder.seed;
+    }
+
     public DrugPlantMetaBuilder(@NotNull DrugPlantMeta meta) {
         this.growthTimeMillis = meta.growthTimeMillis();
         this.seedDropProbability = meta.seedDropProbability();
@@ -76,6 +85,7 @@ public final class DrugPlantMetaBuilder {
     }
 
     public DrugPlantMetaImpl build() {
+        validate();
         return new DrugPlantMetaImpl(growthTimeMillis,
                                      seedDropProbability,
                                      seedDropAmount,

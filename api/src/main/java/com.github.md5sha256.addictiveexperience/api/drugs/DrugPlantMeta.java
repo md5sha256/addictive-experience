@@ -14,9 +14,7 @@ public interface DrugPlantMeta {
 
     long growthTime(@NotNull TimeUnit timeUnit);
 
-    default long growthTimeMillis() {
-        return growthTime(TimeUnit.MILLISECONDS);
-    }
+    long growthTimeMillis();
 
     double seedDropProbability();
 

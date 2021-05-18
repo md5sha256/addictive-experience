@@ -47,7 +47,7 @@ public final class DataKeyImpl<T> implements DataKey<T> {
     public String toString() {
         return "DataKeyImpl{" +
                 "name='" + name + '\'' +
-                ", type=" + type +
+                ", type=" + type.getType().getTypeName() +
                 '}';
     }
 }

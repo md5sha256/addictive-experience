@@ -18,7 +18,8 @@ repositories {
         name = "jitpack"
         url = uri("https://jitpack.io")
         content {
-            includeGroup "com.github.MilkBowl"
+            includeModule ("com.github.MilkBowl", "VaultAPI")
+            includeModule ("com.github.md5sh256", "SpigotUtils")
         }
     }
 }
@@ -26,6 +27,8 @@ repositories {
 dependencies {
 
     api project(":api")
+
+    implementation("com.github.md5sha256:SpigotUtils:cfa3dd748f")
 
     implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT") {
         exclude(group: "net.kyori", module: "adventure-api")

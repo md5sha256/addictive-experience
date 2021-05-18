@@ -8,17 +8,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class DrugMetaImpl implements DrugMeta {
 
-    private final Collection<PotionEffect> effects;
+    private final Set<PotionEffect> effects;
     private final boolean enabled;
     private final ISlurEffect effect;
     private final long slurDurationMillis;
     private final int overdoseThreshold;
 
-    DrugMetaImpl(@NotNull Collection<@NotNull PotionEffect> effects,
+    DrugMetaImpl(@NotNull Set<@NotNull PotionEffect> effects,
                  boolean enabled,
                  @Nullable ISlurEffect effect,
                  long slurDurationMillis,
@@ -51,7 +52,7 @@ public class DrugMetaImpl implements DrugMeta {
     }
 
     @Override
-    public @NotNull Collection<@NotNull PotionEffect> effects() {
+    public @NotNull Set<@NotNull PotionEffect> effects() {
         return this.effects;
     }
 

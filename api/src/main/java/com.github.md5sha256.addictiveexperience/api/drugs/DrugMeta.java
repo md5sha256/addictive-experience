@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public interface DrugMeta {
@@ -34,12 +35,14 @@ public interface DrugMeta {
 
     long slurDuration(@NotNull TimeUnit timeUnit);
 
-    default long slurDurationMillis() {
-        return slurDuration(TimeUnit.MILLISECONDS);
-    }
+    long slurDurationMillis();
 
-    @NotNull Collection<@NotNull PotionEffect> effects();
+    @NotNull Set<@NotNull PotionEffect> effects();
 
     int overdoseThreshold();
+
+    default @NotNull DrugMetaBuilder toBuilder() {
+        return new DrugMetaBuilder(this);
+    }
 
 }
