@@ -2,7 +2,6 @@ package com.github.md5sha256.addictiveexperience.api.drugs.impl;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.slur.ISlurEffect;
-import com.google.common.base.Preconditions;
 import org.bukkit.potion.PotionEffect;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,7 +10,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 
 public final class DrugMetaBuilder {

@@ -2,11 +2,11 @@ package com.github.md5sha256.addictiveexperience.implementation;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugBloodData;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugCooldownData;
-import com.github.md5sha256.addictiveexperience.api.drugs.impl.DrugCooldownDataImpl;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugHandler;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
+import com.github.md5sha256.addictiveexperience.api.drugs.impl.DrugCooldownDataImpl;
 import com.github.md5sha256.addictiveexperience.util.Utils;
 import com.google.inject.Inject;
 import org.bukkit.entity.LivingEntity;

@@ -1,9 +1,9 @@
 package com.github.md5sha256.addictiveexperience.implementation.forms.blunt;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import com.github.md5sha256.addictiveexperience.api.forms.BluntState;
 import com.github.md5sha256.addictiveexperience.api.forms.FormBlunt;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrugForm;
-import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
 import net.kyori.adventure.text.Component;

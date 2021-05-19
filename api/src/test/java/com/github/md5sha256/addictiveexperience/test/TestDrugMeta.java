@@ -3,25 +3,13 @@ package com.github.md5sha256.addictiveexperience.test;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.impl.DrugMetaBuilder;
 import org.bukkit.potion.PotionEffect;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class TestDrugMeta {
-
-    private static void assertSimilar(@NotNull DrugMeta meta1, @NotNull DrugMeta meta2) {
-        Assertions.assertEquals(meta1.drugEnabled(), meta2.drugEnabled());
-        Assertions.assertEquals(meta1.effect(), meta2.effect());
-        final Set<PotionEffect> effects = new HashSet<>(meta1.effects());
-        final Set<PotionEffect> effects2 = meta2.effects();
-        Assertions.assertEquals(effects.size(), effects2.size());
-        Assertions.assertFalse(effects.addAll(effects2));
-    }
 
     @Test
     public void testMetaKey() {
@@ -30,15 +18,25 @@ public class TestDrugMeta {
     }
 
     @Test
+    public void testMetaSimilarity() {
+        final DrugMetaBuilder builder = DrugMeta.builder()
+                                                .enabled(false)
+                                                .overdoseThreshold(10)
+                                                .slurDurationMillis(1000);
+        final DrugMeta meta = builder.build();
+        Assertions.assertTrue(meta.isSimilar(meta));
+    }
+
+    @Test
     public void testMetaCloning() {
         final DrugMetaBuilder builder = DrugMeta.builder()
                                                 .enabled(false)
                                                 .overdoseThreshold(10)
                                                 .slurDurationMillis(1000);
-        final DrugMetaBuilder copy = new DrugMetaBuilder(builder);
-        assertSimilar(builder.build(), copy.build());
         final DrugMeta meta = builder.build();
-        assertSimilar(meta, meta.toBuilder().build());
+        final DrugMetaBuilder copy = new DrugMetaBuilder(builder);
+        Assertions.assertTrue(meta.isSimilar(copy.build()));
+        Assertions.assertTrue(meta.isSimilar(meta.toBuilder().build()));
     }
 
     @Test

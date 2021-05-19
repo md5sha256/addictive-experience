@@ -1,8 +1,8 @@
 package com.github.md5sha256.addictiveexperience.implementation.forms;
 
+import com.github.md5sha256.addictiveexperience.api.forms.IBlunts;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
-import com.github.md5sha256.addictiveexperience.api.forms.IBlunts;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;

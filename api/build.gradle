@@ -18,3 +18,9 @@ jar {
     classifier("api")
 }
 
+test {
+    javaToolchains.launcherFor {
+        JavaLanguageVersion.of(11)
+    }
+}
+
