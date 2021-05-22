@@ -6,7 +6,7 @@ import com.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import org.jetbrains.annotations.NotNull;
 
-public interface AddictiveExperienceApi {
+public interface AddictiveExperience {
 
     @NotNull DrugRegistry drugRegistry();
 

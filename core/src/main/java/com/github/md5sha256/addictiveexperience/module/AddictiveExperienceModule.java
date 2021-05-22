@@ -1,6 +1,6 @@
 package com.github.md5sha256.addictiveexperience.module;
 
-import com.github.md5sha256.addictiveexperience.api.AddictiveExperienceApi;
+import com.github.md5sha256.addictiveexperience.api.AddictiveExperience;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugHandler;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
@@ -13,9 +13,9 @@ import org.jetbrains.annotations.NotNull;
 
 public final class AddictiveExperienceModule extends AbstractModule {
 
-    private final AddictiveExperienceApi api;
+    private final AddictiveExperience api;
 
-    public AddictiveExperienceModule(@NotNull AddictiveExperienceApi api) {
+    public AddictiveExperienceModule(@NotNull AddictiveExperience api) {
         this.api = api;
     }
 
@@ -30,6 +30,6 @@ public final class AddictiveExperienceModule extends AbstractModule {
 
         // API bindings
         bind(IDrugForms.class).to(DrugForms.class).in(Singleton.class);
-        bind(AddictiveExperienceApi.class).toInstance(this.api);
+        bind(AddictiveExperience.class).toInstance(this.api);
     }
 }

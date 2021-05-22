@@ -2,7 +2,7 @@ package com.github.md5sha256.addictiveexperience.configuration;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface DrugFunConfiguration {
+public interface AddictiveExperienceConfiguration {
 
     @NotNull MessageRegistry messages();
 

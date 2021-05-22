@@ -1,11 +1,11 @@
 package com.github.md5sha256.addictiveexperience;
 
-import com.github.md5sha256.addictiveexperience.api.AddictiveExperienceApi;
+import com.github.md5sha256.addictiveexperience.api.AddictiveExperience;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugHandler;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
-import com.github.md5sha256.addictiveexperience.configuration.DrugFunConfiguration;
+import com.github.md5sha256.addictiveexperience.configuration.AddictiveExperienceConfiguration;
 import com.github.md5sha256.addictiveexperience.module.AddictiveExperienceModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -13,14 +13,14 @@ import com.google.inject.Stage;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public final class AddictiveExperience extends JavaPlugin implements AddictiveExperienceApi {
+public final class AddictiveExperiencePlugin extends JavaPlugin implements AddictiveExperience {
 
     private Injector injector;
     private DrugRegistry drugRegistry;
     private IDrugForms drugForms;
     private SlurEffectState slurEffectState;
     private DrugHandler drugHandler;
-    private DrugFunConfiguration drugFunConfiguration;
+    private AddictiveExperienceConfiguration addictiveExperienceConfiguration;
 
     @Override
     public @NotNull DrugRegistry drugRegistry() {
@@ -42,8 +42,8 @@ public final class AddictiveExperience extends JavaPlugin implements AddictiveEx
         return this.drugHandler;
     }
 
-    public @NotNull DrugFunConfiguration drugFunConfiguration() {
-        return this.drugFunConfiguration;
+    public @NotNull AddictiveExperienceConfiguration addictiveExperienceConfiguration() {
+        return this.addictiveExperienceConfiguration;
     }
 
     private void initializeInjector() {
@@ -53,7 +53,8 @@ public final class AddictiveExperience extends JavaPlugin implements AddictiveEx
         this.slurEffectState = injector.getInstance(SlurEffectState.class);
         this.drugHandler = injector.getInstance(DrugHandler.class);
         // Missing bindings/implementations
-        this.drugFunConfiguration = injector.getInstance(DrugFunConfiguration.class);
+        this.addictiveExperienceConfiguration = injector.getInstance(
+                AddictiveExperienceConfiguration.class);
         this.drugRegistry = injector.getInstance(DrugRegistry.class);
         this.injector = injector;
     }
