@@ -1,4 +1,4 @@
-package com.github.md5sha256.addictiveexperience.implementation;
+package com.github.md5sha256.addictiveexperience.implementation.slurs;
 
 import com.github.md5sha256.addictiveexperience.api.slur.ISlurEffect;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
