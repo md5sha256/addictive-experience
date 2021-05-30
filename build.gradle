@@ -1,5 +1,5 @@
 plugins {
-    id 'java-library'
+    id 'java' apply true
     id 'com.github.johnrengelman.shadow' version '7.0.0' apply false
 }
 
@@ -7,8 +7,6 @@ group = "com.github.md5sha256"
 version = "0.0.1-SNAPSHOT"
 
 subprojects {
-
-    plugins.apply('java-library')
 
     repositories {
         mavenCentral()
@@ -26,11 +24,6 @@ subprojects {
         }
     }
 
-    dependencies {
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
-    }
-
     tasks.withType(JavaCompile) {
         Provider<JavaCompiler> compilerProvider = javaToolchains.compilerFor {
             JavaLanguageVersion.of(8)
@@ -46,10 +39,6 @@ subprojects {
             targetCompatibility = JavaVersion.VERSION_1_8
         }
         options.encoding = "UTF-8"
-    }
-
-    test {
-        useJUnitPlatform()
     }
 
 }
