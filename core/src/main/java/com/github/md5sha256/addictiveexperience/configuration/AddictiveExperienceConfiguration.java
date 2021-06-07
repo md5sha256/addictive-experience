@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.configuration;
 
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 public interface AddictiveExperienceConfiguration {
@@ -9,5 +10,7 @@ public interface AddictiveExperienceConfiguration {
     @NotNull DrugConfiguration drugConfiguration();
 
     @NotNull ShopConfiguration shopConfiguration();
+
+    @NotNull Component slurFormat();
 
 }

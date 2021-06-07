@@ -18,7 +18,9 @@ import java.util.Optional;
 @SuppressWarnings("deprecation")
 public final class SpigotSlurHandler extends AbstractSlurHandler implements Listener {
 
-    public SpigotSlurHandler(@NotNull Plugin plugin, long intervalTicks, @NotNull SlurEffectState slurEffectState) {
+    public SpigotSlurHandler(@NotNull Plugin plugin,
+                             long intervalTicks,
+                             @NotNull SlurEffectState slurEffectState) {
         super(plugin, intervalTicks, slurEffectState);
     }
 
@@ -33,12 +35,15 @@ public final class SpigotSlurHandler extends AbstractSlurHandler implements List
     @EventHandler
     public void onAsyncPlayerChat(@NotNull AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
-        final Optional<ISlurEffect> optional = this.slurEffectState.currentSlurEffect(player.getUniqueId());
+        final Optional<ISlurEffect> optional = this.slurEffectState
+                .currentSlurEffect(player.getUniqueId());
         if (!optional.isPresent()) {
             return;
         }
         final String message = convertToFormat(player, event.getMessage());
-        final Component component = LegacyComponentSerializer.legacySection().deserialize(Utils.legacyColorize(message));
+        final Component component = LegacyComponentSerializer.legacySection()
+                                                             .deserialize(Utils.legacyColorize(
+                                                                     message));
         final ISlurEffect effect = optional.get();
         final Component formatted = effect.formatMessage(player, component);
         final String legacyText = LegacyComponentSerializer.legacySection().serialize(formatted);
