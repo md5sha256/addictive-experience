@@ -56,7 +56,7 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
 
     private void initializeInjector() {
         final Injector injector = Guice
-                .createInjector(Stage.PRODUCTION, new AddictiveExperienceModule(this));
+                .createInjector(Stage.PRODUCTION, new AddictiveExperienceModule(this, this));
         this.drugForms = injector.getInstance(IDrugForms.class);
         this.slurEffectState = injector.getInstance(SlurEffectState.class);
         this.drugHandler = injector.getInstance(DrugHandler.class);
