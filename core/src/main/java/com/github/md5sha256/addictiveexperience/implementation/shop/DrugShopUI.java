@@ -45,14 +45,14 @@ public final class DrugShopUI {
         this.drugRegistry = drugRegistry;
         this.shopConfiguration = configuration;
         this.economy = economy;
-        this.gui = setup();
+        setup();
     }
 
     public void openShop(@NotNull HumanEntity entity) {
         this.gui.show(entity, true);
     }
 
-    private @NotNull InventoryGui setup() {
+    public void setup() {
         final String[] setup = new String[]{
                 "#########",
                 "#ddddddd#",
@@ -63,7 +63,7 @@ public final class DrugShopUI {
         // D = drugs
         // # = panes
         // b = back, n = next, e = exit
-        return new InventoryGui(this.plugin,
+        this.gui = new InventoryGui(this.plugin,
                                 "&b&lDrug Shop",
                                 setup,
                                 elementDrugs('d'),
