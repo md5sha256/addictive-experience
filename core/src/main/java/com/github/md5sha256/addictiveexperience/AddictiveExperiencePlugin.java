@@ -3,9 +3,11 @@ package com.github.md5sha256.addictiveexperience;
 import com.github.md5sha256.addictiveexperience.api.AddictiveExperience;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugHandler;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
+import com.github.md5sha256.addictiveexperience.api.drugs.IPlantHandler;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import com.github.md5sha256.addictiveexperience.configuration.AddictiveExperienceConfiguration;
+import com.github.md5sha256.addictiveexperience.implementation.plant.PlantHandlerImpl;
 import com.github.md5sha256.addictiveexperience.module.AddictiveExperienceModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -17,6 +19,7 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
 
     private Injector injector;
     private DrugRegistry drugRegistry;
+    private IPlantHandler plantHandler;
     private IDrugForms drugForms;
     private SlurEffectState slurEffectState;
     private DrugHandler drugHandler;
@@ -25,6 +28,11 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
     @Override
     public @NotNull DrugRegistry drugRegistry() {
         return this.drugRegistry;
+    }
+
+    @Override
+    public @NotNull IPlantHandler plantHandler() {
+        return this.plantHandler;
     }
 
     @Override
@@ -56,16 +64,22 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
         this.addictiveExperienceConfiguration = injector.getInstance(
                 AddictiveExperienceConfiguration.class);
         this.drugRegistry = injector.getInstance(DrugRegistry.class);
+        this.plantHandler = injector.getInstance(IPlantHandler.class);
         this.injector = injector;
     }
 
+    private void shutdownTasks() {
+        final PlantHandlerImpl plantHandlerImpl = (PlantHandlerImpl) this.plantHandler;
+        plantHandlerImpl.shutdown();
+    }
+
     private void shutdownInjector() {
-        this.injector = null;
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
+        shutdownTasks();
         shutdownInjector();
     }
 

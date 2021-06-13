@@ -23,6 +23,8 @@ public interface DrugPlantMeta extends SimilarLike<DrugPlantMeta> {
 
     @NotNull Optional<@NotNull IDrugComponent> seed();
 
+    @NotNull IDrug drug();
+
     double harvestSuccessProbability();
 
     int harvestAmount();
@@ -37,7 +39,8 @@ public interface DrugPlantMeta extends SimilarLike<DrugPlantMeta> {
                 && this.growthTimeMillis() == other.growthTimeMillis()
                 && this.seedDropProbability() == other.seedDropProbability()
                 && this.harvestSuccessProbability() == other.harvestSuccessProbability()
-                && this.seed() == other.seed();
+                && this.seed().equals(other.seed())
+                && this.drug().equals(other.drug());
     }
 
 }

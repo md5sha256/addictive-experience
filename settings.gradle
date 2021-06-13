@@ -2,3 +2,4 @@ rootProject.name = "addictive-experience"
 
 include(":api")
 include(":core")
+includeBuild("SpigotUtils")

@@ -15,13 +15,15 @@ public interface DrugRegistry {
 
     @NotNull Set<@NotNull IDrug> drugs();
 
+    @NotNull Set<@NotNull IDrugComponent> components();
+
     @NotNull Set<@NotNull IDrugForm> drugForms();
 
     @NotNull Optional<@NotNull DrugItemData> dataFor(@NotNull ItemStack item);
 
-    void registerDrug(@NotNull IDrug... drugs);
+    void registerComponent(@NotNull IDrugComponent... drugs);
 
-    void registerDrug(@NotNull Collection<@NotNull IDrug> drugs);
+    void registerComponent(@NotNull Collection<@NotNull IDrug> drugs);
 
     void registerDrugForm(@NotNull IDrugForm... drugForms);
 
@@ -29,13 +31,17 @@ public interface DrugRegistry {
 
     @NotNull Optional<@NotNull IDrug> drugByKey(@NotNull Key key);
 
+    @NotNull Optional<@NotNull IDrugComponent> componentByKey(@NotNull Key key);
+
     @NotNull Map<Key, IDrug> drugByKeys(@NotNull Collection<Key> keys);
 
-    @NotNull <T> Optional<T> metaData(@NotNull IDrug drug, @NotNull DataKey<T> key);
+    @NotNull Map<Key, IDrugComponent> componentByKeys(@NotNull Collection<Key> keys);
 
-    <T> void metaData(@NotNull IDrug drug, @NotNull DataKey<T> key, @NotNull T value);
+    @NotNull <T> Optional<T> metaData(@NotNull IDrugComponent component, @NotNull DataKey<T> key);
 
-    <T> void removeMetaData(@NotNull IDrug drug, @NotNull DataKey<T> key);
+    <T> void metaData(@NotNull IDrugComponent component, @NotNull DataKey<T> key, @NotNull T value);
+
+    <T> void removeMetaData(@NotNull IDrugComponent component, @NotNull DataKey<T> key);
 
     <T> void removeMetaData(@NotNull DataKey<T> key);
 

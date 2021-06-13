@@ -1,6 +1,7 @@
 package com.github.md5sha256.addictiveexperience.api.drugs.impl;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
@@ -15,6 +16,7 @@ public final class DrugPlantMetaBuilder {
     private double harvestProbability;
     private int harvestAmount;
     private IDrugComponent seed;
+    private IDrug drug;
 
     public DrugPlantMetaBuilder() {
     }
@@ -26,6 +28,7 @@ public final class DrugPlantMetaBuilder {
         this.harvestProbability = builder.harvestProbability;
         this.harvestAmount = builder.harvestAmount;
         this.seed = builder.seed;
+        this.drug = builder.drug;
     }
 
     public DrugPlantMetaBuilder(@NotNull DrugPlantMeta meta) {
@@ -35,6 +38,7 @@ public final class DrugPlantMetaBuilder {
         this.harvestProbability = meta.harvestSuccessProbability();
         this.harvestAmount = meta.harvestAmount();
         this.seed = meta.seed().orElse(null);
+        this.drug = meta.drug();
     }
 
     public DrugPlantMetaBuilder growthTimeMillis(long growthTimeMillis) {
@@ -72,6 +76,11 @@ public final class DrugPlantMetaBuilder {
         return this;
     }
 
+    public DrugPlantMetaBuilder drug(@NotNull IDrug drug) {
+        this.drug = drug;
+        return this;
+    }
+
     private void validate() {
         Validate.isTrue(growthTimeMillis > 0, "Invalid growth time: ", growthTimeMillis);
         Validate.isTrue(seedDropAmount >= 0, "Invalid seed drop amount: ", seedDropAmount);
@@ -82,6 +91,7 @@ public final class DrugPlantMetaBuilder {
                         "Invalid harvest probability: ",
                         harvestProbability);
         Validate.isTrue(harvestAmount >= 0, "Invalid harvest amount: ", harvestAmount);
+        Validate.notNull(drug, "Drug cannot be null");
     }
 
     public DrugPlantMetaImpl build() {
@@ -91,7 +101,8 @@ public final class DrugPlantMetaBuilder {
                                      seedDropAmount,
                                      harvestProbability,
                                      harvestAmount,
-                                     seed);
+                                     seed,
+                                     drug);
     }
 
 }

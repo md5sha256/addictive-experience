@@ -2,6 +2,8 @@ package com.github.md5sha256.addictiveexperience.api.drugs;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.impl.DrugPlantDataBuilder;
 import com.github.md5sha256.addictiveexperience.api.util.SimilarLike;
+import com.github.md5sha256.spigotutils.blocks.BlockPosition;
+import com.github.md5sha256.spigotutils.timing.VariableStopwatch;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
@@ -13,7 +15,9 @@ public interface DrugPlantData extends SimilarLike<DrugPlantData> {
         return new DrugPlantDataBuilder();
     }
 
-    @NotNull IDrug drug();
+    @NotNull DrugPlantMeta meta();
+
+    @NotNull BlockPosition position();
 
     @Range(from = 0, to = Long.MAX_VALUE) long startTimeEpochMillis();
 
@@ -21,11 +25,13 @@ public interface DrugPlantData extends SimilarLike<DrugPlantData> {
         return timeUnit.convert(growthTimeElapsedMillis(), timeUnit);
     }
 
-    @Range(from = 0, to = Long.MAX_VALUE)
-    default long growthTimeElapsedMillis() {
-        long now = System.currentTimeMillis();
-        return now - startTimeEpochMillis();
+    long growthTimeElapsedMillis();
+
+    default long remainingMillis() {
+        return Math.max(growthTimeElapsedMillis() - meta().growthTimeMillis(), 0);
     }
+
+    @NotNull VariableStopwatch elapsed();
 
     default @NotNull DrugPlantDataBuilder toBuilder() {
         return new DrugPlantDataBuilder(this);
@@ -34,7 +40,8 @@ public interface DrugPlantData extends SimilarLike<DrugPlantData> {
     @Override
     default boolean isSimilar(@NotNull DrugPlantData other) {
         return this.growthTimeElapsedMillis() == other.startTimeEpochMillis()
-                && this.drug().equals(other.drug());
+                && this.position().equals(other.position())
+                && this.meta().isSimilar(other.meta());
     }
 
 }

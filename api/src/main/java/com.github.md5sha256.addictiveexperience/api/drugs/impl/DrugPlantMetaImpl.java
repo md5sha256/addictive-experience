@@ -1,6 +1,7 @@
 package com.github.md5sha256.addictiveexperience.api.drugs.impl;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,13 +19,15 @@ public final class DrugPlantMetaImpl implements DrugPlantMeta {
     private final int harvestAmount;
 
     private final @Nullable IDrugComponent seed;
+    private final IDrug drug;
 
     DrugPlantMetaImpl(@Range(from = 0, to = Long.MAX_VALUE) long growthTimeMillis,
                       @Range(from = 0, to = 1) double seedDropProbability,
                       @Range(from = 0, to = Integer.MAX_VALUE) int seedDropAmount,
                       @Range(from = 0, to = 1) double harvestProbability,
                       @Range(from = 0, to = Integer.MAX_VALUE) int harvestAmount,
-                      @Nullable IDrugComponent seed
+                      @Nullable IDrugComponent seed,
+                      @NotNull IDrug drug
     ) {
         this.growthTimeMillis = growthTimeMillis;
         this.seedDropAmount = seedDropAmount;
@@ -32,6 +35,7 @@ public final class DrugPlantMetaImpl implements DrugPlantMeta {
         this.harvestProbability = harvestProbability;
         this.harvestAmount = harvestAmount;
         this.seed = seed;
+        this.drug = drug;
     }
 
     @Override
@@ -60,6 +64,11 @@ public final class DrugPlantMetaImpl implements DrugPlantMeta {
     }
 
     @Override
+    public @NotNull IDrug drug() {
+        return this.drug;
+    }
+
+    @Override
     public double harvestSuccessProbability() {
         return this.harvestProbability;
     }
@@ -78,6 +87,7 @@ public final class DrugPlantMetaImpl implements DrugPlantMeta {
                 ", harvestProbability=" + harvestProbability +
                 ", harvestAmount=" + harvestAmount +
                 ", seed=" + seed +
+                ", drug=" + drug.identifierName() +
                 '}';
     }
 }

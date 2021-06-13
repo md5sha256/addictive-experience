@@ -1,0 +1,3 @@
+[submodule "SpigotUtils"]
+	path = SpigotUtils
+	url = https://github.com/md5sha256/SpigotUtils.git

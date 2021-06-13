@@ -22,6 +22,13 @@ repositories {
             includeModule ("com.github.MilkBowl", "VaultAPI")
         }
     }
+    maven {
+        name = "minebench-repo"
+        url = uri("https://repo.minebench.de/")
+        content {
+            includeModule("de.themoep", "inventorygui")
+        }
+    }
 }
 
 dependencies {
@@ -36,6 +43,8 @@ dependencies {
     }
     implementation("io.papermc:paperlib:1.0.6")
     implementation("org.spongepowered:configurate-yaml:4.0.0")
+    implementation("org.spongepowered:configurate-gson:4.0.0")
+    implementation("de.themoep:inventorygui:1.4.3-SNAPSHOT")
 
     compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
     compileOnly("org.jetbrains:annotations:20.1.0")
@@ -48,7 +57,7 @@ dependencies {
 
     testCompileOnly("org.junit.jupiter:junit-jupiter-api:5.7.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
-
+    testImplementation 'com.github.seeseemelk:MockBukkit-v1.16:1.0.0'
 }
 
 processResources {
@@ -66,6 +75,7 @@ shadowJar {
     archiveBaseName.set("addictive-experience")
     classifier("")
     relocate("com.google.inject", "${relocationBase}.inject")
+    relocate("de.themoep.inventorygui", "${relocationBase}.inventorygui")
     relocate("io.leangen.geantyref", "${relocationBase}.geantyref")
     relocate("io.papermc.lib", "${relocationBase}.paperlib")
     relocate("net.kyori.adventure.text.minimessage", "${relocationBase}.text.minimessage")
