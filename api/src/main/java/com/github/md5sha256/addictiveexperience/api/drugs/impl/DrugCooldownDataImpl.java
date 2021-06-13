@@ -1,8 +1,8 @@
 package com.github.md5sha256.addictiveexperience.api.drugs.impl;
 
+import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugCooldownData;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
-import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;

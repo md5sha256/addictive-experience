@@ -55,6 +55,7 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
     }
 
     private void initializeInjector() {
+        getLogger().info("Initialising the injector...");
         final Injector injector = Guice
                 .createInjector(Stage.PRODUCTION, new AddictiveExperienceModule(this, this));
         this.drugForms = injector.getInstance(IDrugForms.class);
@@ -81,11 +82,17 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
         super.onDisable();
         shutdownTasks();
         shutdownInjector();
+        getLogger().info("Plugin disabled!");
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
-        initializeInjector();
+        try {
+            initializeInjector();
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+        }
+        getLogger().info("Plugin Enabled!");
     }
 }

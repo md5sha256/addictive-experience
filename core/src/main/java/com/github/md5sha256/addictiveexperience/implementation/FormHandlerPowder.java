@@ -6,6 +6,7 @@ import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import com.github.md5sha256.addictiveexperience.implementation.forms.FormPowder;
 import com.github.md5sha256.addictiveexperience.util.Utils;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
@@ -24,12 +26,14 @@ public class FormHandlerPowder extends AbstractFormHandler implements Listener {
     private final FormPowder form;
 
     public FormHandlerPowder(@NotNull Plugin plugin,
+                             @NotNull PluginManager pluginManager,
                              @NotNull DrugHandler handler,
                              @NotNull DrugRegistry registry,
                              @NotNull SlurEffectState effectState,
                              @NotNull FormPowder form) {
         super(plugin, registry, handler, effectState);
         this.form = form;
+        pluginManager.registerEvents(this, plugin);
     }
 
     @EventHandler(ignoreCancelled = true)

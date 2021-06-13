@@ -16,6 +16,6 @@ public final class ClassOrganics implements DrugClass {
 
     @Override
     public @NonNull Key key() {
-        return null;
+        return this.key;
     }
 }

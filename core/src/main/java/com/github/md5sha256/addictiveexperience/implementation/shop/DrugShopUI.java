@@ -24,11 +24,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 @Singleton
 public final class DrugShopUI {
+
+
+    private static final DecimalFormat PRICE_FORMAT = new DecimalFormat("###.###");
 
     private final DrugRegistry drugRegistry;
     private final ShopConfiguration shopConfiguration;
@@ -54,22 +59,32 @@ public final class DrugShopUI {
 
     public void setup() {
         final String[] setup = new String[]{
-                "#########",
-                "#ddddddd#",
-                "#ddddddd#",
-                "#b##e##n#",
-                "#########"
+                "         ",
+                " ddddddd ",
+                " ddddddd ",
+                " ddddddd ",
+                " b  e  n ",
+                "         "
         };
         // D = drugs
         // # = panes
         // b = back, n = next, e = exit
         this.gui = new InventoryGui(this.plugin,
-                                "&b&lDrug Shop",
-                                setup,
-                                elementDrugs('d'),
-                                elementNext('n'),
-                                elementPrevious('b'),
-                                elementExit('e'));
+                                    "&b&lDrug Shop",
+                                    setup,
+                                    elementPanes(' '),
+                                    elementDrugs('d'),
+                                    elementNext('n'),
+                                    elementPrevious('b'),
+                                    elementExit('e'));
+    }
+
+    private GuiElement elementPanes(char c) {
+        final ItemStack itemStack = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+        final ItemMeta meta = itemStack.getItemMeta();
+        AdventureUtils.setDisplayName(meta, Component.empty());
+        itemStack.setItemMeta(meta);
+        return new StaticGuiElement(c, itemStack);
     }
 
     private GuiElement elementExit(char c) {
@@ -97,7 +112,7 @@ public final class DrugShopUI {
         final Component displayName = Component.text("Previous Page", NamedTextColor.DARK_AQUA);
         return new GuiPageElement(c,
                                   itemStack,
-                                  GuiPageElement.PageAction.NEXT,
+                                  GuiPageElement.PageAction.PREVIOUS,
                                   AdventureUtils.toLegacy(displayName));
     }
 
@@ -118,26 +133,27 @@ public final class DrugShopUI {
         final Component buttonDisplayName = Component
                 .text()
                 .content("Buy " + component.displayName() + "!")
-                .color(displayName.color())
+                .color(displayName == null ? NamedTextColor.AQUA : displayName.color())
                 .decorate(TextDecoration.BOLD)
                 .build();
-        final String price = String
-                .format("Unit Price: %f", this.shopConfiguration.unitPrice(component));
-        final List<Component> lore = Collections.singletonList(
+
+        final String price = String.format("Unit Price: %s", PRICE_FORMAT.format(this.shopConfiguration.unitPrice(component)));
+        final List<Component> text = Arrays.asList(
+                buttonDisplayName,
                 Component.text(price, NamedTextColor.AQUA, TextDecoration.BOLD)
         );
         AdventureUtils.setDisplayName(meta, buttonDisplayName);
-        final String[] legacyLore = AdventureUtils.toLegacy(lore).toArray(new String[0]);
+        final String[] legacyLore = AdventureUtils.toLegacy(text).toArray(new String[0]);
         button.setItemMeta(meta);
         return new StaticGuiElement(c, button, click -> {
             final HumanEntity clicked = click.getWhoClicked();
             if (!(clicked instanceof Player)) {
-                return false;
+                return true;
             }
             TransactionType transactionType =
                     click.getType().isLeftClick() ? TransactionType.BUY : TransactionType.SELL;
             processTransaction((Player) clicked, transactionType, component, 1);
-            return false;
+            return true;
         }, legacyLore);
     }
 
@@ -156,6 +172,7 @@ public final class DrugShopUI {
                 String text = String
                         .format("You have bought %d of %s", amount, component.displayName());
                 person.sendMessage(Component.text(text, NamedTextColor.GREEN));
+                person.getInventory().addItem(component.asItem(amount));
             }
         } else {
             // FIXME implementation

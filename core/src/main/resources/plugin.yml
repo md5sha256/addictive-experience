@@ -1,4 +1,6 @@
 name: AddictiveExperience
 version: "@version@"
-main: com.github.md5sha256.addictiveexperience.AddictiveExperience
+main: com.github.md5sha256.addictiveexperience.AddictiveExperiencePlugin
 api-version: 1.16
+depend:
+  - Vault

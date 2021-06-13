@@ -3,10 +3,10 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0' apply false
 }
 
-group = "com.github.md5sha256"
-version = "0.0.1-SNAPSHOT"
-
 subprojects {
+
+    group = "com.github.md5sha256"
+    version = "0.0.1-SNAPSHOT"
 
     repositories {
         mavenCentral()

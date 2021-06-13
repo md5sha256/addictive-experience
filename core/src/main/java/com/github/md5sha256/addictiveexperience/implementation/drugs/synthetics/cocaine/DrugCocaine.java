@@ -1,8 +1,10 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.cocaine;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.cocaine.components.LeafCocaine;
+import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.cocaine.components.PlantCocaine;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
 import com.google.inject.Inject;
@@ -30,14 +32,17 @@ public final class DrugCocaine extends AbstractDrug implements ISynthetic {
     @Inject
     DrugCocaine(@NotNull Plugin plugin,
                 @NotNull ItemFactory itemFactory,
-                @NotNull LeafCocaine leafCocaine
-    ) {
+                @NotNull PlantCocaine plantCocaine,
+                @NotNull LeafCocaine leafCocaine,
+                @NotNull DrugRegistry drugRegistry
+                ) {
         super(itemFactory,
               Utils.internalKey("cocaine"),
               "Cocaine",
               Material.SUGAR,
               "addictiveexperience.consumecocaine");
         this.recipe = createRecipe(plugin, leafCocaine);
+        drugRegistry.registerComponent(this, plantCocaine, leafCocaine);
     }
 
     private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull LeafCocaine leafCocaine) {

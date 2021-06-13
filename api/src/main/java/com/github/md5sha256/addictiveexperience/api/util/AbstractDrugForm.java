@@ -1,7 +1,7 @@
 package com.github.md5sha256.addictiveexperience.api.util;
 
-import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import net.kyori.adventure.key.Key;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;

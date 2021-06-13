@@ -1,8 +1,8 @@
 package com.github.md5sha256.addictiveexperience.implementation.plant;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantData;
-import com.github.md5sha256.addictiveexperience.implementation.plant.PlantDataResolver;
 import com.github.md5sha256.spigotutils.blocks.ChunkPosition;
+import com.google.inject.Inject;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -27,10 +27,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PDCResolver implements PlantDataResolver {
+public final class PDCResolver implements PlantDataResolver {
 
     private final NamespacedKey key;
 
+    @Inject
     public PDCResolver(@NotNull Plugin plugin) {
         this.key = new NamespacedKey(plugin, "drug-plant-data");
     }

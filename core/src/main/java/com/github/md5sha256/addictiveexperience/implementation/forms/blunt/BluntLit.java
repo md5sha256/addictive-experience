@@ -6,6 +6,7 @@ import com.github.md5sha256.addictiveexperience.api.forms.FormBlunt;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrugForm;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
+import com.google.inject.Inject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 public class BluntLit extends AbstractDrugForm implements FormBlunt {
 
+    @Inject
     BluntLit(@NotNull ItemFactory itemFactory) {
         super(itemFactory, Utils.internalKey("blunt_lit"), "Blunt_Lit");
     }

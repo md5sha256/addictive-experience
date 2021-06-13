@@ -1,9 +1,12 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
+import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.BarkSafrole;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.Mercury;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.MethylChloride;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.PlantSafrole;
+import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.SeedSafrole;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
 import com.google.inject.Inject;
@@ -32,7 +35,10 @@ public final class DrugEcstasy extends AbstractDrug {
     @Inject
     DrugEcstasy(@NotNull Plugin plugin,
                 @NotNull ItemFactory itemFactory,
+                @NotNull DrugRegistry drugRegistry,
+                @NotNull BarkSafrole barkSafrole,
                 @NotNull PlantSafrole safrole,
+                @NotNull SeedSafrole seedSafrole,
                 @NotNull MethylChloride mcl,
                 @NotNull Mercury mercury
     ) {
@@ -40,6 +46,7 @@ public final class DrugEcstasy extends AbstractDrug {
               Utils.internalKey("ecstasy"),
               "Ecstasy", Material.IRON_NUGGET, "addictiveexperience.consumeecstasy");
         this.recipe = createRecipe(plugin, safrole, mcl, mercury);
+        drugRegistry.registerComponent(this, barkSafrole, safrole, seedSafrole, mcl, mercury);
     }
 
     private @NotNull Recipe createRecipe(@NotNull Plugin plugin,

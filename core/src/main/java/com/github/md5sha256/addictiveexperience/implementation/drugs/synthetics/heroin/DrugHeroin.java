@@ -1,8 +1,12 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.Morphine;
+import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.Opium;
+import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.PlantOpium;
+import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.SeedOpium;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
 import com.google.inject.Inject;
@@ -31,14 +35,20 @@ public final class DrugHeroin extends AbstractDrug implements ISynthetic {
     @Inject
     DrugHeroin(@NotNull Plugin plugin,
                @NotNull ItemFactory itemFactory,
-               @NotNull Morphine morphine
-    ) {
+               @NotNull DrugRegistry drugRegistry,
+               @NotNull Morphine morphine,
+               @NotNull Opium opium,
+               @NotNull PlantOpium plantOpium,
+               @NotNull SeedOpium seedOpium
+               ) {
         super(itemFactory,
               Utils.internalKey("heroin"),
               "Heroin",
               Material.GRAY_DYE,
               "addictiveexperience.consumeheroin");
         this.recipe = createRecipe(plugin, morphine);
+        drugRegistry.registerComponent(this, morphine, opium, plantOpium, seedOpium);
+
     }
 
     private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull Morphine morphine) {

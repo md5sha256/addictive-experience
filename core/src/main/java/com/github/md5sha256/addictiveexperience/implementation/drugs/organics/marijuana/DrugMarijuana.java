@@ -1,7 +1,9 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.organics.marijuana;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IOrganic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
+import com.github.md5sha256.addictiveexperience.implementation.drugs.organics.marijuana.components.PlantMarijuana;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
 import com.google.inject.Inject;
@@ -22,8 +24,10 @@ import java.util.Optional;
 public final class DrugMarijuana extends AbstractDrug implements IOrganic {
 
     @Inject
-    DrugMarijuana(@NotNull ItemFactory itemFactory
-    ) {
+    DrugMarijuana(@NotNull ItemFactory itemFactory,
+                  @NotNull DrugRegistry drugRegistry,
+                  @NotNull PlantMarijuana plantMarijuana
+                  ) {
         super(
                 itemFactory,
                 Utils.internalKey("marijuana"),
@@ -31,6 +35,7 @@ public final class DrugMarijuana extends AbstractDrug implements IOrganic {
                 Material.GREEN_DYE,
                 "addictiveexperience.consumeweed"
         );
+        drugRegistry.registerComponent(this, plantMarijuana);
     }
 
     protected final @NotNull ItemMeta meta() {

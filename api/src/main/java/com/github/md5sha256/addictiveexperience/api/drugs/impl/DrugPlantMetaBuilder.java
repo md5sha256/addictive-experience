@@ -1,8 +1,8 @@
 package com.github.md5sha256.addictiveexperience.api.drugs.impl;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
-import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
 

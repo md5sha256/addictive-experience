@@ -9,21 +9,20 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 public interface DrugRegistry {
 
-    @NotNull Set<@NotNull IDrug> drugs();
+    @NotNull Collection<@NotNull IDrug> drugs();
 
-    @NotNull Set<@NotNull IDrugComponent> components();
+    @NotNull Collection<@NotNull IDrugComponent> components();
 
-    @NotNull Set<@NotNull IDrugForm> drugForms();
+    @NotNull Collection<@NotNull IDrugForm> drugForms();
 
     @NotNull Optional<@NotNull DrugItemData> dataFor(@NotNull ItemStack item);
 
     void registerComponent(@NotNull IDrugComponent... drugs);
 
-    void registerComponent(@NotNull Collection<@NotNull IDrug> drugs);
+    void registerComponent(@NotNull Collection<? extends @NotNull IDrugComponent> drugs);
 
     void registerDrugForm(@NotNull IDrugForm... drugForms);
 

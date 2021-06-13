@@ -3,6 +3,7 @@ package com.github.md5sha256.addictiveexperience.implementation.forms.blunt;
 import com.github.md5sha256.addictiveexperience.api.forms.BluntState;
 import com.github.md5sha256.addictiveexperience.api.forms.FormBlunt;
 import com.github.md5sha256.addictiveexperience.api.forms.IBlunts;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,6 +13,7 @@ public final class Blunts implements IBlunts {
     private final BluntLit lit;
     private final BluntUnlit unlit;
 
+    @Inject
     Blunts(@NotNull BluntLit lit, @NotNull BluntUnlit unlit) {
         this.lit = lit;
         this.unlit = unlit;

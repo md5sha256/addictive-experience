@@ -7,6 +7,7 @@ import com.github.md5sha256.addictiveexperience.api.util.AbstractDrugForm;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.organics.marijuana.DrugMarijuana;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
+import com.google.inject.Inject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -28,6 +29,7 @@ public final class BluntUnlit extends AbstractDrugForm implements FormBlunt {
     private final ItemStack itemEmptyContents;
     private final ItemMeta metaEmptyContents;
 
+    @Inject
     BluntUnlit(@NotNull Plugin plugin,
                @NotNull ItemFactory itemFactory,
                @NotNull DrugMarijuana marijuana) {

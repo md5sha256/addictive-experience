@@ -4,6 +4,7 @@ import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrugForm;
 import com.github.md5sha256.addictiveexperience.util.Utils;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @Singleton
 public final class FormDefault extends AbstractDrugForm implements IDrugForm {
 
+    @Inject
     FormDefault(@NotNull ItemFactory itemFactory) {
         super(itemFactory, Utils.internalKey("default"), "Default Form");
     }

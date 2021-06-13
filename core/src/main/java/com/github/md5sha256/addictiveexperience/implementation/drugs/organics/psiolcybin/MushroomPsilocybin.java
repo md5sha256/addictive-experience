@@ -1,9 +1,11 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.organics.psiolcybin;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IOrganic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
+import com.google.inject.Inject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -18,13 +20,16 @@ import java.util.Optional;
 
 public class MushroomPsilocybin extends AbstractDrug implements IOrganic {
 
-    public MushroomPsilocybin(@NotNull ItemFactory itemFactory) {
+    @Inject
+    public MushroomPsilocybin(@NotNull ItemFactory itemFactory,
+                              @NotNull DrugRegistry drugRegistry) {
         super(itemFactory,
               Utils.internalKey("mushroom_psilocybin"),
               "Psilocybin Mushroom",
               Material.BROWN_MUSHROOM,
               // Original permission = drugfun.consumeshrooms
               "drugfun.consumepsilocybin");
+        drugRegistry.registerComponent(this);
     }
 
     @Override

@@ -19,6 +19,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -28,12 +29,14 @@ public final class FormHandlerSyringe extends AbstractFormHandler implements Lis
     private final FormSyringe form;
 
     public FormHandlerSyringe(@NotNull Plugin plugin,
+                              @NotNull PluginManager pluginManager,
                               @NotNull DrugRegistry drugRegistry,
                               @NotNull DrugHandler drugHandler,
                               @NotNull SlurEffectState slurEffectState,
                               @NotNull FormSyringe form) {
         super(plugin, drugRegistry, drugHandler, slurEffectState);
         this.form = form;
+        pluginManager.registerEvents(this, plugin);
     }
 
     @Override

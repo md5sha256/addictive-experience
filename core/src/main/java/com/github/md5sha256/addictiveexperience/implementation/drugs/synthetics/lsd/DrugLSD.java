@@ -1,10 +1,13 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components.Chloroform;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components.Ethanol;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components.LysergicAcid;
+import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components.PlantMorningGlory;
+import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components.SeedMorningGlory;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
 import com.google.inject.Inject;
@@ -34,9 +37,12 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
     @Inject
     DrugLSD(@NotNull Plugin plugin,
             @NotNull ItemFactory itemFactory,
+            @NotNull DrugRegistry drugRegistry,
             @NotNull LysergicAcid lysergicAcid,
             @NotNull Ethanol ethanol,
-            @NotNull Chloroform chloroform
+            @NotNull Chloroform chloroform,
+            @NotNull PlantMorningGlory plantMorningGlory,
+            @NotNull SeedMorningGlory seedMorningGlory
     ) {
         super(itemFactory,
               Utils.internalKey("lsd"),
@@ -44,6 +50,14 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
               Material.PAPER,
               "addictiveexperience.consumelsd");
         this.recipe = createRecipe(plugin, lysergicAcid, ethanol, chloroform);
+        drugRegistry.registerComponent(
+                this,
+                lysergicAcid,
+                ethanol,
+                chloroform,
+                plantMorningGlory,
+                seedMorningGlory
+        );
     }
 
     private Recipe createRecipe(@NotNull Plugin plugin,

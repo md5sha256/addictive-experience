@@ -1,11 +1,13 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.Ephedrine;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.HydrochloricAcid;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.Iodine;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.Phosphorus;
+import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.PlantEphedrine;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
 import com.google.inject.Inject;
@@ -33,17 +35,20 @@ public final class DrugMethamphetamine extends AbstractDrug implements ISyntheti
     @Inject
     DrugMethamphetamine(@NotNull Plugin plugin,
                         @NotNull ItemFactory itemFactory,
+                        @NotNull DrugRegistry drugRegistry,
                         @NotNull HydrochloricAcid hcl,
                         @NotNull Phosphorus phosphorus,
                         @NotNull Iodine iodine,
-                        @NotNull Ephedrine ephedrine
-    ) {
+                        @NotNull Ephedrine ephedrine,
+                        @NotNull PlantEphedrine plantEphedrine
+                        ) {
         super(itemFactory,
               Utils.internalKey("meth"),
               "Meth",
               Material.CYAN_DYE,
               "addictiveexperience.consumemeth");
         this.recipe = createRecipe(plugin, hcl, phosphorus, iodine, ephedrine);
+        drugRegistry.registerComponent(hcl, phosphorus, iodine, ephedrine, plantEphedrine);
     }
 
     private @NotNull Recipe createRecipe(@NotNull Plugin plugin,

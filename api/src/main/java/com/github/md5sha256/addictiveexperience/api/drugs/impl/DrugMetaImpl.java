@@ -1,7 +1,7 @@
 package com.github.md5sha256.addictiveexperience.api.drugs.impl;
 
-import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.slur.ISlurEffect;
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import org.bukkit.potion.PotionEffect;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
