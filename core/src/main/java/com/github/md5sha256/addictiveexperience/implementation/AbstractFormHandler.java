@@ -6,6 +6,7 @@ import com.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import com.github.md5sha256.addictiveexperience.util.Utils;
@@ -17,9 +18,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 public abstract class AbstractFormHandler {
@@ -40,7 +43,11 @@ public abstract class AbstractFormHandler {
     }
 
     protected void checkPermissions(@NotNull CommandSender sender, @NotNull DrugItemData itemData) {
-        final IDrug drug = itemData.drug();
+        final IDrugComponent component = itemData.component();
+        if (!(component instanceof IDrug)) {
+            return;
+        }
+        final IDrug drug = (IDrug) component;
         if (!sender.hasPermission(drug.permission())) {
             sender.sendMessage(Utils.legacyColorize(this.plugin.getConfig().getString("nopermstoconsume")));
         }
@@ -53,7 +60,11 @@ public abstract class AbstractFormHandler {
                                  @NotNull DrugItemData itemData
     ) {
         checkPermissions(entity, itemData);
-        final IDrug drug = itemData.drug();
+        final IDrugComponent component = itemData.component();
+        if (!(component instanceof IDrug)) {
+            return;
+        }
+        final IDrug drug = (IDrug) component;
         final IDrugForm drugForm = itemData.form();
         itemStack.setAmount(itemStack.getAmount() - 1);
         this.drugRegistry.metaData(drug, DrugMeta.KEY)
@@ -62,11 +73,17 @@ public abstract class AbstractFormHandler {
         this.drugHandler.bloodData(entity.getUniqueId())
                         .ifPresent(bloodData -> bloodData.incrementLevel(drug, 10));
         this.drugHandler.notifyIfOverdosed(entity, drug);
-        this.slurEffectState.registerSlur(entity.getUniqueId(), drug);
         final UUID playerUID = entity.getUniqueId();
+        // Update cooldown
         final DrugCooldownData cooldownData = this.drugHandler.cooldownData();
         cooldownData.setBlocked(playerUID, drug, drugForm);
         scheduleTask(() -> cooldownData.setUnblocked(playerUID, drug, drugForm), 20);
+        // Apply the effects to the player
+        final DrugMeta meta = this.drugRegistry.metaData(drug, DrugMeta.KEY).orElseThrow(() -> new IllegalStateException("Failed to get drug meta for drug: " + drug.identifierName()));
+        final Set<PotionEffect> effects = meta.effects();
+        entity.addPotionEffects(effects);
+        // Register slur effect
+        this.slurEffectState.registerSlur(playerUID, drug);
     }
 
     protected void handlePlayerDrugUse(@NotNull Player player, @NotNull EquipmentSlot equipmentSlot,

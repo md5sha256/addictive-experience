@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.implementation.forms;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.forms.IBlunts;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
@@ -19,13 +20,21 @@ public final class DrugForms implements IDrugForms {
     DrugForms(
             @NotNull FormDefault formDefault,
             @NotNull FormPowder formPowder,
-              @NotNull FormSyringe formSyringe,
-              @NotNull IBlunts blunts
+            @NotNull FormSyringe formSyringe,
+            @NotNull IBlunts blunts,
+            @NotNull DrugRegistry drugRegistry
     ) {
         this.formDefault = formDefault;
         this.formPowder = formPowder;
         this.formSyringe = formSyringe;
         this.blunts = blunts;
+        drugRegistry.registerDrugForm(
+                formPowder,
+                formSyringe,
+                formDefault,
+                blunts.lit(),
+                blunts.unlit()
+        );
     }
 
     @Override

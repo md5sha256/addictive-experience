@@ -36,7 +36,7 @@ public final class DrugMetaBuilder {
     public DrugMetaBuilder(@NotNull DrugMeta meta) {
         this.effects = new HashSet<>(meta.effects());
         this.enabled = meta.drugEnabled();
-        this.effect = meta.effect().orElse(null);
+        this.effect = meta.slurEffect().orElse(null);
         this.slurDurationMillis = meta.slurDurationMillis();
         this.overdoseThreshold = meta.overdoseThreshold();
     }

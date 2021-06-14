@@ -6,4 +6,6 @@ public interface IDrug extends IDrugComponent {
 
     @NotNull String permission();
 
+    @NotNull DrugMeta defaultMeta();
+
 }

@@ -2,6 +2,8 @@ package com.github.md5sha256.addictiveexperience.implementation.shop;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
+import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
+import com.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import com.github.md5sha256.addictiveexperience.configuration.ShopConfiguration;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.google.inject.Inject;
@@ -13,7 +15,6 @@ import de.themoep.inventorygui.InventoryGui;
 import de.themoep.inventorygui.StaticGuiElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Material;
@@ -26,7 +27,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Singleton
@@ -39,15 +39,18 @@ public final class DrugShopUI {
     private final ShopConfiguration shopConfiguration;
     private final Economy economy;
     private final JavaPlugin plugin;
+    private final IDrugForms drugForms;
     private InventoryGui gui;
 
     @Inject
     public DrugShopUI(@NotNull JavaPlugin plugin,
                       @NotNull DrugRegistry drugRegistry,
+                      @NotNull IDrugForms drugForms,
                       @NotNull ShopConfiguration configuration,
                       @NotNull Economy economy) {
         this.plugin = plugin;
         this.drugRegistry = drugRegistry;
+        this.drugForms = drugForms;
         this.shopConfiguration = configuration;
         this.economy = economy;
         setup();
@@ -133,14 +136,15 @@ public final class DrugShopUI {
         final Component buttonDisplayName = Component
                 .text()
                 .content("Buy " + component.displayName() + "!")
-                .color(displayName == null ? NamedTextColor.AQUA : displayName.color())
-                .decorate(TextDecoration.BOLD)
+                .color(displayName == null ? NamedTextColor.GREEN : displayName.color())
                 .build();
 
-        final String price = String.format("Unit Price: %s", PRICE_FORMAT.format(this.shopConfiguration.unitPrice(component)));
+        final String price = String.format("- Unit Price: %s",
+                                           PRICE_FORMAT.format(this.shopConfiguration
+                                                                       .unitPrice(component)));
         final List<Component> text = Arrays.asList(
                 buttonDisplayName,
-                Component.text(price, NamedTextColor.AQUA, TextDecoration.BOLD)
+                Component.text(price, NamedTextColor.GRAY)
         );
         AdventureUtils.setDisplayName(meta, buttonDisplayName);
         final String[] legacyLore = AdventureUtils.toLegacy(text).toArray(new String[0]);
@@ -168,12 +172,15 @@ public final class DrugShopUI {
                 // FIXME send message
                 person.sendMessage(Component.text("Insufficient funds", NamedTextColor.RED));
                 InventoryGui.getOpen(person).close();
-            } else {
-                String text = String
-                        .format("You have bought %d of %s", amount, component.displayName());
-                person.sendMessage(Component.text(text, NamedTextColor.GREEN));
-                person.getInventory().addItem(component.asItem(amount));
+                return;
             }
+            String text = String
+                    .format("You have bought %d of %s", amount, component.displayName());
+            person.sendMessage(Component.text(text, NamedTextColor.GREEN));
+            final IDrugForm defaultForm = this.drugForms.powder();
+            final ItemStack itemStack = this.drugRegistry.itemForComponent(component, defaultForm);
+            itemStack.setAmount(amount);
+            person.getInventory().addItem(itemStack);
         } else {
             // FIXME implementation
         }

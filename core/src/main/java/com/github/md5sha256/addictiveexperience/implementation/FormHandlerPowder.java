@@ -6,7 +6,7 @@ import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import com.github.md5sha256.addictiveexperience.implementation.forms.FormPowder;
 import com.github.md5sha256.addictiveexperience.util.Utils;
-import org.bukkit.Server;
+import com.google.inject.Inject;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,6 +25,7 @@ public class FormHandlerPowder extends AbstractFormHandler implements Listener {
 
     private final FormPowder form;
 
+    @Inject
     public FormHandlerPowder(@NotNull Plugin plugin,
                              @NotNull PluginManager pluginManager,
                              @NotNull DrugHandler handler,
@@ -61,8 +62,8 @@ public class FormHandlerPowder extends AbstractFormHandler implements Listener {
     }
 
     @Override
-    protected void sendMessageOnItemUse(@NotNull Player player, @NotNull DrugItemData used) {
-        final String messagePath = String.format("Snort%s", Utils.capitalise(used.drug().identifierName().toLowerCase(Locale.ENGLISH)));
+    protected void sendMessageOnItemUse(@NotNull Player player, @NotNull DrugItemData usedData) {
+        final String messagePath = String.format("Snort%s", Utils.capitalise(usedData.component().identifierName().toLowerCase(Locale.ENGLISH)));
         final String message = this.plugin.getConfig().getString(messagePath);
         if (message != null) {
             player.sendMessage(Utils.legacyColorize(message));

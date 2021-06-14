@@ -62,16 +62,5 @@ public abstract class AbstractDrugComponent implements IDrugComponent {
         return this.meta.clone();
     }
 
-    @Override
-    public boolean is(@NotNull ItemStack itemStack) {
-        return itemStack.hasItemMeta()
-                && this.itemFactory.equals(itemStack.getItemMeta(), this.meta);
-    }
-
-    @Override
-    public boolean is(@NotNull ItemMeta meta) {
-        return this.itemFactory.equals(this.meta, meta);
-    }
-
     protected abstract @NotNull ItemMeta meta();
 }

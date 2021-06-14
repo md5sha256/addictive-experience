@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.test.impl;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import net.kyori.adventure.key.Key;
 import org.bukkit.Material;
@@ -30,5 +31,10 @@ public class DummyDrugImpl extends AbstractDrug {
     @Override
     protected @NotNull ItemMeta meta() {
         return this.meta;
+    }
+
+    @Override
+    public @NotNull DrugMeta defaultMeta() {
+        return DrugMeta.DEFAULT;
     }
 }

@@ -74,7 +74,7 @@ public class TestDrugMeta {
         Assertions.assertEquals(1000, meta.slurDurationMillis());
         Assertions.assertEquals(1, meta.slurDuration(TimeUnit.SECONDS));
         Assertions.assertTrue(meta.effects().isEmpty());
-        Assertions.assertFalse(meta.effect().isPresent());
+        Assertions.assertFalse(meta.slurEffect().isPresent());
     }
 
 }

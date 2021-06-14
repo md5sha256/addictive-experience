@@ -51,6 +51,9 @@ public class DrugHandlerImpl implements DrugHandler {
     @Override
     public boolean overdose(@NotNull LivingEntity player, @NotNull IDrug drug) {
         final DrugBloodData drugBloodData = this.bloodDataMap.get(player.getUniqueId());
+        if (drugBloodData == null) {
+            return false;
+        }
         final Optional<@NotNull DrugMeta> optional = drugRegistry.metaData(drug, DrugMeta.KEY);
         return optional.filter(meta -> drugBloodData.getLevel(drug) >= meta.overdoseThreshold()).isPresent();
     }

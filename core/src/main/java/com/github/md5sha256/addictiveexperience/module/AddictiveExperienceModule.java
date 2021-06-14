@@ -11,6 +11,8 @@ import com.github.md5sha256.addictiveexperience.configuration.ShopConfiguration;
 import com.github.md5sha256.addictiveexperience.configuration.SimpleAddictiveConfiguration;
 import com.github.md5sha256.addictiveexperience.configuration.SimpleShopConfiguration;
 import com.github.md5sha256.addictiveexperience.implementation.DrugHandlerImpl;
+import com.github.md5sha256.addictiveexperience.implementation.FormHandlerPowder;
+import com.github.md5sha256.addictiveexperience.implementation.FormHandlerSyringe;
 import com.github.md5sha256.addictiveexperience.implementation.SlurEffectStateImpl;
 import com.github.md5sha256.addictiveexperience.implementation.commands.AddictiveExperienceCommandHandler;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.SimpleDrugRegistry;
@@ -59,6 +61,8 @@ public final class AddictiveExperienceModule extends AbstractModule {
         // Core
         bind(DrugShopUI.class).asEagerSingleton();
         bind(AddictiveExperienceCommandHandler.class).asEagerSingleton();
+        bind(FormHandlerPowder.class).asEagerSingleton();
+        bind(FormHandlerSyringe.class).asEagerSingleton();
 
         // API bindings
         bind(IDrugForms.class).to(DrugForms.class).in(Singleton.class);

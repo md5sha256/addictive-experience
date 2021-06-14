@@ -26,8 +26,4 @@ public interface IDrugComponent extends Keyed {
 
     @NotNull Optional<@NotNull Recipe> recipe();
 
-    boolean is(@NotNull ItemStack itemStack);
-
-    boolean is(@NotNull ItemMeta meta);
-
 }

@@ -6,9 +6,11 @@ import com.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import com.github.md5sha256.addictiveexperience.implementation.forms.FormSyringe;
 import com.github.md5sha256.addictiveexperience.util.Utils;
+import com.google.inject.Inject;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -28,6 +30,7 @@ public final class FormHandlerSyringe extends AbstractFormHandler implements Lis
 
     private final FormSyringe form;
 
+    @Inject
     public FormHandlerSyringe(@NotNull Plugin plugin,
                               @NotNull PluginManager pluginManager,
                               @NotNull DrugRegistry drugRegistry,
@@ -67,7 +70,11 @@ public final class FormHandlerSyringe extends AbstractFormHandler implements Lis
         event.setCancelled(true);
         // The target gets the drug effects
         handleDrugUse(target, inMainHand, data);
-        final IDrug drug = data.drug();
+        final IDrugComponent component = data.component();
+        if (!(component instanceof IDrug)) {
+            return;
+        }
+        final IDrug drug = (IDrug) component;
         inMainHand.setAmount(inMainHand.getAmount() - 1);
         damager.getInventory().setItemInMainHand(inMainHand);
         damager.playSound(damager.getLocation(), Sound.ENTITY_ITEM_BREAK, 1f, 0.6f);

@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.organics.psiolcybin;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IOrganic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
@@ -12,6 +13,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -20,6 +23,8 @@ import java.util.Optional;
 
 public class MushroomPsilocybin extends AbstractDrug implements IOrganic {
 
+    private final DrugMeta defaultMeta;
+
     @Inject
     public MushroomPsilocybin(@NotNull ItemFactory itemFactory,
                               @NotNull DrugRegistry drugRegistry) {
@@ -27,8 +32,16 @@ public class MushroomPsilocybin extends AbstractDrug implements IOrganic {
               Utils.internalKey("mushroom_psilocybin"),
               "Psilocybin Mushroom",
               Material.BROWN_MUSHROOM,
-              // Original permission = drugfun.consumeshrooms
-              "drugfun.consumepsilocybin");
+              "addictiveexperience.consumepsilocybin");
+        this.defaultMeta = DrugMeta.DEFAULT
+                .toBuilder()
+                .effect(null)
+                .effects(
+                        new PotionEffect(PotionEffectType.CONFUSION, 100, 2),
+                        new PotionEffect(PotionEffectType.SPEED, 500, 5)
+                )
+                .overdoseThreshold(200)
+                .build();
         drugRegistry.registerComponent(this);
     }
 
@@ -53,4 +66,8 @@ public class MushroomPsilocybin extends AbstractDrug implements IOrganic {
         return Optional.empty();
     }
 
+    @Override
+    public @NotNull DrugMeta defaultMeta() {
+        return this.defaultMeta;
+    }
 }

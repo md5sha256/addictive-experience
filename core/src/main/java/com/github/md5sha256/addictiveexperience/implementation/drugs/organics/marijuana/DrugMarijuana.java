@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.organics.marijuana;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IOrganic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
@@ -14,20 +15,25 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 public final class DrugMarijuana extends AbstractDrug implements IOrganic {
+
+    private final DrugMeta defaultMeta;
 
     @Inject
     DrugMarijuana(@NotNull ItemFactory itemFactory,
                   @NotNull DrugRegistry drugRegistry,
                   @NotNull PlantMarijuana plantMarijuana
-                  ) {
+    ) {
         super(
                 itemFactory,
                 Utils.internalKey("marijuana"),
@@ -35,6 +41,17 @@ public final class DrugMarijuana extends AbstractDrug implements IOrganic {
                 Material.GREEN_DYE,
                 "addictiveexperience.consumeweed"
         );
+        this.defaultMeta =
+                DrugMeta.DEFAULT
+                        .toBuilder()
+                        .enabled(true)
+                        .effects(
+                                new PotionEffect(PotionEffectType.INVISIBILITY, 100, 2),
+                                new PotionEffect(PotionEffectType.LEVITATION, 300, 2)
+                        )
+                        .slurDurationMillis(TimeUnit.MINUTES.toMillis(5))
+                        .overdoseThreshold(3000)
+                        .build();
         drugRegistry.registerComponent(this, plantMarijuana);
     }
 
@@ -55,4 +72,8 @@ public final class DrugMarijuana extends AbstractDrug implements IOrganic {
         return Optional.empty();
     }
 
+    @Override
+    public @NotNull DrugMeta defaultMeta() {
+        return this.defaultMeta;
+    }
 }

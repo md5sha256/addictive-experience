@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.api.drugs.impl;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
@@ -9,18 +10,18 @@ import java.util.Objects;
 
 public final class DrugItemDataImpl implements DrugItemData {
 
-    private final IDrug drug;
+    private final IDrugComponent component;
     private final IDrugForm drugForm;
 
-    public DrugItemDataImpl(@NotNull IDrug drug, @NotNull IDrugForm form) {
-        this.drug = Objects.requireNonNull(drug);
+    public DrugItemDataImpl(@NotNull IDrugComponent component, @NotNull IDrugForm form) {
+        this.component = Objects.requireNonNull(component);
         this.drugForm = Objects.requireNonNull(form);
     }
 
     @NotNull
     @Override
-    public IDrug drug() {
-        return this.drug;
+    public IDrugComponent component() {
+        return this.component;
     }
 
     @Override
@@ -36,13 +37,13 @@ public final class DrugItemDataImpl implements DrugItemData {
 
         DrugItemDataImpl that = (DrugItemDataImpl) o;
 
-        if (!drug.equals(that.drug)) return false;
+        if (!component.equals(that.component)) return false;
         return drugForm.equals(that.drugForm);
     }
 
     @Override
     public int hashCode() {
-        int result = drug.hashCode();
+        int result = component.hashCode();
         result = 31 * result + drugForm.hashCode();
         return result;
     }
@@ -50,7 +51,7 @@ public final class DrugItemDataImpl implements DrugItemData {
     @Override
     public String toString() {
         return "DrugItemData{" +
-                "drug=" + drug +
+                "component=" + component +
                 ", drugForm=" + drugForm +
                 '}';
     }

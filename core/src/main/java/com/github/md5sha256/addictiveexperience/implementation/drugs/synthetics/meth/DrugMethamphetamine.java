@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
@@ -21,6 +22,8 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -31,6 +34,7 @@ import java.util.Optional;
 public final class DrugMethamphetamine extends AbstractDrug implements ISynthetic {
 
     private final Recipe recipe;
+    private final DrugMeta defaultMeta;
 
     @Inject
     DrugMethamphetamine(@NotNull Plugin plugin,
@@ -41,13 +45,22 @@ public final class DrugMethamphetamine extends AbstractDrug implements ISyntheti
                         @NotNull Iodine iodine,
                         @NotNull Ephedrine ephedrine,
                         @NotNull PlantEphedrine plantEphedrine
-                        ) {
+    ) {
         super(itemFactory,
               Utils.internalKey("meth"),
               "Meth",
               Material.CYAN_DYE,
               "addictiveexperience.consumemeth");
         this.recipe = createRecipe(plugin, hcl, phosphorus, iodine, ephedrine);
+        this.defaultMeta = DrugMeta.DEFAULT
+                .toBuilder()
+                .effect(null)
+                .overdoseThreshold(60)
+                .effects(
+                        new PotionEffect(PotionEffectType.POISON, 300, 2),
+                        new PotionEffect(PotionEffectType.FAST_DIGGING, 200, 2)
+                )
+                .build();
         drugRegistry.registerComponent(hcl, phosphorus, iodine, ephedrine, plantEphedrine);
     }
 
@@ -84,4 +97,8 @@ public final class DrugMethamphetamine extends AbstractDrug implements ISyntheti
         return Optional.of(this.recipe);
     }
 
+    @Override
+    public @NotNull DrugMeta defaultMeta() {
+        return this.defaultMeta;
+    }
 }

@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.BarkSafrole;
@@ -21,6 +22,8 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -31,6 +34,7 @@ import java.util.Optional;
 public final class DrugEcstasy extends AbstractDrug {
 
     private final Recipe recipe;
+    private final DrugMeta defaultMeta;
 
     @Inject
     DrugEcstasy(@NotNull Plugin plugin,
@@ -46,6 +50,15 @@ public final class DrugEcstasy extends AbstractDrug {
               Utils.internalKey("ecstasy"),
               "Ecstasy", Material.IRON_NUGGET, "addictiveexperience.consumeecstasy");
         this.recipe = createRecipe(plugin, safrole, mcl, mercury);
+        this.defaultMeta = DrugMeta.DEFAULT
+                .toBuilder()
+                .effect(null)
+                .overdoseThreshold(70)
+                .effects(
+                        new PotionEffect(PotionEffectType.SPEED, 500, 2),
+                        new PotionEffect(PotionEffectType.JUMP, 1000, 5)
+                )
+                .build();
         drugRegistry.registerComponent(this, barkSafrole, safrole, seedSafrole, mcl, mercury);
     }
 
@@ -80,4 +93,8 @@ public final class DrugEcstasy extends AbstractDrug {
         return Optional.of(this.recipe);
     }
 
+    @Override
+    public @NotNull DrugMeta defaultMeta() {
+        return this.defaultMeta;
+    }
 }

@@ -39,7 +39,7 @@ public final class SlurEffectStateImpl implements SlurEffectState {
             throw new IllegalStateException("Failed to get DrugMeta for drug: " + drug.key());
         }
         final DrugMeta meta = optionalDrugMeta.get();
-        final Optional<ISlurEffect> optionalEffect = meta.effect();
+        final Optional<ISlurEffect> optionalEffect = meta.slurEffect();
         if (!optionalEffect.isPresent()) {
             return;
         }

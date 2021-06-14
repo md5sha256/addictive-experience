@@ -36,7 +36,7 @@ public class DrugMetaImpl implements DrugMeta {
     }
 
     @Override
-    public @NotNull Optional<@NotNull ISlurEffect> effect() {
+    public @NotNull Optional<@NotNull ISlurEffect> slurEffect() {
         return Optional.ofNullable(this.effect);
     }
 

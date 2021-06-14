@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
@@ -21,6 +22,8 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -31,6 +34,7 @@ import java.util.Optional;
 public final class DrugHeroin extends AbstractDrug implements ISynthetic {
 
     private final Recipe recipe;
+    private final DrugMeta defaultMeta;
 
     @Inject
     DrugHeroin(@NotNull Plugin plugin,
@@ -40,15 +44,23 @@ public final class DrugHeroin extends AbstractDrug implements ISynthetic {
                @NotNull Opium opium,
                @NotNull PlantOpium plantOpium,
                @NotNull SeedOpium seedOpium
-               ) {
+    ) {
         super(itemFactory,
               Utils.internalKey("heroin"),
               "Heroin",
               Material.GRAY_DYE,
               "addictiveexperience.consumeheroin");
         this.recipe = createRecipe(plugin, morphine);
+        this.defaultMeta = DrugMeta.DEFAULT
+                .toBuilder()
+                .effect(null)
+                .overdoseThreshold(40)
+                .effects(
+                        new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 2),
+                        new PotionEffect(PotionEffectType.BLINDNESS, 60, 2)
+                )
+                .build();
         drugRegistry.registerComponent(this, morphine, opium, plantOpium, seedOpium);
-
     }
 
     private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull Morphine morphine) {
@@ -79,4 +91,8 @@ public final class DrugHeroin extends AbstractDrug implements ISynthetic {
         return meta;
     }
 
+    @Override
+    public @NotNull DrugMeta defaultMeta() {
+        return this.defaultMeta;
+    }
 }

@@ -18,11 +18,11 @@ public interface DrugMeta extends SimilarLike<DrugMeta> {
     @NotNull DataKey<DrugMeta> KEY = DataKey.of("DrugMeta", DrugMeta.class);
 
     @NotNull DrugMeta DEFAULT = builder()
-            .enabled(false)
+            .enabled(true)
             .effect(null)
             .effects(Collections.emptySet())
             .overdoseThreshold(1)
-            .slurDurationMillis(0)
+            .slurDurationMillis(TimeUnit.MINUTES.toMillis(5))
             .build();
 
 
@@ -32,7 +32,7 @@ public interface DrugMeta extends SimilarLike<DrugMeta> {
 
     boolean drugEnabled();
 
-    @NotNull Optional<ISlurEffect> effect();
+    @NotNull Optional<ISlurEffect> slurEffect();
 
     long slurDuration(@NotNull TimeUnit timeUnit);
 
@@ -50,7 +50,7 @@ public interface DrugMeta extends SimilarLike<DrugMeta> {
         return other == this || (other.drugEnabled() == this.drugEnabled()
                 && this.slurDurationMillis() == other.slurDurationMillis()
                 && this.overdoseThreshold() == other.overdoseThreshold()
-                && this.effect().equals(other.effect())
+                && this.slurEffect().equals(other.slurEffect())
                 && CollectionComparison.haveIdenticalElements(this.effects(), other.effects()));
     }
 

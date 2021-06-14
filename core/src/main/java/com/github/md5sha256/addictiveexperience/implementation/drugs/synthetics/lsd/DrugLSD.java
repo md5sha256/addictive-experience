@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
@@ -23,6 +24,8 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -33,6 +36,7 @@ import java.util.Optional;
 public final class DrugLSD extends AbstractDrug implements ISynthetic {
 
     private final Recipe recipe;
+    private final DrugMeta defaultMeta;
 
     @Inject
     DrugLSD(@NotNull Plugin plugin,
@@ -50,6 +54,16 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
               Material.PAPER,
               "addictiveexperience.consumelsd");
         this.recipe = createRecipe(plugin, lysergicAcid, ethanol, chloroform);
+        this.defaultMeta = DrugMeta.DEFAULT
+                .toBuilder()
+                .effect(null)
+                .overdoseThreshold(120)
+                .effects(
+                        new PotionEffect(PotionEffectType.SPEED, 1000, 5),
+                        new PotionEffect(PotionEffectType.BLINDNESS, 500, 4),
+                        new PotionEffect(PotionEffectType.CONFUSION, 300, 5)
+                )
+                .build();
         drugRegistry.registerComponent(
                 this,
                 lysergicAcid,
@@ -96,4 +110,8 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
         return Optional.of(this.recipe);
     }
 
+    @Override
+    public @NotNull DrugMeta defaultMeta() {
+        return this.defaultMeta;
+    }
 }

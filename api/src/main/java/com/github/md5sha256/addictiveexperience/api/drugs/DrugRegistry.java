@@ -32,9 +32,13 @@ public interface DrugRegistry {
 
     @NotNull Optional<@NotNull IDrugComponent> componentByKey(@NotNull Key key);
 
-    @NotNull Map<Key, IDrug> drugByKeys(@NotNull Collection<Key> keys);
+    @NotNull Optional<@NotNull IDrugForm> formByKey(@NotNull Key key);
 
-    @NotNull Map<Key, IDrugComponent> componentByKeys(@NotNull Collection<Key> keys);
+    @NotNull Map<Key, IDrug> drugByKeys(@NotNull Collection<@NotNull Key> keys);
+
+    @NotNull Map<Key, IDrugComponent> componentByKeys(@NotNull Collection<@NotNull Key> keys);
+
+    @NotNull Map<Key, IDrugForm> formByKeys(@NotNull Collection<@NotNull Key> keys);
 
     @NotNull <T> Optional<T> metaData(@NotNull IDrugComponent component, @NotNull DataKey<T> key);
 
@@ -43,5 +47,21 @@ public interface DrugRegistry {
     <T> void removeMetaData(@NotNull IDrugComponent component, @NotNull DataKey<T> key);
 
     <T> void removeMetaData(@NotNull DataKey<T> key);
+
+    @NotNull Optional<@NotNull IDrugComponent> componentFromItem(@NotNull ItemStack itemStack);
+
+    default @NotNull Optional<@NotNull IDrug> drugFromItem(@NotNull ItemStack itemStack) {
+        final Optional<IDrugComponent> component = componentFromItem(itemStack);
+        if (!component.isPresent()) {
+            return Optional.empty();
+        }
+        final IDrugComponent drugComponent = component.get();
+        if (drugComponent instanceof IDrug) {
+            return Optional.of((IDrug) drugComponent);
+        }
+        return Optional.empty();
+    }
+
+    @NotNull ItemStack itemForComponent(@NotNull IDrugComponent component, @NotNull IDrugForm form);
 
 }
