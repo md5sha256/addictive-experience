@@ -3,6 +3,7 @@ package com.github.md5sha256.addictiveexperience.implementation.drugs;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import net.kyori.adventure.key.Key;
 import org.bukkit.NamespacedKey;
@@ -20,14 +21,14 @@ public final class SimpleDrugItemDataFactory implements DrugItemDataFactory {
 
     private final NamespacedKey keyParent;
     private final NamespacedKey keyForm;
-    private final NamespacedKey keyDrug;
+    private final NamespacedKey keyDrugComponent;
     private final DrugRegistry drugRegistry;
 
 
     public SimpleDrugItemDataFactory(@NotNull Plugin plugin, @NotNull DrugRegistry drugRegistry) {
         this.keyParent = new NamespacedKey(plugin, "drug-data");
         this.keyForm = new NamespacedKey(plugin, "form");
-        this.keyDrug = new NamespacedKey(plugin, "drug");
+        this.keyDrugComponent = new NamespacedKey(plugin, "drug-component");
         this.drugRegistry = drugRegistry;
     }
 
@@ -55,7 +56,7 @@ public final class SimpleDrugItemDataFactory implements DrugItemDataFactory {
                               PersistentDataType.TAG_CONTAINER,
                               context.newPersistentDataContainer());
         final String identifierForm = container.get(this.keyForm, PersistentDataType.STRING);
-        final String identifierDrug = container.get(this.keyDrug, PersistentDataType.STRING);
+        final String identifierDrug = container.get(this.keyDrugComponent, PersistentDataType.STRING);
         if (identifierForm == null || identifierDrug == null) {
             if (identifierDrug == null) {
                 System.out.println("no drug");
@@ -90,10 +91,23 @@ public final class SimpleDrugItemDataFactory implements DrugItemDataFactory {
         final PersistentDataContainer parent = meta.getPersistentDataContainer();
         final PersistentDataAdapterContext context = parent.getAdapterContext();
         final PersistentDataContainer container = context.newPersistentDataContainer();
-        container.set(this.keyDrug, PersistentDataType.STRING, itemData.component().key().asString());
+        container.set(this.keyDrugComponent, PersistentDataType.STRING, itemData.drug().key().asString());
         container.set(this.keyForm, PersistentDataType.STRING, itemData.form().key().asString());
         parent.set(this.keyParent, PersistentDataType.TAG_CONTAINER, container);
         itemStack.setItemMeta(meta);
     }
 
+    @Override
+    public void data(@NotNull final ItemStack itemStack, @NotNull final IDrugComponent component) {
+        final ItemMeta meta = itemStack.getItemMeta();
+        if (meta == null) {
+            return;
+        }
+        final PersistentDataContainer parent = meta.getPersistentDataContainer();
+        final PersistentDataAdapterContext context = parent.getAdapterContext();
+        final PersistentDataContainer container = context.newPersistentDataContainer();
+        container.set(this.keyDrugComponent, PersistentDataType.STRING, component.key().asString());
+        parent.set(this.keyParent, PersistentDataType.TAG_CONTAINER, container);
+        itemStack.setItemMeta(meta);
+    }
 }

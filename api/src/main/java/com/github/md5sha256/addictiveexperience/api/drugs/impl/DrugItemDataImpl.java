@@ -1,27 +1,26 @@
 package com.github.md5sha256.addictiveexperience.api.drugs.impl;
 
-import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
-import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
+import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
 public final class DrugItemDataImpl implements DrugItemData {
 
-    private final IDrugComponent component;
+    private final IDrug drug;
     private final IDrugForm drugForm;
 
-    public DrugItemDataImpl(@NotNull IDrugComponent component, @NotNull IDrugForm form) {
-        this.component = Objects.requireNonNull(component);
+    public DrugItemDataImpl(@NotNull IDrug drug, @NotNull IDrugForm form) {
+        this.drug = Objects.requireNonNull(drug);
         this.drugForm = Objects.requireNonNull(form);
     }
 
     @NotNull
     @Override
-    public IDrugComponent component() {
-        return this.component;
+    public IDrug drug() {
+        return this.drug;
     }
 
     @Override
@@ -29,6 +28,12 @@ public final class DrugItemDataImpl implements DrugItemData {
         return this.drugForm;
     }
 
+    @Override
+    public int hashCode() {
+        int result = drug.hashCode();
+        result = 31 * result + drugForm.hashCode();
+        return result;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -37,21 +42,14 @@ public final class DrugItemDataImpl implements DrugItemData {
 
         DrugItemDataImpl that = (DrugItemDataImpl) o;
 
-        if (!component.equals(that.component)) return false;
+        if (!drug.equals(that.drug)) return false;
         return drugForm.equals(that.drugForm);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = component.hashCode();
-        result = 31 * result + drugForm.hashCode();
-        return result;
     }
 
     @Override
     public String toString() {
         return "DrugItemData{" +
-                "component=" + component +
+                "drug=" + drug +
                 ", drugForm=" + drugForm +
                 '}';
     }

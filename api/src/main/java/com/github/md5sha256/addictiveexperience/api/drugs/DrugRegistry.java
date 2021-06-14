@@ -18,8 +18,6 @@ public interface DrugRegistry {
 
     @NotNull Collection<@NotNull IDrugForm> drugForms();
 
-    @NotNull Optional<@NotNull DrugItemData> dataFor(@NotNull ItemStack item);
-
     void registerComponent(@NotNull IDrugComponent... drugs);
 
     void registerComponent(@NotNull Collection<? extends @NotNull IDrugComponent> drugs);
@@ -48,6 +46,8 @@ public interface DrugRegistry {
 
     <T> void removeMetaData(@NotNull DataKey<T> key);
 
+    @NotNull Optional<@NotNull DrugItemData> dataFor(@NotNull ItemStack item);
+
     @NotNull Optional<@NotNull IDrugComponent> componentFromItem(@NotNull ItemStack itemStack);
 
     default @NotNull Optional<@NotNull IDrug> drugFromItem(@NotNull ItemStack itemStack) {
@@ -62,6 +62,8 @@ public interface DrugRegistry {
         return Optional.empty();
     }
 
-    @NotNull ItemStack itemForComponent(@NotNull IDrugComponent component, @NotNull IDrugForm form);
+    @NotNull ItemStack itemForComponent(@NotNull IDrugComponent component);
+
+    @NotNull ItemStack itemForDrug(@NotNull IDrug drug, @NotNull IDrugForm form);
 
 }

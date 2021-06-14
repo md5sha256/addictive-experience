@@ -64,11 +64,6 @@ public final class SimpleDrugRegistry implements DrugRegistry {
     }
 
     @Override
-    public @NotNull Optional<@NotNull DrugItemData> dataFor(@NotNull final ItemStack item) {
-        return this.itemDataFactory.dataFor(item);
-    }
-
-    @Override
     public void registerComponent(@NotNull IDrugComponent... drugs) {
         registerComponent(Arrays.asList(Objects.requireNonNull(drugs)));
     }
@@ -169,15 +164,27 @@ public final class SimpleDrugRegistry implements DrugRegistry {
     }
 
     @Override
-    public @NotNull Optional<@NotNull IDrugComponent> componentFromItem(@NotNull final ItemStack itemStack) {
-        return this.itemDataFactory.dataFor(itemStack).map(DrugItemData::component);
+    public @NotNull Optional<@NotNull DrugItemData> dataFor(@NotNull final ItemStack item) {
+        return this.itemDataFactory.dataFor(item);
     }
 
     @Override
-    public @NotNull ItemStack itemForComponent(@NotNull IDrugComponent component,
-                                               @NotNull IDrugForm form) {
+    public @NotNull Optional<@NotNull IDrugComponent> componentFromItem(@NotNull final ItemStack itemStack) {
+        return this.itemDataFactory.dataFor(itemStack).map(DrugItemData::drug);
+    }
+
+    @Override
+    public @NotNull ItemStack itemForComponent(@NotNull IDrugComponent component) {
         final ItemStack itemStack = component.asItem();
-        this.itemDataFactory.data(itemStack, DrugItemData.of(component, form));
+        this.itemDataFactory.data(itemStack, component);
+        return itemStack;
+    }
+
+    @Override
+    public @NotNull ItemStack itemForDrug(@NotNull final IDrug drug,
+                                          @NotNull final IDrugForm form) {
+        final ItemStack itemStack = drug.asItem();
+        this.itemDataFactory.data(itemStack, DrugItemData.of(drug, form));
         return itemStack;
     }
 }

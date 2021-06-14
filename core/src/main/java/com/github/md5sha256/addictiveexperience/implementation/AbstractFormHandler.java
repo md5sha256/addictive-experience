@@ -43,11 +43,7 @@ public abstract class AbstractFormHandler {
     }
 
     protected void checkPermissions(@NotNull CommandSender sender, @NotNull DrugItemData itemData) {
-        final IDrugComponent component = itemData.component();
-        if (!(component instanceof IDrug)) {
-            return;
-        }
-        final IDrug drug = (IDrug) component;
+        final IDrug drug = itemData.drug();
         if (!sender.hasPermission(drug.permission())) {
             sender.sendMessage(Utils.legacyColorize(this.plugin.getConfig().getString("nopermstoconsume")));
         }
@@ -60,11 +56,7 @@ public abstract class AbstractFormHandler {
                                  @NotNull DrugItemData itemData
     ) {
         checkPermissions(entity, itemData);
-        final IDrugComponent component = itemData.component();
-        if (!(component instanceof IDrug)) {
-            return;
-        }
-        final IDrug drug = (IDrug) component;
+        final IDrug drug = itemData.drug();
         final IDrugForm drugForm = itemData.form();
         itemStack.setAmount(itemStack.getAmount() - 1);
         this.drugRegistry.metaData(drug, DrugMeta.KEY)

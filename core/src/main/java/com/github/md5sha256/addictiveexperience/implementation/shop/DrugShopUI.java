@@ -1,6 +1,7 @@
 package com.github.md5sha256.addictiveexperience.implementation.shop;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
@@ -177,8 +178,13 @@ public final class DrugShopUI {
             String text = String
                     .format("You have bought %d of %s", amount, component.displayName());
             person.sendMessage(Component.text(text, NamedTextColor.GREEN));
-            final IDrugForm defaultForm = this.drugForms.powder();
-            final ItemStack itemStack = this.drugRegistry.itemForComponent(component, defaultForm);
+            final ItemStack itemStack;
+            if (component instanceof IDrug) {
+                final IDrugForm defaultForm = this.drugForms.powder();
+                itemStack = this.drugRegistry.itemForDrug((IDrug) component, defaultForm);
+            } else {
+                itemStack = this.drugRegistry.itemForComponent(component);
+            }
             itemStack.setAmount(amount);
             person.getInventory().addItem(itemStack);
         } else {

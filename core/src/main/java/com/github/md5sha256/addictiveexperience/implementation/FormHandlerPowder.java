@@ -63,7 +63,7 @@ public class FormHandlerPowder extends AbstractFormHandler implements Listener {
 
     @Override
     protected void sendMessageOnItemUse(@NotNull Player player, @NotNull DrugItemData usedData) {
-        final String messagePath = String.format("Snort%s", Utils.capitalise(usedData.component().identifierName().toLowerCase(Locale.ENGLISH)));
+        final String messagePath = String.format("Snort%s", Utils.capitalise(usedData.drug().identifierName().toLowerCase(Locale.ENGLISH)));
         final String message = this.plugin.getConfig().getString(messagePath);
         if (message != null) {
             player.sendMessage(Utils.legacyColorize(message));

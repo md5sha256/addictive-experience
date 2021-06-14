@@ -70,16 +70,12 @@ public final class FormHandlerSyringe extends AbstractFormHandler implements Lis
         event.setCancelled(true);
         // The target gets the drug effects
         handleDrugUse(target, inMainHand, data);
-        final IDrugComponent component = data.component();
-        if (!(component instanceof IDrug)) {
-            return;
-        }
-        final IDrug drug = (IDrug) component;
+        final IDrug component = data.drug();
         inMainHand.setAmount(inMainHand.getAmount() - 1);
         damager.getInventory().setItemInMainHand(inMainHand);
         damager.playSound(damager.getLocation(), Sound.ENTITY_ITEM_BREAK, 1f, 0.6f);
-        final String messagePathAttacker = String.format("Inject%sAttacker", drug.displayName());
-        final String messagePathVictim = String.format("Inject%sVictim", drug.displayName());
+        final String messagePathAttacker = String.format("Inject%sAttacker", component.displayName());
+        final String messagePathVictim = String.format("Inject%sVictim", component.displayName());
         // Send messages to both players here
 
         // FIXME prefix
@@ -88,14 +84,14 @@ public final class FormHandlerSyringe extends AbstractFormHandler implements Lis
         target.sendMessage("prefix" + Utils
                 .legacyColorize(plugin.getConfig().getString(messagePathVictim)));
         // Add potion effects
-        this.drugRegistry.metaData(drug, DrugMeta.KEY).map(DrugMeta::effects)
+        this.drugRegistry.metaData(component, DrugMeta.KEY).map(DrugMeta::effects)
                          .ifPresent(target::addPotionEffects);
         // Manually update blood
         final DrugBloodData drugBloodData = this.drugHandler
                 .getOrCreateBloodData(target.getUniqueId());
-        drugBloodData.incrementLevel(drug, 10);
-        this.drugHandler.notifyIfOverdosed(target, drug);
-        this.slurEffectState.registerSlur(target.getUniqueId(), drug);
+        drugBloodData.incrementLevel(component, 10);
+        this.drugHandler.notifyIfOverdosed(target, component);
+        this.slurEffectState.registerSlur(target.getUniqueId(), component);
     }
 
 }

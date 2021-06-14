@@ -8,16 +8,16 @@ import org.jetbrains.annotations.NotNull;
 public interface DrugItemData extends SimilarLike<DrugItemData> {
 
     @NotNull
-    static DrugItemData of(@NotNull IDrugComponent component, @NotNull IDrugForm drugForm) {
-        return new DrugItemDataImpl(component, drugForm);
+    static DrugItemData of(@NotNull IDrug drug, @NotNull IDrugForm drugForm) {
+        return new DrugItemDataImpl(drug, drugForm);
     }
 
-    @NotNull IDrugComponent component();
+    @NotNull IDrug drug();
 
     @NotNull IDrugForm form();
 
     @Override
     default boolean isSimilar(@NotNull DrugItemData other) {
-        return this.component().equals(other.component()) && this.form().equals(other.form());
+        return this.drug().equals(other.drug()) && this.form().equals(other.form());
     }
 }
