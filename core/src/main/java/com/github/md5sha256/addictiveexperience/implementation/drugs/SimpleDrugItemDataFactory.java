@@ -32,22 +32,18 @@ public final class SimpleDrugItemDataFactory implements DrugItemDataFactory {
         this.drugRegistry = drugRegistry;
     }
 
-
     @Override
     @SuppressWarnings("PatternValidation")
-    public @NotNull Optional<DrugItemData> dataFor(@NotNull ItemStack itemStack) {
+    public @NotNull Optional<DrugItemData> parseData(@NotNull ItemStack itemStack) {
         if (!itemStack.hasItemMeta()) {
-            System.out.println("no meta");
             return Optional.empty();
         }
         final ItemMeta meta = itemStack.getItemMeta();
         if (meta == null) {
-            System.out.println("null meta");
             return Optional.empty();
         }
         final PersistentDataContainer parentContainer = meta.getPersistentDataContainer();
         if (!parentContainer.has(this.keyParent, PersistentDataType.TAG_CONTAINER)) {
-            System.out.println("no parent container");
             return Optional.empty();
         }
         final PersistentDataAdapterContext context = parentContainer.getAdapterContext();
@@ -56,30 +52,47 @@ public final class SimpleDrugItemDataFactory implements DrugItemDataFactory {
                               PersistentDataType.TAG_CONTAINER,
                               context.newPersistentDataContainer());
         final String identifierForm = container.get(this.keyForm, PersistentDataType.STRING);
-        final String identifierDrug = container.get(this.keyDrugComponent, PersistentDataType.STRING);
-        if (identifierForm == null || identifierDrug == null) {
-            if (identifierDrug == null) {
-                System.out.println("no drug");
-            }
-            if (identifierForm == null) {
-                System.out.println("no form");
-            }
+        final String identifierComponent = container
+                .get(this.keyDrugComponent, PersistentDataType.STRING);
+        if (identifierForm == null || identifierComponent == null) {
             return Optional.empty();
         }
         final Key keyForm = Key.key(identifierForm);
-        final Key keyDrug = Key.key(identifierDrug);
+        final Key keyComponent = Key.key(identifierComponent);
         final Optional<IDrugForm> optionalDrugForm = this.drugRegistry.formByKey(keyForm);
-        final Optional<IDrug> optionalDrug = this.drugRegistry.drugByKey(keyDrug);
+        final Optional<IDrug> optionalDrug = this.drugRegistry.drugByKey(keyComponent);
         if (!optionalDrugForm.isPresent() || !optionalDrug.isPresent()) {
-            if (!optionalDrugForm.isPresent()) {
-                System.out.println("no form present");
-            }
-            if (!optionalDrug.isPresent()) {
-                System.out.println("no drug present");
-            }
             return Optional.empty();
         }
         return Optional.of(DrugItemData.of(optionalDrug.get(), optionalDrugForm.get()));
+    }
+
+    @Override
+    @SuppressWarnings("PatternValidation")
+    public @NotNull Optional<IDrugComponent> parseComponent(@NotNull final ItemStack itemStack) {
+        if (!itemStack.hasItemMeta()) {
+            return Optional.empty();
+        }
+        final ItemMeta meta = itemStack.getItemMeta();
+        if (meta == null) {
+            return Optional.empty();
+        }
+        final PersistentDataContainer parentContainer = meta.getPersistentDataContainer();
+        if (!parentContainer.has(this.keyParent, PersistentDataType.TAG_CONTAINER)) {
+            return Optional.empty();
+        }
+        final PersistentDataAdapterContext context = parentContainer.getAdapterContext();
+        final PersistentDataContainer container = parentContainer
+                .getOrDefault(this.keyParent,
+                              PersistentDataType.TAG_CONTAINER,
+                              context.newPersistentDataContainer());
+        final String identifierComponent = container
+                .get(this.keyDrugComponent, PersistentDataType.STRING);
+        if (identifierComponent == null) {
+            return Optional.empty();
+        }
+        final Key keyComponent = Key.key(identifierComponent);
+        return this.drugRegistry.componentByKey(keyComponent);
     }
 
     @Override
@@ -91,7 +104,9 @@ public final class SimpleDrugItemDataFactory implements DrugItemDataFactory {
         final PersistentDataContainer parent = meta.getPersistentDataContainer();
         final PersistentDataAdapterContext context = parent.getAdapterContext();
         final PersistentDataContainer container = context.newPersistentDataContainer();
-        container.set(this.keyDrugComponent, PersistentDataType.STRING, itemData.drug().key().asString());
+        container.set(this.keyDrugComponent,
+                      PersistentDataType.STRING,
+                      itemData.drug().key().asString());
         container.set(this.keyForm, PersistentDataType.STRING, itemData.form().key().asString());
         parent.set(this.keyParent, PersistentDataType.TAG_CONTAINER, container);
         itemStack.setItemMeta(meta);

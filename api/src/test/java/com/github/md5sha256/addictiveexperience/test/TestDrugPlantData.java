@@ -7,7 +7,7 @@ import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantData;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import com.github.md5sha256.addictiveexperience.api.drugs.impl.DrugPlantDataBuilder;
-import com.github.md5sha256.addictiveexperience.test.impl.DummyDrugBuilder;
+import com.github.md5sha256.addictiveexperience.fixtures.DummyDrugBuilder;
 import com.github.md5sha256.spigotutils.blocks.BlockPosition;
 import com.github.md5sha256.spigotutils.timing.GuavaAdapter;
 import com.github.md5sha256.spigotutils.timing.IStopwatch;

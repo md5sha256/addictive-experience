@@ -9,7 +9,9 @@ import java.util.Optional;
 
 public interface DrugItemDataFactory {
 
-    @NotNull Optional<DrugItemData> dataFor(@NotNull ItemStack itemStack);
+    @NotNull Optional<DrugItemData> parseData(@NotNull ItemStack itemStack);
+
+    @NotNull Optional<IDrugComponent> parseComponent(@NotNull ItemStack itemStack);
 
     void data(@NotNull ItemStack itemStack, @NotNull DrugItemData itemData);
 

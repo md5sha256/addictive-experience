@@ -1,4 +1,4 @@
-package com.github.md5sha256.addictiveexperience.test.impl;
+package com.github.md5sha256.addictiveexperience.fixtures;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import net.kyori.adventure.key.Key;

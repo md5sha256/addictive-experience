@@ -65,6 +65,7 @@ dependencies {
     testCompileOnly("org.junit.jupiter:junit-jupiter-api:5.7.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
     testImplementation("com.github.seeseemelk:MockBukkit-v1.16:1.0.0")
+    testImplementation(testFixtures(project(":api")))
 }
 
 processResources {

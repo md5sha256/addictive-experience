@@ -165,12 +165,12 @@ public final class SimpleDrugRegistry implements DrugRegistry {
 
     @Override
     public @NotNull Optional<@NotNull DrugItemData> dataFor(@NotNull final ItemStack item) {
-        return this.itemDataFactory.dataFor(item);
+        return this.itemDataFactory.parseData(item);
     }
 
     @Override
     public @NotNull Optional<@NotNull IDrugComponent> componentFromItem(@NotNull final ItemStack itemStack) {
-        return this.itemDataFactory.dataFor(itemStack).map(DrugItemData::drug);
+        return this.itemDataFactory.parseComponent(itemStack);
     }
 
     @Override

@@ -5,7 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import com.github.md5sha256.addictiveexperience.api.drugs.impl.DrugPlantMetaBuilder;
-import com.github.md5sha256.addictiveexperience.test.impl.DummyDrugBuilder;
+import com.github.md5sha256.addictiveexperience.fixtures.DummyDrugBuilder;
 import org.bukkit.Material;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;

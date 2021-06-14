@@ -17,7 +17,7 @@ import java.util.Optional;
 public final class FormDefault extends AbstractDrugForm implements IDrugForm {
 
     @Inject
-    FormDefault(@NotNull ItemFactory itemFactory) {
+    public FormDefault(@NotNull ItemFactory itemFactory) {
         super(itemFactory, Utils.internalKey("default"), "Default Form");
     }
 
