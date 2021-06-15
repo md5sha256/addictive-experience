@@ -9,6 +9,8 @@ import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.util.DataKey;
 import com.github.md5sha256.addictiveexperience.configuration.DrugConfiguration;
 import com.github.md5sha256.addictiveexperience.util.DataMapper;
+import com.github.md5sha256.addictiveexperience.api.util.KeyRegistry;
+import com.github.md5sha256.addictiveexperience.util.SimpleKeyRegistry;
 import com.github.md5sha256.spigotutils.serial.Registry;
 import com.github.md5sha256.spigotutils.serial.SimpleRegistry;
 import com.google.inject.Inject;
@@ -28,6 +30,9 @@ import java.util.Optional;
 @Singleton
 public final class SimpleDrugRegistry implements DrugRegistry {
 
+    private final KeyRegistry keyDrugs = new SimpleKeyRegistry();
+    private final KeyRegistry keyComponents = new SimpleKeyRegistry();
+    private final KeyRegistry keyForms = new SimpleKeyRegistry();
     private final Registry<Key, IDrug> drugRegistry = new SimpleRegistry<>();
     private final Registry<Key, IDrugComponent> componentRegistry = new SimpleRegistry<>();
     private final Registry<Key, IDrugForm> formRegistry = new SimpleRegistry<>();
@@ -74,23 +79,24 @@ public final class SimpleDrugRegistry implements DrugRegistry {
             if (component instanceof IDrug) {
                 final IDrug drug = (IDrug) component;
                 this.drugRegistry.register(component.key(), drug);
+                this.keyDrugs.register(component.key());
                 this.dataMapper.set(drug, DrugMeta.KEY, drug.defaultMeta());
             }
+            this.keyComponents.register(component.key());
             this.componentRegistry.register(component.key(), component);
         }
     }
 
     @Override
     public void registerDrugForm(final @NotNull IDrugForm... drugForms) {
-        for (IDrugForm form : drugForms) {
-            this.formRegistry.register(form.key(), form);
-        }
+        registerDrugForms(Arrays.asList(Objects.requireNonNull(drugForms)));
     }
 
     @Override
     public void registerDrugForms(@NotNull final Collection<@NotNull IDrugForm> drugForms) {
         for (IDrugForm form : drugForms) {
             this.formRegistry.register(form.key(), form);
+            this.keyForms.register(form.key());
         }
     }
 
@@ -186,5 +192,20 @@ public final class SimpleDrugRegistry implements DrugRegistry {
         final ItemStack itemStack = drug.asItem();
         this.itemDataFactory.data(itemStack, DrugItemData.of(drug, form));
         return itemStack;
+    }
+
+    @Override
+    public @NotNull KeyRegistry keysForComponents() {
+        return this.keyComponents;
+    }
+
+    @Override
+    public @NotNull KeyRegistry keysForDrugs() {
+        return this.keyDrugs;
+    }
+
+    @Override
+    public @NotNull KeyRegistry keysForForms() {
+        return this.keyForms;
     }
 }

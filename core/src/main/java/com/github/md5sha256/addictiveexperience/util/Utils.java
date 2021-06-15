@@ -30,7 +30,7 @@ public class Utils {
 
     @SuppressWarnings("PatternValidation")
     public static Key internalKey(@NotNull @Pattern("[a-z0-9_\\-./]+") String value) {
-        return Key.key("drugfun", value);
+        return Key.key("addictive-experience", value);
     }
 
 }

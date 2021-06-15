@@ -2,6 +2,7 @@ package com.github.md5sha256.addictiveexperience.api.drugs;
 
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.util.DataKey;
+import com.github.md5sha256.addictiveexperience.api.util.KeyRegistry;
 import net.kyori.adventure.key.Key;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -65,5 +66,11 @@ public interface DrugRegistry {
     @NotNull ItemStack itemForComponent(@NotNull IDrugComponent component);
 
     @NotNull ItemStack itemForDrug(@NotNull IDrug drug, @NotNull IDrugForm form);
+
+    @NotNull KeyRegistry keysForDrugs();
+
+    @NotNull KeyRegistry keysForComponents();
+
+    @NotNull KeyRegistry keysForForms();
 
 }
