@@ -63,15 +63,15 @@ public class TestDrugPlantData {
 
     @Test
     public void testCloning() {
+        final BlockPosition position = new BlockPosition(world, 1, 1, 1);
         final DrugPlantDataBuilder builder = DrugPlantData.builder()
-                                                          .position(new BlockPosition(world,
-                                                                                      1,
-                                                                                      1,
-                                                                                      1))
+                                                          .position(position)
                                                           .meta(meta);
 
         final DrugPlantDataBuilder copy = new DrugPlantDataBuilder(builder);
-        Assertions.assertTrue(builder.build().isSimilar(copy.build()));
+        final DrugPlantData built = copy.build();
+        built.elapsed().stop();
+        Assertions.assertTrue(built.isSimilar(copy.build()));
         final DrugPlantData data = builder.build();
         Assertions.assertTrue(data.isSimilar(data.toBuilder().build()));
     }
