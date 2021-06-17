@@ -50,6 +50,7 @@ public class DrugPlantDataSerializer implements TypeSerializer<DrugPlantData> {
         if (obj == null) {
             node.removeChild(KEY_META);
             node.removeChild(KEY_STOPWATCH);
+            node.removeChild(KEY_START_TIME);
             return;
         }
         final ConfigurationNode meta = node.node(KEY_META);

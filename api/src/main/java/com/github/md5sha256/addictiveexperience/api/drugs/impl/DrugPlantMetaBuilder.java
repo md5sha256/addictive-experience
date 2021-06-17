@@ -2,7 +2,6 @@ package com.github.md5sha256.addictiveexperience.api.drugs.impl;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
-import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import org.apache.commons.lang.Validate;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +15,7 @@ public final class DrugPlantMetaBuilder {
     private double harvestProbability;
     private int harvestAmount;
     private IDrugComponent seed;
-    private IDrug drug;
+    private IDrugComponent result;
 
     public DrugPlantMetaBuilder() {
     }
@@ -28,7 +27,7 @@ public final class DrugPlantMetaBuilder {
         this.harvestProbability = builder.harvestProbability;
         this.harvestAmount = builder.harvestAmount;
         this.seed = builder.seed;
-        this.drug = builder.drug;
+        this.result = builder.result;
     }
 
     public DrugPlantMetaBuilder(@NotNull DrugPlantMeta meta) {
@@ -38,7 +37,7 @@ public final class DrugPlantMetaBuilder {
         this.harvestProbability = meta.harvestSuccessProbability();
         this.harvestAmount = meta.harvestAmount();
         this.seed = meta.seed().orElse(null);
-        this.drug = meta.drug();
+        this.result = meta.result();
     }
 
     public DrugPlantMetaBuilder growthTimeMillis(long growthTimeMillis) {
@@ -76,8 +75,8 @@ public final class DrugPlantMetaBuilder {
         return this;
     }
 
-    public DrugPlantMetaBuilder drug(@NotNull IDrug drug) {
-        this.drug = drug;
+    public DrugPlantMetaBuilder result(@NotNull IDrugComponent result) {
+        this.result = result;
         return this;
     }
 
@@ -91,7 +90,7 @@ public final class DrugPlantMetaBuilder {
                         "Invalid harvest probability: ",
                         harvestProbability);
         Validate.isTrue(harvestAmount >= 0, "Invalid harvest amount: ", harvestAmount);
-        Validate.notNull(drug, "Drug cannot be null");
+        Validate.notNull(result, "Drug cannot be null");
     }
 
     public DrugPlantMetaImpl build() {
@@ -102,7 +101,7 @@ public final class DrugPlantMetaBuilder {
                                      harvestProbability,
                                      harvestAmount,
                                      seed,
-                                     drug);
+                                     result);
     }
 
 }

@@ -19,7 +19,7 @@ public final class DrugPlantMetaImpl implements DrugPlantMeta {
     private final int harvestAmount;
 
     private final @Nullable IDrugComponent seed;
-    private final IDrug drug;
+    private final IDrugComponent result;
 
     DrugPlantMetaImpl(@Range(from = 0, to = Long.MAX_VALUE) long growthTimeMillis,
                       @Range(from = 0, to = 1) double seedDropProbability,
@@ -27,7 +27,7 @@ public final class DrugPlantMetaImpl implements DrugPlantMeta {
                       @Range(from = 0, to = 1) double harvestProbability,
                       @Range(from = 0, to = Integer.MAX_VALUE) int harvestAmount,
                       @Nullable IDrugComponent seed,
-                      @NotNull IDrug drug
+                      @NotNull IDrugComponent result
     ) {
         this.growthTimeMillis = growthTimeMillis;
         this.seedDropAmount = seedDropAmount;
@@ -35,7 +35,7 @@ public final class DrugPlantMetaImpl implements DrugPlantMeta {
         this.harvestProbability = harvestProbability;
         this.harvestAmount = harvestAmount;
         this.seed = seed;
-        this.drug = drug;
+        this.result = result;
     }
 
     @Override
@@ -64,8 +64,8 @@ public final class DrugPlantMetaImpl implements DrugPlantMeta {
     }
 
     @Override
-    public @NotNull IDrug drug() {
-        return this.drug;
+    public @NotNull IDrugComponent result() {
+        return this.result;
     }
 
     @Override
@@ -87,7 +87,7 @@ public final class DrugPlantMetaImpl implements DrugPlantMeta {
                 ", harvestProbability=" + harvestProbability +
                 ", harvestAmount=" + harvestAmount +
                 ", seed=" + seed +
-                ", drug=" + drug.identifierName() +
+                ", result=" + result.identifierName() +
                 '}';
     }
 }

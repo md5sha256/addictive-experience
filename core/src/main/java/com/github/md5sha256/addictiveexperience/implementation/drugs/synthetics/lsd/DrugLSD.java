@@ -1,6 +1,7 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
@@ -72,6 +73,7 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
                 plantMorningGlory,
                 seedMorningGlory
         );
+        drugRegistry.metaData(plantMorningGlory, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this, seedMorningGlory));
     }
 
     private Recipe createRecipe(@NotNull Plugin plugin,

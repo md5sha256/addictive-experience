@@ -25,9 +25,8 @@ public final class DrugPlantDataImpl implements DrugPlantData {
         this.position = position;
         this.meta = meta;
         this.startTimeEpochMilli = startTimeEpochMilli;
-        if (stopwatch instanceof VariableStopwatch) {
+        if (stopwatch instanceof final VariableStopwatch variableStopwatch) {
             this.stopwatch = Stopwatches.variableStopwatch(GuavaAdapter.ofStarted());
-            final VariableStopwatch variableStopwatch = (VariableStopwatch) stopwatch;
             this.stopwatch.setElapsedTime(variableStopwatch.elapsedNanos(), TimeUnit.NANOSECONDS);
         } else {
             this.stopwatch = Stopwatches.variableStopwatch(stopwatch).start();

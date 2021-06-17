@@ -1,6 +1,7 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.organics.marijuana;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IOrganic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
@@ -53,6 +54,7 @@ public final class DrugMarijuana extends AbstractDrug implements IOrganic {
                         .overdoseThreshold(3000)
                         .build();
         drugRegistry.registerComponent(this, plantMarijuana);
+        drugRegistry.metaData(plantMarijuana, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this));
     }
 
     protected final @NotNull ItemMeta meta() {

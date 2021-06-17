@@ -1,6 +1,7 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.cocaine;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
@@ -56,6 +57,7 @@ public final class DrugCocaine extends AbstractDrug implements ISynthetic {
                 )
                 .build();
         drugRegistry.registerComponent(this, plantCocaine, leafCocaine);
+        drugRegistry.metaData(plantCocaine, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this));
     }
 
     private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull LeafCocaine leafCocaine) {

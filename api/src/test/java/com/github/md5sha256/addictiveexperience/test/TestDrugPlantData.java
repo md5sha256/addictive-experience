@@ -38,7 +38,7 @@ public class TestDrugPlantData {
                 .permission("permission")
                 .build();
         meta = DrugPlantMeta.builder()
-                            .drug(drug)
+                            .result(drug)
                             .growthTime(5, TimeUnit.MINUTES)
                             .harvestAmount(10)
                             .harvestProbability(0.5)

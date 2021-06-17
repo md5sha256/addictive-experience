@@ -39,8 +39,8 @@ public final class PlantHandlerImpl implements IPlantHandler {
                             @NotNull Plugin plugin,
                             @NotNull PlantDataResolver dataResolver) {
         this.resolver = dataResolver;
-        long ticks = Common.toTicks(30, TimeUnit.SECONDS);
-        this.task = scheduler.runTaskTimer(plugin, this::update, ticks, ticks);
+        long ticks = Common.toTicks(5, TimeUnit.SECONDS);
+        this.task = scheduler.runTaskTimer(plugin, (Runnable) this::saveData, ticks, ticks);
     }
 
     @Override

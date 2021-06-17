@@ -1,7 +1,13 @@
 package com.github.md5sha256.addictiveexperience.implementation.plant;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantData;
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
+import com.github.md5sha256.addictiveexperience.util.configurate.DrugPlantDataSerializer;
+import com.github.md5sha256.addictiveexperience.util.configurate.DrugPlantMetaSerializer;
+import com.github.md5sha256.addictiveexperience.util.configurate.VariableStopwatchSerializer;
 import com.github.md5sha256.spigotutils.blocks.ChunkPosition;
+import com.github.md5sha256.spigotutils.timing.VariableStopwatch;
 import com.google.inject.Inject;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -9,6 +15,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationOptions;
 import org.spongepowered.configurate.gson.GsonConfigurationLoader;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
 
@@ -30,10 +37,17 @@ import java.util.Map;
 public final class PDCResolver implements PlantDataResolver {
 
     private final NamespacedKey key;
+    private final ConfigurationOptions options;
 
     @Inject
-    public PDCResolver(@NotNull Plugin plugin) {
+    public PDCResolver(@NotNull Plugin plugin, @NotNull DrugRegistry drugRegistry) {
         this.key = new NamespacedKey(plugin, "drug-plant-data");
+        this.options = ConfigurationOptions
+                .defaults()
+                .serializers(builder -> builder
+                        .register(DrugPlantMeta.class, new DrugPlantMetaSerializer(drugRegistry))
+                        .register(DrugPlantData.class, new DrugPlantDataSerializer())
+                        .register(VariableStopwatch.class, new VariableStopwatchSerializer()));
     }
 
     @Override
@@ -95,16 +109,18 @@ public final class PDCResolver implements PlantDataResolver {
     private ConfigurationLoader<?> loader(@NotNull String raw) {
         final StringReader reader = new StringReader(raw);
         return GsonConfigurationLoader.builder()
+                                      .defaultOptions(this.options)
                                       .source(() -> new BufferedReader(reader))
-                                      .lenient(false)
+                                      .lenient(true)
                                       .build();
     }
 
     private ConfigurationLoader<?> loader(@NotNull OutputStream os) {
         final OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
         return GsonConfigurationLoader.builder()
+                                      .defaultOptions(this.options)
                                       .sink(() -> new BufferedWriter(osw))
-                                      .lenient(false)
+                                      .lenient(true)
                                       .build();
     }
 }

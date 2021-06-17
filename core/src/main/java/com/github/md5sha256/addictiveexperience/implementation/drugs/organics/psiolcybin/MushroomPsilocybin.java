@@ -1,6 +1,7 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.organics.psiolcybin;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IOrganic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
@@ -43,6 +44,7 @@ public class MushroomPsilocybin extends AbstractDrug implements IOrganic {
                 .overdoseThreshold(200)
                 .build();
         drugRegistry.registerComponent(this);
+        drugRegistry.metaData(this, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this, this));
     }
 
     @Override

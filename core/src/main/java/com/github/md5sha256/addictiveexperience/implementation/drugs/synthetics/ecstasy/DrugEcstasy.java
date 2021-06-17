@@ -1,6 +1,7 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.BarkSafrole;
@@ -60,6 +61,7 @@ public final class DrugEcstasy extends AbstractDrug {
                 )
                 .build();
         drugRegistry.registerComponent(this, barkSafrole, safrole, seedSafrole, mcl, mercury);
+        drugRegistry.metaData(safrole, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this, seedSafrole));
     }
 
     private @NotNull Recipe createRecipe(@NotNull Plugin plugin,

@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.organics.marijuana.components;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
@@ -22,7 +23,7 @@ import java.util.Optional;
 public final class PlantMarijuana extends AbstractDrugComponent implements IDrugComponent {
 
     @Inject
-    PlantMarijuana(@NotNull ItemFactory itemFactory) {
+    PlantMarijuana(@NotNull ItemFactory itemFactory, @NotNull DrugRegistry drugRegistry) {
         super(itemFactory,
               Utils.internalKey("plant_marijuana"),
               "Marijuana Plant",

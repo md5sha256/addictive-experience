@@ -37,7 +37,7 @@ public class TestDrugPlantMeta {
     @Test
     public void testSimilarity() {
         final DrugPlantMeta meta = DrugPlantMeta.builder()
-                                                .drug(drug)
+                                                .result(drug)
                                                 .growthTime(5, TimeUnit.MINUTES)
                                                 .harvestAmount(10)
                                                 .harvestProbability(0.5)
@@ -51,7 +51,7 @@ public class TestDrugPlantMeta {
     @Test
     public void testCloning() {
         final DrugPlantMetaBuilder builder = DrugPlantMeta.builder()
-                                                          .drug(drug)
+                                                          .result(drug)
                                                           .growthTime(5, TimeUnit.MINUTES)
                                                           .harvestAmount(10)
                                                           .harvestProbability(0.5)
@@ -67,7 +67,7 @@ public class TestDrugPlantMeta {
     @Test
     public void testDrugPlantMetaGetters() {
         final DrugPlantMeta meta = DrugPlantMeta.builder()
-                                                .drug(drug)
+                                                .result(drug)
                                                 .growthTime(5, TimeUnit.MINUTES)
                                                 .harvestAmount(10)
                                                 .harvestProbability(0.5)
@@ -75,7 +75,7 @@ public class TestDrugPlantMeta {
                                                 .seedDropProbability(0.25)
                                                 .seed(null)
                                                 .build();
-        Assertions.assertSame(drug, meta.drug());
+        Assertions.assertSame(drug, meta.result());
         Assertions.assertEquals(5, meta.growthTime(TimeUnit.MINUTES));
         Assertions.assertEquals(TimeUnit.MINUTES.toMillis(5), meta.growthTimeMillis());
         Assertions.assertEquals(10, meta.harvestAmount());

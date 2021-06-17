@@ -1,5 +1,7 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.SmeltingMeta;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
@@ -37,10 +39,13 @@ public final class Opium extends AbstractDrugComponent {
     @Inject
     Opium(@NotNull Plugin plugin,
           @NotNull ItemFactory itemFactory,
-          @NotNull SeedOpium seedOpium
-    ) {
+          @NotNull SeedOpium seedOpium,
+          @NotNull PlantOpium plantOpium,
+          @NotNull DrugRegistry drugRegistry
+          ) {
         super(itemFactory, Utils.internalKey("opium"), "Opium", Material.LIGHT_GRAY_DYE);
         this.recipe = createRecipe(plugin, seedOpium);
+        drugRegistry.metaData(plantOpium, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this, seedOpium));
     }
 
     private Recipe createRecipe(@NotNull Plugin plugin, @NotNull SeedOpium seedOpium) {

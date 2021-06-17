@@ -35,6 +35,7 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.ParseException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Queue;
@@ -82,7 +83,7 @@ public class AddictiveExperienceCommandHandler {
 
         /* Register Brigadier support */
         try {
-            manager.registerBrigadier();
+            // manager.registerBrigadier();
         } catch (final Exception e) {
             plugin.getLogger().warning("Failed to enable Brigadier: " + e.getMessage());
         }
@@ -170,10 +171,10 @@ public class AddictiveExperienceCommandHandler {
     @Parser
     @SuppressWarnings("PatternValidation")
     public IDrugForm parseDrugForm(@NotNull CommandContext<CommandSender> context,
-                                    @NotNull Queue<String> inputs) {
+                                   @NotNull Queue<String> inputs) throws ParseException {
         final String input = inputs.remove();
         if (input == null) {
-            return null;
+            throw new ParseException("No input!", 0);
         } else if (input.indexOf(':') == -1) {
             return this.drugRegistry.formByKey(Utils.internalKey(input)).orElse(null);
         } else {
@@ -184,10 +185,10 @@ public class AddictiveExperienceCommandHandler {
     @Parser
     @SuppressWarnings("PatternValidation")
     public IDrugComponent parseDrugComponent(@NotNull CommandContext<CommandSender> context,
-                                    @NotNull Queue<String> inputs) {
+                                             @NotNull Queue<String> inputs) throws ParseException {
         final String input = inputs.remove();
         if (input == null) {
-            return null;
+            throw new ParseException("No input!", 0);
         } else if (input.indexOf(':') == -1) {
             return this.drugRegistry.componentByKey(Utils.internalKey(input)).orElse(null);
         } else {
@@ -198,10 +199,10 @@ public class AddictiveExperienceCommandHandler {
     @Parser
     @SuppressWarnings("PatternValidation")
     public IDrug parseDrug(@NotNull CommandContext<CommandSender> context,
-                                              @NotNull Queue<String> inputs) {
+                           @NotNull Queue<String> inputs) throws ParseException {
         final String input = inputs.remove();
         if (input == null) {
-            return null;
+            throw new ParseException("No input!", 0);
         } else if (input.indexOf(':') == -1) {
             return this.drugRegistry.drugByKey(Utils.internalKey(input)).orElse(null);
         } else {

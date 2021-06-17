@@ -8,5 +8,6 @@ public class PlantModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(PlantDataResolver.class).to(PDCResolver.class).in(Singleton.class);
+        bind(PlantListener.class).asEagerSingleton();
     }
 }

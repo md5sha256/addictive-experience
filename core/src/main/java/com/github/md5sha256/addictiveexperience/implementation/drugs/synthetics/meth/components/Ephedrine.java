@@ -1,5 +1,7 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components;
 
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
+import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
@@ -21,8 +23,11 @@ import java.util.Optional;
 public final class Ephedrine extends AbstractDrugComponent {
 
     @Inject
-    Ephedrine(@NotNull ItemFactory itemFactory) {
+    Ephedrine(@NotNull ItemFactory itemFactory,
+              @NotNull PlantEphedrine plantEphedrine,
+              @NotNull DrugRegistry drugRegistry) {
         super(itemFactory, Utils.internalKey("ephedrine"), "Ephedrine", Material.BLUE_DYE);
+        drugRegistry.metaData(plantEphedrine, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this));
     }
 
     @Override

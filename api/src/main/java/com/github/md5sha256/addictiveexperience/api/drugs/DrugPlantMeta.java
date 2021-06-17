@@ -1,16 +1,36 @@
 package com.github.md5sha256.addictiveexperience.api.drugs;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.impl.DrugPlantMetaBuilder;
+import com.github.md5sha256.addictiveexperience.api.util.DataKey;
 import com.github.md5sha256.addictiveexperience.api.util.SimilarLike;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public interface DrugPlantMeta extends SimilarLike<DrugPlantMeta> {
 
+    @NotNull DataKey<DrugPlantMeta> KEY = DataKey.of("plant-meta", DrugPlantMeta.class);
+
     static @NotNull DrugPlantMetaBuilder builder() {
         return new DrugPlantMetaBuilder();
+    }
+
+    static @NotNull DrugPlantMeta defaultMeta(@NotNull IDrugComponent result) {
+        return defaultMeta(result, null);
+    }
+
+    static @NotNull DrugPlantMeta defaultMeta(@NotNull IDrugComponent result, @Nullable IDrugComponent seed) {
+        return DrugPlantMeta.builder()
+                            .result(result)
+                            .seed(seed)
+                            .harvestAmount(1)
+                            .growthTime(5, TimeUnit.MINUTES)
+                            .seedDropProbability(1)
+                            .seedDropAmount(1)
+                            .harvestProbability(1)
+                            .build();
     }
 
     long growthTime(@NotNull TimeUnit timeUnit);
@@ -23,7 +43,7 @@ public interface DrugPlantMeta extends SimilarLike<DrugPlantMeta> {
 
     @NotNull Optional<@NotNull IDrugComponent> seed();
 
-    @NotNull IDrug drug();
+    @NotNull IDrugComponent result();
 
     double harvestSuccessProbability();
 
@@ -40,7 +60,7 @@ public interface DrugPlantMeta extends SimilarLike<DrugPlantMeta> {
                 && this.seedDropProbability() == other.seedDropProbability()
                 && this.harvestSuccessProbability() == other.harvestSuccessProbability()
                 && this.seed().equals(other.seed())
-                && this.drug().equals(other.drug());
+                && this.result().equals(other.result());
     }
 
 }
