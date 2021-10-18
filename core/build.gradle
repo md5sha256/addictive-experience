@@ -20,13 +20,7 @@ repositories {
         url = uri("https://jitpack.io")
         content {
             includeModule("com.github.MilkBowl", "VaultAPI")
-        }
-    }
-    maven {
-        name = "minebench-repo"
-        url = uri("https://repo.minebench.de/")
-        content {
-            includeModule("de.themoep", "inventorygui")
+            includeModule("com.github.Phoenix616", "InventoryGui")
         }
     }
     maven {
@@ -42,21 +36,21 @@ dependencies {
     implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT") {
         exclude(group: "net.kyori", module: "adventure-api")
     }
-    implementation("net.kyori:adventure-text-serializer-plain:4.7.0") {
+    implementation('net.kyori:adventure-text-serializer-plain:4.9.2') {
         exclude(group: "net.kyori", "module": "adventure-api")
     }
 
     implementation("io.papermc:paperlib:1.0.6")
-    implementation("org.spongepowered:configurate-yaml:4.0.0")
-    implementation("org.spongepowered:configurate-gson:4.0.0")
-    implementation("de.themoep:inventorygui:1.4.3-SNAPSHOT")
+    implementation('org.spongepowered:configurate-yaml:4.1.2')
+    implementation('org.spongepowered:configurate-gson:4.1.2')
+    implementation('com.github.Phoenix616:InventoryGui:639860fee')
     implementation("com.github.md5sha256:spigot-utils:0.1.0")
-    implementation("cloud.commandframework:cloud-paper:1.5.0-SNAPSHOT")
-    implementation("cloud.commandframework:cloud-minecraft-extras:1.5.0-SNAPSHOT")
-    implementation("cloud.commandframework:cloud-annotations:1.5.0-SNAPSHOT")
+    implementation('cloud.commandframework:cloud-paper:1.5.0')
+    implementation('cloud.commandframework:cloud-minecraft-extras:1.5.0')
+    implementation('cloud.commandframework:cloud-annotations:1.5.0')
 
-    compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
-    compileOnly("org.jetbrains:annotations:20.1.0")
+    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly('org.jetbrains:annotations:22.0.0')
 
 
     implementation("com.google.inject:guice:5.0.1")
@@ -66,9 +60,9 @@ dependencies {
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
 
-    testCompileOnly("org.junit.jupiter:junit-jupiter-api:5.7.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.16:1.0.0")
+    testCompileOnly('org.junit.jupiter:junit-jupiter-api:5.8.1')
+    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.8.1')
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.17:1.10.1")
     testImplementation(testFixtures(project(":api")))
 }
 
@@ -92,9 +86,9 @@ shadowJar {
         exclude(dependency("com.google.guava:guava:30.1-jre"))
         exclude(dependency("com.google.errorprone:error_prone_annotations:2.3.4"))
         exclude(dependency("com.google.code.gson:gson:2.8.0"))
-        exclude(dependency("net.kyori:adventure-api:4.7.0"))
-        exclude(dependency("net.kyori:adventure-key:4.7.0"))
-        exclude(dependency("net.kyori:adventure-bom:4.7.0"))
+        exclude(dependency("net.kyori:adventure-api:4.9.2"))
+        exclude(dependency("net.kyori:adventure-key:4.9.2"))
+        exclude(dependency("net.kyori:adventure-bom:4.9.2"))
         exclude(dependency("net.kyori:examination-api:1.1.0"))
         exclude(dependency("net.kyori:examination-string:1.1.0"))
     }
