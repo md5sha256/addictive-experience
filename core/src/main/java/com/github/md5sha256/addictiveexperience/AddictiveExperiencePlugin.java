@@ -66,6 +66,7 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
                 AddictiveExperienceConfiguration.class);
         this.drugRegistry = injector.getInstance(DrugRegistry.class);
         this.plantHandler = injector.getInstance(IPlantHandler.class);
+        getServer().getPluginManager().registerEvents(this.plantHandler, this);
         this.injector = injector;
     }
 
