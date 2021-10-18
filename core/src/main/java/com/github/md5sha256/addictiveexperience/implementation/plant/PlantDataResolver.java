@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.Map;
 
-interface PlantDataResolver {
+public interface PlantDataResolver {
 
     @NotNull Map<Long, @NotNull DrugPlantData> loadData(@NotNull ChunkPosition chunk);
 

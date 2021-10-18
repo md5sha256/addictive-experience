@@ -58,4 +58,13 @@ public final class DrugPlantDataImpl implements DrugPlantData {
         return this.stopwatch;
     }
 
+    @Override
+    public String toString() {
+        return "DrugPlantDataImpl{" +
+                "meta=" + meta +
+                ", startTimeEpochMilli=" + startTimeEpochMilli +
+                ", stopwatch=" + stopwatch +
+                ", position=" + position +
+                '}';
+    }
 }

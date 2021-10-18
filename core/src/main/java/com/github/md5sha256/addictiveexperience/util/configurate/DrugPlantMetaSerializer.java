@@ -2,6 +2,7 @@ package com.github.md5sha256.addictiveexperience.util.configurate;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.drugs.impl.DrugPlantMetaBuilder;
 import com.google.inject.Inject;
@@ -22,6 +23,7 @@ public final class DrugPlantMetaSerializer implements TypeSerializer<DrugPlantMe
     private static final String KEY_SEED = "seed";
     private static final String KEY_HARVEST_PROB = "harvest-probability";
     private static final String KEY_HARVEST_AMT = "harvest-amount";
+    private static final String KEY_RESULT = "result";
 
     private final DrugRegistry registry;
 
@@ -39,20 +41,32 @@ public final class DrugPlantMetaSerializer implements TypeSerializer<DrugPlantMe
         final ConfigurationNode seedDropProbability = node.node(KEY_SEED_DROP_PROB);
         final ConfigurationNode harvestProbability = node.node(KEY_HARVEST_PROB);
         final ConfigurationNode harvestAmount = node.node(KEY_HARVEST_AMT);
+        final ConfigurationNode result = node.node(KEY_RESULT);
         final DrugPlantMetaBuilder builder = DrugPlantMeta.builder();
         final Key keySeed = seed.get(Key.class);
+        final Key keyResult = result.get(Key.class);
         final IDrugComponent seedComponent;
+        final IDrug drugResult;
         if (keySeed != null) {
             seedComponent = this.registry.componentByKey(keySeed).orElse(null);
         } else {
             seedComponent = null;
         }
+        if (keyResult != null) {
+            drugResult = this.registry.drugByKey(keyResult).orElse(null);
+        } else {
+            drugResult = null;
+        }
+        if (drugResult == null) {
+            throw new SerializationException("Drug is null");
+        }
         builder.growthTimeMillis(growthTime.getLong())
-               .seed(seedComponent)
-               .seedDropAmount(seedDropAmount.getInt())
-               .seedDropProbability(seedDropProbability.getDouble())
-               .harvestProbability(harvestProbability.getDouble())
-               .harvestAmount(harvestAmount.getInt());
+                .seed(seedComponent)
+                .seedDropAmount(seedDropAmount.getInt())
+                .seedDropProbability(seedDropProbability.getDouble())
+                .harvestProbability(harvestProbability.getDouble())
+                .harvestAmount(harvestAmount.getInt())
+                .result(drugResult);
         try {
             return builder.build();
         } catch (IllegalArgumentException ex) {
@@ -80,5 +94,7 @@ public final class DrugPlantMetaSerializer implements TypeSerializer<DrugPlantMe
         harvestProbability.set(meta.harvestSuccessProbability());
         final ConfigurationNode harvestAmount = node.node(KEY_HARVEST_AMT);
         harvestAmount.set(meta.harvestAmount());
+        final ConfigurationNode drugResult = node.node(KEY_RESULT);
+        drugResult.set(meta.result().key());
     }
 }

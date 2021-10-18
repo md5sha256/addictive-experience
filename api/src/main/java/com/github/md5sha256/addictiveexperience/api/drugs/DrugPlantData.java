@@ -39,7 +39,7 @@ public interface DrugPlantData extends SimilarLike<DrugPlantData> {
 
     @Override
     default boolean isSimilar(@NotNull DrugPlantData other) {
-        return this.growthTimeElapsedMillis() == other.startTimeEpochMillis()
+        return this.growthTimeElapsedMillis() == other.growthTimeElapsedMillis()
                 && this.position().equals(other.position())
                 && this.meta().isSimilar(other.meta());
     }

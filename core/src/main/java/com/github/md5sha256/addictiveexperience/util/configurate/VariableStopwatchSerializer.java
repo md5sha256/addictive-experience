@@ -50,7 +50,7 @@ public class VariableStopwatchSerializer implements TypeSerializer<VariableStopw
         }
         final long nanos = stopwatch.elapsedNanos();
         final boolean running = stopwatch.isRunning();
-        node.node(KEY_NANOS, nanos);
-        node.node(KEY_RUNNING, running);
+        node.node(KEY_NANOS).set(nanos);
+        node.node(KEY_RUNNING).set(running);
     }
 }

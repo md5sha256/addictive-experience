@@ -1,4 +1,4 @@
-package com.github.md5sha256.addictiveexperience.tests;
+package com.github.md5sha256.addictiveexperience.implementation.drugs;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
@@ -8,9 +8,6 @@ import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.fixtures.DummyDrugImpl;
-import com.github.md5sha256.addictiveexperience.implementation.drugs.DrugItemDataFactory;
-import com.github.md5sha256.addictiveexperience.implementation.drugs.SimpleDrugItemDataFactory;
-import com.github.md5sha256.addictiveexperience.implementation.drugs.SimpleDrugRegistry;
 import com.github.md5sha256.addictiveexperience.implementation.forms.FormDefault;
 import net.kyori.adventure.key.Key;
 import org.bukkit.Material;

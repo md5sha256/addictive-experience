@@ -7,6 +7,7 @@ import com.github.md5sha256.spigotutils.blocks.BlockPosition;
 import com.github.md5sha256.spigotutils.blocks.ChunkPosition;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.world.ChunkLoadEvent;
@@ -20,33 +21,40 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
 public final class PlantHandlerImpl implements IPlantHandler {
 
-    private final PlantDataResolver resolver;
+    private final PlantDataResolverFactory resolverFactory;
 
+    private final Map<World, PlantDataResolver> resolverCache = new WeakHashMap<>();
     private final Map<ChunkPosition, Map<Long, DrugPlantData>> cache = new HashMap<>();
+    private final Collection<ChunkPosition> toRemove = new HashSet<>();
 
     private final BukkitTask task;
 
     @Inject
     public PlantHandlerImpl(@NotNull BukkitScheduler scheduler,
                             @NotNull Plugin plugin,
-                            @NotNull PlantDataResolver dataResolver) {
-        this.resolver = dataResolver;
+                            @NotNull PlantDataResolverFactory dataResolver) {
+        this.resolverFactory = dataResolver;
         long ticks = Common.toTicks(5, TimeUnit.SECONDS);
         this.task = scheduler.runTaskTimer(plugin, (Runnable) this::saveData, ticks, ticks);
     }
 
+    private @NotNull PlantDataResolver resolver(@NotNull World world) {
+        return this.resolverCache.computeIfAbsent(world, resolverFactory::createResolverForWorld);
+    }
+
     @Override
     public void addEntry(@NotNull BlockPosition position, @NotNull DrugPlantData data) {
-        this.cache.computeIfAbsent(new ChunkPosition(position.getChunk()),
-                                   (unused) -> new HashMap<>())
+        this.cache.computeIfAbsent(new ChunkPosition(position.getChunk()), x -> new HashMap<>())
                   .put(position.getPosition(), data);
     }
 
@@ -118,17 +126,21 @@ public final class PlantHandlerImpl implements IPlantHandler {
     @Override
     public void saveData() {
         for (Map.Entry<ChunkPosition, Map<Long, DrugPlantData>> entry : this.cache.entrySet()) {
-            this.resolver.saveData(entry.getKey(), entry.getValue().values());
+            resolver(entry.getKey().getWorld()).saveData(entry.getKey(), entry.getValue().values());
         }
     }
 
     @Override
     public void loadData(@NotNull ChunkPosition chunk) {
-        final Map<Long, DrugPlantData> data = this.resolver.loadData(chunk);
+        final Map<Long, DrugPlantData> data = resolver(chunk.getWorld()).loadData(chunk);
+        if (data.isEmpty()) {
+            return;
+        }
         for (DrugPlantData plantData : data.values()) {
             plantData.elapsed().start();
         }
-        this.cache.put(chunk, data);
+        // Don't overwrite cached data
+        this.cache.putIfAbsent(chunk, data);
     }
 
     @Override
@@ -136,12 +148,13 @@ public final class PlantHandlerImpl implements IPlantHandler {
         final Collection<DrugPlantData> data = this.cache
                 .getOrDefault(chunk, Collections.emptyMap())
                 .values();
-        this.resolver.saveData(chunk, data);
+        resolver(chunk.getWorld()).saveData(chunk, data);
     }
 
     public void shutdown() {
         if (!this.task.isCancelled()) {
             this.task.cancel();
+            saveData();
             unregisterEvents();
         }
     }
@@ -154,18 +167,20 @@ public final class PlantHandlerImpl implements IPlantHandler {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onChunkUnload(@NotNull ChunkUnloadEvent event) {
         final ChunkPosition position = new ChunkPosition(event.getChunk());
+        final PlantDataResolver resolver = resolver(event.getWorld());
+        if (this.toRemove.remove(position)) {
+            this.cache.remove(position);
+            resolver.clearData(position);
+            return;
+        }
         final Map<Long, DrugPlantData> data = this.cache.get(position);
-        final Collection<DrugPlantData> toSave;
         if (data != null) {
             for (DrugPlantData plantData : data.values()) {
                 // Pause the plant data
                 plantData.elapsed().stop();
             }
-            toSave = data.values();
-        } else {
-            toSave = Collections.emptySet();
+            resolver.saveData(position, data.values());
         }
-        this.resolver.saveData(position, toSave);
     }
 
 }
