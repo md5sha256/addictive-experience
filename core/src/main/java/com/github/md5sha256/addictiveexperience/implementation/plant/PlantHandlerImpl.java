@@ -35,7 +35,6 @@ public final class PlantHandlerImpl implements IPlantHandler {
 
     private final Map<World, PlantDataResolver> resolverCache = new WeakHashMap<>();
     private final Map<ChunkPosition, Map<Long, DrugPlantData>> cache = new HashMap<>();
-    private final Collection<ChunkPosition> toRemove = new HashSet<>();
 
     private final BukkitTask task;
 
@@ -168,11 +167,6 @@ public final class PlantHandlerImpl implements IPlantHandler {
     public void onChunkUnload(@NotNull ChunkUnloadEvent event) {
         final ChunkPosition position = new ChunkPosition(event.getChunk());
         final PlantDataResolver resolver = resolver(event.getWorld());
-        if (this.toRemove.remove(position)) {
-            this.cache.remove(position);
-            resolver.clearData(position);
-            return;
-        }
         final Map<Long, DrugPlantData> data = this.cache.get(position);
         if (data != null) {
             for (DrugPlantData plantData : data.values()) {
@@ -180,6 +174,8 @@ public final class PlantHandlerImpl implements IPlantHandler {
                 plantData.elapsed().stop();
             }
             resolver.saveData(position, data.values());
+        } else {
+            resolver.clearData(position);
         }
     }
 
