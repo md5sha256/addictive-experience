@@ -1,4 +1,4 @@
-package com.github.md5sha256.addictiveexperience.api.enchantment;
+package com.github.md5sha256.addictiveexperience.api.effect;
 
 import com.github.md5sha256.addictiveexperience.api.util.SimilarLike;
 import com.github.md5sha256.spigotutils.timing.VariableStopwatch;
@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
-public interface EnchantmentData extends SimilarLike<EnchantmentData> {
+public interface EffectData extends SimilarLike<EffectData> {
 
     @NotNull VariableStopwatch elapsed();
 
@@ -19,7 +19,7 @@ public interface EnchantmentData extends SimilarLike<EnchantmentData> {
     long remainingDuration(@NotNull TimeUnit timeUnit);
 
     @Override
-    default boolean isSimilar(@NotNull EnchantmentData other) {
+    default boolean isSimilar(@NotNull EffectData other) {
         return this.durationMillis() == other.durationMillis()
                 && this.remainingDurationMillis() == other.remainingDurationMillis();
     }

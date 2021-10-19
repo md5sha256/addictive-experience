@@ -1,6 +1,6 @@
-package com.github.md5sha256.addictiveexperience.implementation.enchantment;
+package com.github.md5sha256.addictiveexperience.implementation.effects;
 
-import com.github.md5sha256.addictiveexperience.api.enchantment.EnchantmentData;
+import com.github.md5sha256.addictiveexperience.api.effect.EffectData;
 import com.github.md5sha256.addictiveexperience.util.configurate.AdventureKeySerializer;
 import com.github.md5sha256.addictiveexperience.util.configurate.VariableStopwatchSerializer;
 import com.github.md5sha256.spigotutils.timing.VariableStopwatch;
@@ -33,9 +33,9 @@ import java.util.Collections;
 import java.util.Map;
 
 @Singleton
-final class PDCResolver implements CustomEnchantmentResolver {
+final class PDCResolver implements CustomEffectResolver {
 
-    private static final TypeToken<Map<Key, EnchantmentData>> dataType = new TypeToken<>() {};
+    private static final TypeToken<Map<Key, EffectData>> dataType = new TypeToken<>() {};
 
     private final ConfigurationOptions options;
     private final NamespacedKey keyData;
@@ -66,9 +66,9 @@ final class PDCResolver implements CustomEnchantmentResolver {
                 .build();
     }
 
-    private @NotNull Map<Key, EnchantmentData> loadData(byte[] bytes) {
+    private @NotNull Map<Key, EffectData> loadData(byte[] bytes) {
         final ConfigurationLoader<?> loader = loader(bytes);
-        final Map<Key, EnchantmentData> map;
+        final Map<Key, EffectData> map;
         try {
             final ConfigurationNode node = loader.load();
             map = node.get(dataType);
@@ -84,7 +84,7 @@ final class PDCResolver implements CustomEnchantmentResolver {
     }
 
     @Override
-    public @NotNull Map<Key, EnchantmentData> loadData(@NotNull PersistentDataHolder holder) {
+    public @NotNull Map<Key, EffectData> loadData(@NotNull PersistentDataHolder holder) {
         final PersistentDataContainer root = holder.getPersistentDataContainer();
         final byte[] bytes = root.getOrDefault(this.keyData, PersistentDataType.BYTE_ARRAY, new byte[0]);
         if (bytes.length == 0) {
@@ -100,7 +100,7 @@ final class PDCResolver implements CustomEnchantmentResolver {
 
     @Override
     public void saveData(@NotNull PersistentDataHolder holder,
-                         @NotNull Map<Key, EnchantmentData> dataMap) {
+                         @NotNull Map<Key, EffectData> dataMap) {
         if (dataMap.isEmpty()) {
             clearData(holder);
             return;
@@ -111,7 +111,7 @@ final class PDCResolver implements CustomEnchantmentResolver {
 
     }
 
-    private byte[] serializeData(@NotNull Map<Key, EnchantmentData> dataMap) {
+    private byte[] serializeData(@NotNull Map<Key, EffectData> dataMap) {
         if (dataMap.isEmpty()) {
             return new byte[0];
         }

@@ -1,6 +1,6 @@
-package com.github.md5sha256.addictiveexperience.implementation.enchantment;
+package com.github.md5sha256.addictiveexperience.implementation.effects;
 
-import com.github.md5sha256.addictiveexperience.api.enchantment.EnchantmentData;
+import com.github.md5sha256.addictiveexperience.api.effect.EffectData;
 import com.github.md5sha256.spigotutils.timing.VariableStopwatch;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
@@ -10,22 +10,21 @@ import org.spongepowered.configurate.objectmapping.meta.Setting;
 import java.util.concurrent.TimeUnit;
 
 @ConfigSerializable
-public class SimpleEnchantmentData implements EnchantmentData {
+public class SimpleEffectData implements EffectData {
 
     @Setting
     @Required
     private VariableStopwatch elapsed;
 
-
     @Setting
     @Required
     private long durationMillis;
 
-    SimpleEnchantmentData() {
+    SimpleEffectData() {
 
     }
 
-    public SimpleEnchantmentData(@NotNull VariableStopwatch stopwatch, long durationMillis) {
+    public SimpleEffectData(@NotNull VariableStopwatch stopwatch, long durationMillis) {
         this.elapsed = stopwatch;
         this.durationMillis = durationMillis;
     }

@@ -1,21 +1,22 @@
-package com.github.md5sha256.addictiveexperience.api.enchantment;
+package com.github.md5sha256.addictiveexperience.api.effect;
 
 import net.kyori.adventure.key.Keyed;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
-public interface CustomEnchantment extends Keyed {
+public interface CustomEffect extends Keyed {
 
     @NotNull String name();
 
     @NotNull Component displayName();
 
-    void applyTo(@NotNull Entity entity);
+    void applyTo(@NotNull LivingEntity entity);
 
-    void removeFrom(@NotNull Entity entity);
+    void removeFrom(@NotNull LivingEntity entity);
 
     long duration(@NotNull TimeUnit timeUnit);
 
