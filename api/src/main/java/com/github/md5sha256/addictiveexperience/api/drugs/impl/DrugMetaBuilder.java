@@ -4,6 +4,7 @@ import com.github.md5sha256.addictiveexperience.api.effect.CustomEffect;
 import com.github.md5sha256.addictiveexperience.api.slur.ISlurEffect;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import org.bukkit.potion.PotionEffect;
+import org.checkerframework.checker.units.qual.N;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,7 +48,7 @@ public final class DrugMetaBuilder {
         this.overdoseThreshold = meta.overdoseThreshold();
     }
 
-    public DrugMetaBuilder potionEffects(@NotNull PotionEffect... effects) {
+    public DrugMetaBuilder potionEffects(@NotNull PotionEffect @NotNull ... effects) {
         return potionEffects(Arrays.asList(Objects.requireNonNull(effects)));
     }
 
@@ -56,6 +57,19 @@ public final class DrugMetaBuilder {
             this.potionEffects = (Set<PotionEffect>) effects;
         } else {
             this.potionEffects = new HashSet<>(Objects.requireNonNull(effects));
+        }
+        return this;
+    }
+
+    public DrugMetaBuilder customEffects(@NotNull CustomEffect @NotNull ... effects) {
+        return customEffects(Arrays.asList(effects));
+    }
+
+    public DrugMetaBuilder customEffects(@NotNull Collection<CustomEffect> effects) {
+        if (effects instanceof Set) {
+            this.customEffects = (Set<CustomEffect>) effects;
+        } else {
+            this.customEffects = new HashSet<>(Objects.requireNonNull(effects));
         }
         return this;
     }

@@ -4,11 +4,13 @@ import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import com.github.md5sha256.addictiveexperience.api.drugs.PassiveEffect;
+import com.github.md5sha256.addictiveexperience.api.effect.CustomEffect;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.effects.EffectRandomDeath;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.Opium;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
+import com.github.md5sha256.spigotutils.Common;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import net.kyori.adventure.text.Component;
@@ -29,6 +31,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
@@ -50,6 +53,11 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
               Material.WHITE_DYE,
               "addictiveexperience.consumefentanyl");
         this.recipe = createRecipe(plugin, opium);
+        final CustomEffect effectRandomDeath = randomDeath.createEffect(
+                Common.toTicks(2, TimeUnit.MINUTES),
+                TimeUnit.SECONDS.toMillis(30),
+                0.5D
+        );
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .overdoseThreshold(50)
@@ -57,6 +65,7 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
                 .potionEffects(
                         new PotionEffect(PotionEffectType.CONFUSION, 200, 3)
                 )
+                .customEffects(effectRandomDeath)
                 .build();
         this.effects = Collections.singleton(randomDeath);
         drugRegistry.registerComponent(this);
