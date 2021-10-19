@@ -16,6 +16,7 @@ import com.github.md5sha256.addictiveexperience.implementation.FormHandlerSyring
 import com.github.md5sha256.addictiveexperience.implementation.SlurEffectStateImpl;
 import com.github.md5sha256.addictiveexperience.implementation.commands.AddictiveExperienceCommandHandler;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.SimpleDrugRegistry;
+import com.github.md5sha256.addictiveexperience.implementation.enchantment.EnchantmentModule;
 import com.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
 import com.github.md5sha256.addictiveexperience.implementation.plant.PlantHandlerImpl;
 import com.github.md5sha256.addictiveexperience.implementation.plant.PlantModule;
@@ -49,6 +50,9 @@ public final class AddictiveExperienceModule extends AbstractModule {
         bind(AddictiveExperienceConfiguration.class).to(SimpleAddictiveConfiguration.class);
         bind(ShopConfiguration.class).to(SimpleShopConfiguration.class).asEagerSingleton();
         bind(DrugRegistry.class).to(SimpleDrugRegistry.class).asEagerSingleton();
+
+        // Enchantments
+        install(new EnchantmentModule());
 
         // Drugs Implementation
         install(new DrugsModule());

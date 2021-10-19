@@ -73,7 +73,7 @@ public class DataMapper<K> {
         this.parentMap.values().removeIf(Map::isEmpty);
     }
 
-    public @NotNull Map<@NotNull K, @NotNull Map<@NotNull DataKey<?>, @NotNull ?>> mapCopy() {
+    public @NotNull Map<@NotNull K, @NotNull Map<@NotNull DataKey<?>, ?>> mapCopy() {
         final Map<K, Map<DataKey<?>, ?>> copy = new HashMap<>(this.parentMap.size());
         for (Map.Entry<K, Map<DataKey<?>, ?>> entry : this.parentMap.entrySet()) {
             final Map<DataKey<?>, ?> mapCopy = new HashMap<>(entry.getValue());

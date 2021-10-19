@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class PDCResolver implements PlantDataResolver {
+final class PDCResolver implements PlantDataResolver {
 
     private final NamespacedKey key;
     private final ConfigurationOptions options;
