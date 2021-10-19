@@ -56,7 +56,7 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
         final CustomEffect effectRandomDeath = randomDeath.createEffect(
                 Common.toTicks(2, TimeUnit.MINUTES),
                 TimeUnit.SECONDS.toMillis(30),
-                0.5D
+                0.1D
         );
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
