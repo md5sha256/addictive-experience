@@ -23,10 +23,11 @@ import com.github.md5sha256.addictiveexperience.implementation.plant.PlantModule
 import com.github.md5sha256.addictiveexperience.implementation.shop.DrugShopUI;
 import com.github.md5sha256.spigotutils.module.BukkitPlatformModule;
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+
+import javax.inject.Singleton;
 
 public final class AddictiveExperienceModule extends AbstractModule {
 

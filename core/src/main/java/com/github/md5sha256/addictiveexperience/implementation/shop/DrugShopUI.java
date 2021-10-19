@@ -8,7 +8,6 @@ import com.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import com.github.md5sha256.addictiveexperience.configuration.ShopConfiguration;
 import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import de.themoep.inventorygui.GuiElement;
 import de.themoep.inventorygui.GuiElementGroup;
 import de.themoep.inventorygui.GuiPageElement;
@@ -26,6 +25,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Singleton;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;

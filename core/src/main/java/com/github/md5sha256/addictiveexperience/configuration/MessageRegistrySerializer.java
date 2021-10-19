@@ -25,7 +25,7 @@ public class MessageRegistrySerializer extends ScalarSerializer<MessageRegistry>
     }
 
     @Override
-    public MessageRegistry deserialize(Type type, Object obj) throws SerializationException {
+    public MessageRegistry deserialize(Type type, Object obj) {
         final Map<MessageKey, Message> messageMap = new HashMap<>();
         if (obj instanceof ConfigurationNode) {
             final ConfigurationNode root = (ConfigurationNode) obj;

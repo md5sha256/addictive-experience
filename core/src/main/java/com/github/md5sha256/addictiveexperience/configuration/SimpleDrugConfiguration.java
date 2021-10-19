@@ -22,7 +22,7 @@ public class SimpleDrugConfiguration implements DrugConfiguration {
 
     @Override
     public void drugs(@NotNull final Collection<IDrug> drugs) {
-
+        drugs.forEach(drug -> this.drugs.put(drug, drug.defaultMeta()));
     }
 
     @Override
@@ -32,6 +32,6 @@ public class SimpleDrugConfiguration implements DrugConfiguration {
 
     @Override
     public void drugMeta(@NotNull final Map<IDrug, @NotNull DrugMeta> metaMap) {
-
+        this.drugs.putAll(metaMap);
     }
 }
