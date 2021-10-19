@@ -16,12 +16,11 @@ import java.util.concurrent.TimeUnit;
 
 public class TestDrugPlantMeta {
 
-    private static ServerMock mock;
     private static IDrug drug;
 
     @BeforeAll
     public static void init() {
-        mock = MockBukkit.mock();
+        ServerMock mock = MockBukkit.mock();
         drug = new DummyDrugBuilder(mock.getItemFactory())
                 .material(Material.IRON_NUGGET)
                 .name("test")
@@ -30,7 +29,7 @@ public class TestDrugPlantMeta {
     }
 
     @AfterAll
-    public static void cleanup() {
+    public static void teardown() {
         MockBukkit.unmock();
     }
 

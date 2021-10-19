@@ -2,6 +2,7 @@ package com.github.md5sha256.addictiveexperience.test;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.impl.DrugMetaBuilder;
+import com.github.md5sha256.addictiveexperience.api.effect.CustomEffect;
 import org.bukkit.potion.PotionEffect;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -46,6 +47,10 @@ public class TestDrugMeta {
                                 () -> builder.potionEffects((Collection<PotionEffect>) null));
         Assertions.assertThrows(NullPointerException.class,
                                 () -> builder.potionEffects((PotionEffect[]) null));
+        Assertions.assertThrows(NullPointerException.class,
+                                () -> builder.customEffects((Collection<CustomEffect>) null));
+        Assertions.assertThrows(NullPointerException.class,
+                                () -> builder.customEffects((CustomEffect[]) null));
         final DrugMetaBuilder valid = builder.enabled(false)
                                              .overdoseThreshold(10)
                                              .slurDurationMillis(1000);

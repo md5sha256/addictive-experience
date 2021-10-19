@@ -23,16 +23,14 @@ import java.util.concurrent.TimeUnit;
 
 public class TestDrugPlantData {
 
-    private static ServerMock mock;
-    private static IDrug drug;
     private static DrugPlantMeta meta;
     private static World world;
 
     @BeforeAll
     public static void init() {
-        mock = MockBukkit.mock();
+        ServerMock mock = MockBukkit.mock();
         world = new WorldMock();
-        drug = new DummyDrugBuilder(mock.getItemFactory())
+        IDrug drug = new DummyDrugBuilder(mock.getItemFactory())
                 .material(Material.IRON_INGOT)
                 .name("test")
                 .permission("permission")
@@ -48,7 +46,7 @@ public class TestDrugPlantData {
     }
 
     @AfterAll
-    public static void cleanup() {
+    public static void teardown() {
         MockBukkit.unmock();
     }
 

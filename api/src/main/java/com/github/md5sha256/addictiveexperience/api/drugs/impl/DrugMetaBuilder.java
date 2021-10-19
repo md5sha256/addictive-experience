@@ -98,6 +98,9 @@ public final class DrugMetaBuilder {
         if (this.potionEffects == null) {
             this.potionEffects = Collections.emptySet();
         }
+        if (this.customEffects == null) {
+            this.customEffects = Collections.emptySet();
+        }
         if (this.slurDurationMillis < 0) {
             throw new IllegalArgumentException("Invalid slur duration: " + this.slurDurationMillis);
         }

@@ -34,7 +34,7 @@ public class TestSimpleItemDataFactory {
     }
 
     @AfterAll
-    public static void cleanUp() {
+    public static void teardown() {
         MockBukkit.unmock();
     }
 
