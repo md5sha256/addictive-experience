@@ -84,5 +84,33 @@ public class TestDrugPlantMeta {
         Assertions.assertFalse(meta.seed().isPresent());
     }
 
+    @Test
+    public void testBuilderValidation() {
+        final DrugPlantMeta valid = DrugPlantMeta.builder()
+                .result(drug)
+                .growthTime(5, TimeUnit.MINUTES)
+                .harvestAmount(10)
+                .harvestProbability(0.5)
+                .seedDropAmount(5)
+                .seedDropProbability(0.25)
+                .seed(null)
+                .build();
+        final DrugPlantMetaBuilder invalidResult = valid.toBuilder().result(null);
+        Assertions.assertThrows(IllegalArgumentException.class, invalidResult::build);
+        final DrugPlantMetaBuilder invalidGrowthTime = valid.toBuilder().growthTimeMillis(-1);
+        Assertions.assertThrows(IllegalArgumentException.class, invalidGrowthTime::build);
+        final DrugPlantMetaBuilder invalidHarvestAmount = valid.toBuilder().harvestAmount(-1);
+        Assertions.assertThrows(IllegalArgumentException.class, invalidHarvestAmount::build);
+        final DrugPlantMetaBuilder invalidSeedDropAmount = valid.toBuilder().seedDropAmount(-1);
+        Assertions.assertThrows(IllegalArgumentException.class, invalidSeedDropAmount::build);
+        final DrugPlantMetaBuilder invalidSeedDropProbability = valid.toBuilder().seedDropProbability(-0.1);
+        Assertions.assertThrows(IllegalArgumentException.class, invalidSeedDropProbability::build);
+        invalidSeedDropProbability.seedDropProbability(1.1);
+        Assertions.assertThrows(IllegalArgumentException.class, invalidSeedDropProbability::build);
+        final DrugPlantMetaBuilder invalidHarvestProbability = valid.toBuilder().harvestProbability(-0.1);
+        Assertions.assertThrows(IllegalArgumentException.class, invalidHarvestProbability::build);
+        invalidHarvestProbability.harvestProbability(1.1);
+        Assertions.assertThrows(IllegalArgumentException.class, invalidHarvestProbability::build);
+    }
 
 }

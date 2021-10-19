@@ -75,6 +75,38 @@ public class TestDrugPlantData {
     }
 
     @Test
+    public void testBuilderValidation() {
+        final BlockPosition position = new BlockPosition(world, 1, 1, 1);
+        final DrugPlantDataBuilder emptyStopwatch = DrugPlantData.builder()
+                .elapsed(null)
+                .position(position)
+                .meta(meta)
+                .startTimeEpochMilli(0);
+        try {
+            DrugPlantData plantData = emptyStopwatch.build();
+            Assertions.assertNotNull(plantData.elapsed());
+        } catch (Exception ex) {
+            Assertions.fail(ex);
+            return;
+        }
+        final DrugPlantDataBuilder invalidStart = DrugPlantData.builder()
+                .position(position)
+                .meta(meta)
+                .startTimeEpochMilli(-1);
+        Assertions.assertThrows(IllegalArgumentException.class, invalidStart::build, "Invalid start time");
+        final DrugPlantDataBuilder invalidPosition = DrugPlantData.builder()
+                .position(null)
+                .meta(meta)
+                .startTimeEpochMilli(0);
+        Assertions.assertThrows(IllegalArgumentException.class, invalidPosition::build, "Position cannot be null");
+        final DrugPlantDataBuilder invalidMeta = DrugPlantData.builder()
+                .position(position)
+                .meta(null)
+                .startTimeEpochMilli(0);
+        Assertions.assertThrows(IllegalArgumentException.class, invalidMeta::build, "Meta cannot be null");
+    }
+
+    @Test
     public void testDrugPlantDataGetters() {
         final IStopwatch stopwatch = Stopwatches.variableStopwatch(GuavaAdapter.ofStarted());
         final DrugPlantData data = DrugPlantData.builder()

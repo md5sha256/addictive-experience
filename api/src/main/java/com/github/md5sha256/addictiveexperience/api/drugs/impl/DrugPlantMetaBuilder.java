@@ -83,10 +83,10 @@ public final class DrugPlantMetaBuilder {
     private void validate() {
         Validate.isTrue(growthTimeMillis > 0, "Invalid growth time: ", growthTimeMillis);
         Validate.isTrue(seedDropAmount >= 0, "Invalid seed drop amount: ", seedDropAmount);
-        Validate.isTrue(seedDropProbability >= 0,
+        Validate.isTrue(seedDropProbability >= 0 && seedDropProbability <= 1,
                         "Invalid seed drop probability: ",
                         seedDropProbability);
-        Validate.isTrue(harvestProbability >= 0,
+        Validate.isTrue(harvestProbability >= 0 && harvestProbability <= 1,
                         "Invalid harvest probability: ",
                         harvestProbability);
         Validate.isTrue(harvestAmount >= 0, "Invalid harvest amount: ", harvestAmount);
