@@ -6,7 +6,7 @@ import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import com.github.md5sha256.addictiveexperience.configuration.ShopConfiguration;
-import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
+import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.google.inject.Inject;
 import de.themoep.inventorygui.GuiElement;
 import de.themoep.inventorygui.GuiElementGroup;

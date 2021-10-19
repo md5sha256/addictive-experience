@@ -8,8 +8,8 @@ import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.Opium;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.PlantOpium;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.SeedOpium;
-import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
+import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import net.kyori.adventure.text.Component;

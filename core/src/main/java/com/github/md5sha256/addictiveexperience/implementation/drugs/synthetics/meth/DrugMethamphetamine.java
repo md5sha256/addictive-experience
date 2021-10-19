@@ -9,8 +9,8 @@ import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.Iodine;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.Phosphorus;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.PlantEphedrine;
-import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
+import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import net.kyori.adventure.text.Component;

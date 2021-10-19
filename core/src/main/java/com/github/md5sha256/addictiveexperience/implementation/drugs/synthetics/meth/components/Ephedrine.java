@@ -3,8 +3,8 @@ package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
-import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
+import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import net.kyori.adventure.text.Component;

@@ -9,8 +9,8 @@ import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.MethylChloride;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.PlantSafrole;
 import com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.SeedSafrole;
-import com.github.md5sha256.addictiveexperience.util.AdventureUtils;
 import com.github.md5sha256.addictiveexperience.util.Utils;
+import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import net.kyori.adventure.text.Component;
