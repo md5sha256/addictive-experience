@@ -129,6 +129,16 @@ public final class PlantHandlerImpl implements IPlantHandler {
         }
     }
 
+
+    @Override
+    public void saveData(@NotNull ChunkPosition chunk) {
+        final Collection<DrugPlantData> data = this.cache
+                .getOrDefault(chunk, Collections.emptyMap())
+                .values();
+        resolver(chunk.getWorld()).saveData(chunk, data);
+    }
+
+
     @Override
     public void loadData(@NotNull ChunkPosition chunk) {
         final Map<Long, DrugPlantData> data = resolver(chunk.getWorld()).loadData(chunk);
@@ -140,14 +150,6 @@ public final class PlantHandlerImpl implements IPlantHandler {
         }
         // Don't overwrite cached data
         this.cache.putIfAbsent(chunk, data);
-    }
-
-    @Override
-    public void saveData(@NotNull ChunkPosition chunk) {
-        final Collection<DrugPlantData> data = this.cache
-                .getOrDefault(chunk, Collections.emptyMap())
-                .values();
-        resolver(chunk.getWorld()).saveData(chunk, data);
     }
 
     public void shutdown() {

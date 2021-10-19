@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public interface IPlantHandler extends DeregisterableListener {
+
     void addEntry(@NotNull BlockPosition position, @NotNull DrugPlantData data);
 
     void removeEntry(@NotNull BlockPosition position);
@@ -20,7 +21,8 @@ public interface IPlantHandler extends DeregisterableListener {
 
     void saveData();
 
+    void saveData(@NotNull ChunkPosition chunk);
+
     void loadData(@NotNull ChunkPosition chunk);
 
-    void saveData(@NotNull ChunkPosition chunk);
 }
