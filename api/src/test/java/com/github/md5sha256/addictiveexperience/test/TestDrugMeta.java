@@ -43,9 +43,9 @@ public class TestDrugMeta {
     public void testMetaBuilderValidation() {
         final DrugMetaBuilder builder = DrugMeta.builder();
         Assertions.assertThrows(NullPointerException.class,
-                                () -> builder.effects((Collection<PotionEffect>) null));
+                                () -> builder.potionEffects((Collection<PotionEffect>) null));
         Assertions.assertThrows(NullPointerException.class,
-                                () -> builder.effects((PotionEffect[]) null));
+                                () -> builder.potionEffects((PotionEffect[]) null));
         final DrugMetaBuilder valid = builder.enabled(false)
                                              .overdoseThreshold(10)
                                              .slurDurationMillis(1000);
@@ -73,7 +73,7 @@ public class TestDrugMeta {
         Assertions.assertEquals(10, meta.overdoseThreshold());
         Assertions.assertEquals(1000, meta.slurDurationMillis());
         Assertions.assertEquals(1, meta.slurDuration(TimeUnit.SECONDS));
-        Assertions.assertTrue(meta.effects().isEmpty());
+        Assertions.assertTrue(meta.potionEffects().isEmpty());
         Assertions.assertFalse(meta.slurEffect().isPresent());
     }
 

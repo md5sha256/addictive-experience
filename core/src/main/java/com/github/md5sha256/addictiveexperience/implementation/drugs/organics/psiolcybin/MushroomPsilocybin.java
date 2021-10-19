@@ -36,8 +36,8 @@ public class MushroomPsilocybin extends AbstractDrug implements IOrganic {
               "addictiveexperience.consumepsilocybin");
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
-                .effect(null)
-                .effects(
+                .slurEffect(null)
+                .potionEffects(
                         new PotionEffect(PotionEffectType.CONFUSION, 100, 2),
                         new PotionEffect(PotionEffectType.SPEED, 500, 5)
                 )

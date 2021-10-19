@@ -1,6 +1,7 @@
 package com.github.md5sha256.addictiveexperience.api.drugs;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.impl.DrugMetaBuilder;
+import com.github.md5sha256.addictiveexperience.api.effect.CustomEffect;
 import com.github.md5sha256.addictiveexperience.api.slur.ISlurEffect;
 import com.github.md5sha256.addictiveexperience.api.util.CollectionComparison;
 import com.github.md5sha256.addictiveexperience.api.util.DataKey;
@@ -19,9 +20,9 @@ public interface DrugMeta extends SimilarLike<DrugMeta> {
 
     @NotNull DrugMeta DEFAULT = builder()
             .enabled(true)
-            .effect(null)
-            .effects(Collections.emptySet())
+            .potionEffects(Collections.emptySet())
             .overdoseThreshold(1)
+            .slurEffect(null)
             .slurDurationMillis(TimeUnit.MINUTES.toMillis(5))
             .build();
 
@@ -38,7 +39,9 @@ public interface DrugMeta extends SimilarLike<DrugMeta> {
 
     long slurDurationMillis();
 
-    @NotNull Set<@NotNull PotionEffect> effects();
+    @NotNull Set<@NotNull PotionEffect> potionEffects();
+
+    @NotNull Set<@NotNull CustomEffect> customEffects();
 
     int overdoseThreshold();
 
@@ -51,7 +54,8 @@ public interface DrugMeta extends SimilarLike<DrugMeta> {
                 && this.slurDurationMillis() == other.slurDurationMillis()
                 && this.overdoseThreshold() == other.overdoseThreshold()
                 && this.slurEffect().equals(other.slurEffect())
-                && CollectionComparison.haveIdenticalElements(this.effects(), other.effects()));
+                && CollectionComparison.haveIdenticalElements(this.potionEffects(), other.potionEffects()))
+                && CollectionComparison.haveIdenticalElements(this.customEffects(), other.customEffects());
     }
 
 }

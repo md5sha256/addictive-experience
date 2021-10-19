@@ -1,7 +1,6 @@
 package com.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin;
 
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
-import com.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import com.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
@@ -54,9 +53,9 @@ public final class DrugHeroin extends AbstractDrug implements ISynthetic {
         this.recipe = createRecipe(plugin, morphine);
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
-                .effect(null)
+                .slurEffect(null)
                 .overdoseThreshold(40)
-                .effects(
+                .potionEffects(
                         new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 2),
                         new PotionEffect(PotionEffectType.BLINDNESS, 60, 2)
                 )

@@ -54,9 +54,9 @@ public final class DrugMethamphetamine extends AbstractDrug implements ISyntheti
         this.recipe = createRecipe(plugin, hcl, phosphorus, iodine, ephedrine);
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
-                .effect(null)
+                .slurEffect(null)
                 .overdoseThreshold(60)
-                .effects(
+                .potionEffects(
                         new PotionEffect(PotionEffectType.POISON, 300, 2),
                         new PotionEffect(PotionEffectType.FAST_DIGGING, 200, 2)
                 )

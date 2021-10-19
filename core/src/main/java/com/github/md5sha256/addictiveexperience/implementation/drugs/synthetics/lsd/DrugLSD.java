@@ -57,9 +57,9 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
         this.recipe = createRecipe(plugin, lysergicAcid, ethanol, chloroform);
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
-                .effect(null)
+                .slurEffect(null)
                 .overdoseThreshold(120)
-                .effects(
+                .potionEffects(
                         new PotionEffect(PotionEffectType.SPEED, 1000, 5),
                         new PotionEffect(PotionEffectType.BLINDNESS, 500, 4),
                         new PotionEffect(PotionEffectType.CONFUSION, 300, 5)

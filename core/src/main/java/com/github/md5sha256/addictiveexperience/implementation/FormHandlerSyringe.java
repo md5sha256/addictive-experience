@@ -6,7 +6,6 @@ import com.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
-import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import com.github.md5sha256.addictiveexperience.implementation.forms.FormSyringe;
 import com.github.md5sha256.addictiveexperience.util.Utils;
@@ -84,7 +83,7 @@ public final class FormHandlerSyringe extends AbstractFormHandler implements Lis
         target.sendMessage("prefix" + Utils
                 .legacyColorize(plugin.getConfig().getString(messagePathVictim)));
         // Add potion effects
-        this.drugRegistry.metaData(component, DrugMeta.KEY).map(DrugMeta::effects)
+        this.drugRegistry.metaData(component, DrugMeta.KEY).map(DrugMeta::potionEffects)
                          .ifPresent(target::addPotionEffects);
         // Manually update blood
         final DrugBloodData drugBloodData = this.drugHandler

@@ -53,8 +53,8 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .overdoseThreshold(50)
-                .effect(null)
-                .effects(
+                .slurEffect(null)
+                .potionEffects(
                         new PotionEffect(PotionEffectType.CONFUSION, 200, 3)
                 )
                 .build();

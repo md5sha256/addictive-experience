@@ -50,8 +50,8 @@ public final class DrugCocaine extends AbstractDrug implements ISynthetic {
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .overdoseThreshold(50)
-                .effect(null)
-                .effects(
+                .slurEffect(null)
+                .potionEffects(
                         new PotionEffect(PotionEffectType.SPEED, 400, 2),
                         new PotionEffect(PotionEffectType.JUMP, 300, 2)
                 )

@@ -53,9 +53,9 @@ public final class DrugEcstasy extends AbstractDrug {
         this.recipe = createRecipe(plugin, safrole, mcl, mercury);
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
-                .effect(null)
+                .slurEffect(null)
                 .overdoseThreshold(70)
-                .effects(
+                .potionEffects(
                         new PotionEffect(PotionEffectType.SPEED, 500, 2),
                         new PotionEffect(PotionEffectType.JUMP, 1000, 5)
                 )

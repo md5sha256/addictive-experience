@@ -6,7 +6,6 @@ import com.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
-import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import com.github.md5sha256.addictiveexperience.util.Utils;
@@ -60,7 +59,7 @@ public abstract class AbstractFormHandler {
         final IDrugForm drugForm = itemData.form();
         itemStack.setAmount(itemStack.getAmount() - 1);
         this.drugRegistry.metaData(drug, DrugMeta.KEY)
-                         .map(DrugMeta::effects)
+                         .map(DrugMeta::potionEffects)
                          .ifPresent(entity::addPotionEffects);
         this.drugHandler.bloodData(entity.getUniqueId())
                         .ifPresent(bloodData -> bloodData.incrementLevel(drug, 10));
@@ -72,7 +71,7 @@ public abstract class AbstractFormHandler {
         scheduleTask(() -> cooldownData.setUnblocked(playerUID, drug, drugForm), 20);
         // Apply the effects to the player
         final DrugMeta meta = this.drugRegistry.metaData(drug, DrugMeta.KEY).orElseThrow(() -> new IllegalStateException("Failed to get drug meta for drug: " + drug.identifierName()));
-        final Set<PotionEffect> effects = meta.effects();
+        final Set<PotionEffect> effects = meta.potionEffects();
         entity.addPotionEffects(effects);
         // Register slur effect
         this.slurEffectState.registerSlur(playerUID, drug);

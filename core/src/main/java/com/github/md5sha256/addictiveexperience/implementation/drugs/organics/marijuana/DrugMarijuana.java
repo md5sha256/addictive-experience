@@ -46,7 +46,7 @@ public final class DrugMarijuana extends AbstractDrug implements IOrganic {
                 DrugMeta.DEFAULT
                         .toBuilder()
                         .enabled(true)
-                        .effects(
+                        .potionEffects(
                                 new PotionEffect(PotionEffectType.INVISIBILITY, 100, 2),
                                 new PotionEffect(PotionEffectType.LEVITATION, 300, 2)
                         )

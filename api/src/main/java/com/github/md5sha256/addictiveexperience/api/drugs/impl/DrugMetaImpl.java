@@ -1,5 +1,6 @@
 package com.github.md5sha256.addictiveexperience.api.drugs.impl;
 
+import com.github.md5sha256.addictiveexperience.api.effect.CustomEffect;
 import com.github.md5sha256.addictiveexperience.api.slur.ISlurEffect;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import org.bukkit.potion.PotionEffect;
@@ -12,20 +13,23 @@ import java.util.concurrent.TimeUnit;
 
 public class DrugMetaImpl implements DrugMeta {
 
-    private final Set<PotionEffect> effects;
+    private final Set<PotionEffect> potionEffects;
+    private final Set<CustomEffect> customEffects;
     private final boolean enabled;
-    private final ISlurEffect effect;
+    private final ISlurEffect slurEffect;
     private final long slurDurationMillis;
     private final int overdoseThreshold;
 
-    DrugMetaImpl(@NotNull Set<@NotNull PotionEffect> effects,
+    DrugMetaImpl(@NotNull Set<@NotNull PotionEffect> potionEffects,
+                 @NotNull Set<@NotNull CustomEffect> customEffects,
                  boolean enabled,
-                 @Nullable ISlurEffect effect,
+                 @Nullable ISlurEffect slurEffect,
                  long slurDurationMillis,
                  int overdoseThreshold) {
-        this.effects = effects;
+        this.potionEffects = potionEffects;
+        this.customEffects = customEffects;
         this.enabled = enabled;
-        this.effect = effect;
+        this.slurEffect = slurEffect;
         this.slurDurationMillis = slurDurationMillis;
         this.overdoseThreshold = overdoseThreshold;
     }
@@ -37,7 +41,7 @@ public class DrugMetaImpl implements DrugMeta {
 
     @Override
     public @NotNull Optional<@NotNull ISlurEffect> slurEffect() {
-        return Optional.ofNullable(this.effect);
+        return Optional.ofNullable(this.slurEffect);
     }
 
     @Override
@@ -51,8 +55,13 @@ public class DrugMetaImpl implements DrugMeta {
     }
 
     @Override
-    public @NotNull Set<@NotNull PotionEffect> effects() {
-        return this.effects;
+    public @NotNull Set<@NotNull PotionEffect> potionEffects() {
+        return this.potionEffects;
+    }
+
+    @Override
+    public @NotNull Set<@NotNull CustomEffect> customEffects() {
+        return this.customEffects;
     }
 
     @Override
