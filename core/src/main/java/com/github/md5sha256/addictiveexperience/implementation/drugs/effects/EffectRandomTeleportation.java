@@ -78,7 +78,7 @@ public class EffectRandomTeleportation extends EffectRandomAction {
         }
 
         private double generateRandomCoordinate(double existing) {
-            final double distance = EffectRandomTeleportation.this.random.nextDouble() * halfRadius;
+            final double distance = EffectRandomTeleportation.this.random.nextDouble() * this.halfRadius;
             final boolean positive = EffectRandomTeleportation.this.random.nextBoolean();
             return positive ? existing + distance : existing - distance;
         }

@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -55,17 +56,17 @@ public final class SimpleDrugRegistry implements DrugRegistry {
 
     @Override
     public @NotNull Collection<@NotNull IDrug> drugs() {
-        return this.drugRegistry.values();
+        return Collections.unmodifiableCollection(this.drugRegistry.values());
     }
 
     @Override
     public @NotNull Collection<@NotNull IDrugComponent> components() {
-        return this.componentRegistry.values();
+        return Collections.unmodifiableCollection(this.componentRegistry.values());
     }
 
     @Override
     public @NotNull Collection<@NotNull IDrugForm> drugForms() {
-        return this.formRegistry.values();
+        return Collections.unmodifiableCollection(this.formRegistry.values());
     }
 
     @Override
@@ -76,8 +77,7 @@ public final class SimpleDrugRegistry implements DrugRegistry {
     @Override
     public void registerComponent(@NotNull final Collection<? extends @NotNull IDrugComponent> drugs) {
         for (IDrugComponent component : drugs) {
-            if (component instanceof IDrug) {
-                final IDrug drug = (IDrug) component;
+            if (component instanceof final IDrug drug) {
                 this.drugRegistry.register(component.key(), drug);
                 this.keyDrugs.register(component.key());
                 this.dataMapper.set(drug, DrugMeta.KEY, drug.defaultMeta());

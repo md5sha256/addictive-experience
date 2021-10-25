@@ -74,7 +74,7 @@ public class EffectRandomDeath extends EffectRandomAction {
         @Override
         protected void activate(@NotNull LivingEntity livingEntity) {
             // Effectively kill
-            livingEntity.damage(livingEntity.getHealth());
+            livingEntity.remove();
         }
 
     }

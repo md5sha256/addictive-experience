@@ -3,6 +3,8 @@ package com.github.md5sha256.addictiveexperience;
 import com.github.md5sha256.addictiveexperience.api.AddictiveExperience;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugHandler;
 import com.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrug;
+import com.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import com.github.md5sha256.addictiveexperience.api.drugs.IPlantHandler;
 import com.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import com.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
@@ -12,6 +14,7 @@ import com.github.md5sha256.addictiveexperience.module.AddictiveExperienceModule
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
+import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -94,6 +97,13 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
         } catch (Throwable ex) {
             ex.printStackTrace();
         }
+        registerRecipes(getServer());
         getLogger().info("Plugin Enabled!");
+    }
+
+    public void registerRecipes(@NotNull Server server) {
+        for (IDrugComponent component : this.drugRegistry.components()) {
+            component.recipe().ifPresent(server::addRecipe);
+        }
     }
 }

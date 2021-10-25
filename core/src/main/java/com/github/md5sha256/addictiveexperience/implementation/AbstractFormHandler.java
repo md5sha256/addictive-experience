@@ -41,11 +41,13 @@ public abstract class AbstractFormHandler {
         this.slurEffectState = Objects.requireNonNull(effectState);
     }
 
-    protected void checkPermissions(@NotNull CommandSender sender, @NotNull DrugItemData itemData) {
+    protected boolean checkPermissions(@NotNull CommandSender sender, @NotNull DrugItemData itemData) {
         final IDrug drug = itemData.drug();
-        if (!sender.hasPermission(drug.permission())) {
+        if (!drug.permission().isBlank() && !sender.hasPermission(drug.permission())) {
             sender.sendMessage(Utils.legacyColorize(this.plugin.getConfig().getString("nopermstoconsume")));
+            return false;
         }
+        return true;
     }
 
     protected abstract void sendMessageOnItemUse(@NotNull Player player, @NotNull DrugItemData used);
@@ -54,7 +56,9 @@ public abstract class AbstractFormHandler {
                                  @NotNull ItemStack itemStack,
                                  @NotNull DrugItemData itemData
     ) {
-        checkPermissions(entity, itemData);
+        if (!checkPermissions(entity, itemData)) {
+            return;
+        }
         final IDrug drug = itemData.drug();
         final IDrugForm drugForm = itemData.form();
         itemStack.setAmount(itemStack.getAmount() - 1);
@@ -79,7 +83,9 @@ public abstract class AbstractFormHandler {
 
     protected void handlePlayerDrugUse(@NotNull Player player, @NotNull EquipmentSlot equipmentSlot,
                                        @NotNull ItemStack itemStack, @NotNull DrugItemData itemData) {
-        checkPermissions(player, itemData);
+        if (!checkPermissions(player, itemData)) {
+            return;
+        }
         handleDrugUse(player, itemStack, itemData);
         itemStack.setAmount(itemStack.getAmount() - 1);
         player.getInventory().setItem(equipmentSlot, itemStack);
