@@ -1,0 +1,57 @@
+[versions]
+# Platform
+minecraft = "1.18.2-R0.1-SNAPSHOT"
+findbugs = "3.0.2"
+gson = "2.8.0"
+adventure = "4.10.1"
+examination = "1.1.0"
+
+# Libraries
+cloud = "1.6.2"
+jetbrainsAnnotations = "23.0.0"
+configurate = "4.1.2"
+vault = "1.7"
+guice = "5.1.0"
+spigotutils = "0.1-SNAPSHOT"
+paperlib = "1.0.7"
+
+# Unit test
+junit = "5.8.2"
+mockbukkit = "1.24.1"
+
+
+[libraries]
+# Annotations
+jetbrainsAnnotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrainsAnnotations" }
+
+# Platform
+paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "minecraft" }
+findbugs = { group = "com.google.code.findbugs", name = "jsr305", version.ref = "findbugs" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+adventureApi = { group = "net.kyori", name = "adventure-api", version.ref = "adventure"}
+adventureKey = { group = "net.kyori", name = "adventure-key", version.ref = "adventure"}
+adventureBom = { group = "net.kyori", name = "adventure-bom", version.ref = "adventure"}
+adventureTextSerializerPlain = { group = "net.kyori", name = "adventure-text-serializer-plain", version.ref = "adventure"}
+examinationApi = { group = "net.kyori", name = "examination-api", version.ref = "examination"}
+examinationString = { group = "net.kyori", name = "examination-string", version.ref = "examination"}
+
+# Libraries
+spigotutils = { group = "com.github.md5sha256", name = "spigot-utils", version.ref = "spigotutils"}
+cloud = { group = "cloud.commandframework", name = "cloud-paper", version.ref = "cloud"}
+cloudMinecraftExtras = { group = "cloud.commandframework", name = "cloud-minecraft-extras", version.ref = "cloud"}
+cloudAnnotations = { group = "cloud.commandframework", name = "cloud-annotations", version.ref = "cloud"}
+configurateYaml = { group = "org.spongepowered", name = "configurate-yaml", version.ref = "configurate" }
+configurateGson = { group = "org.spongepowered", name = "configurate-gson", version.ref = "configurate" }
+vault = { group = "com.github.MilkBowl", name = "VaultAPI", version.ref = "vault" }
+guice = { group = "com.google.inject", name = "guice", version.ref = "guice" }
+assistedInject = { group = "com.google.inject.extensions", name = "guice-assistedinject", version.ref = "guice" }
+paperlib = { group = "io.papermc", name = "paperlib", version.ref = "paperlib" }
+
+# Shadow Exclusions
+guava = { group = "com.google.guava", name = "guava", version = "30.1-jre" }
+errorproneAnnotation = { group = "com.google.errorprone", name = "error_prone_annotations", version = "2.3.4" }
+
+# Unit test
+junitApi = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
+junitEngine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
+mockbukkit = { group = "com.github.seeseemelk", name = "MockBukkit-v1.18", version.ref = "mockbukkit" }
