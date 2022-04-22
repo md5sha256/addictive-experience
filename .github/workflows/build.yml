@@ -1,38 +1,31 @@
-name : "build"
+name: "build"
 
-on : [ "pull_request", "push" ]
+on: [ "pull_request", "push" ]
 
-jobs :
-  build :
-    strategy :
-      matrix :
-        java : [ 17 ]
-        os : [ "ubuntu-18.04" ]
-    runs-on : "${{ matrix.os }}"
-    steps :
-      - name : "Checkout Repository"
-        uses : "actions/checkout@v2.3.4"
+jobs:
+  build:
+    strategy:
+      matrix:
+        java: [ 17 ]
+        os: [ "ubuntu-latest" ]
+    runs-on: "${{ matrix.os }}"
+    steps:
+      - name: "Checkout Repository and Submodules"
+        uses: "actions/checkout@v3"
+        with:
+          submodules: recursive
 
-      - name : "Checkout submodules"
-        uses : "srt32/git-actions@v0.0.3"
-        with :
-          args : "git submodule update --init --recursive"
+      - name: "Validate gradle wrapper"
+        uses: "gradle/wrapper-validation-action@v1.0.4"
 
-      - name : "Restore Gradle cache"
-        uses : "actions/cache@v2"
-        with :
-          path : "~/.gradle/caches"
-          key : "${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}"
-          restore-keys : |
-            ${{ runner.os }}-gradle-
+      - name: "Setup JDK ${{ matrix.java }}"
+        uses: "actions/setup-java@v2"
+        with:
+          distribution: "temurin"
+          java-version: "${{ matrix.java }}"
 
-      - name : "Setup JDK ${{ matrix.java }}"
-        uses : "actions/setup-java@v1.4.3"
-        with :
-          java-version : "${{ matrix.java }}"
+      - name: "Grant execute permission for gradlew"
+        run: "chmod +x gradlew"
 
-      - name : "Grant execute permission for gradlew"
-        run : "chmod +x gradlew"
-
-      - name : "Build with Gradle"
-        run : "./gradlew clean build"
+      - name: "Build with Gradle"
+        run: "./gradlew clean build"
