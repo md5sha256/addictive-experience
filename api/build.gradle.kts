@@ -5,7 +5,7 @@ plugins {
 dependencies {
     compileOnlyApi(libs.paper)
     compileOnlyApi(libs.jetbrainsAnnotations)
-    compileOnlyApi("io.leangen.geantyref:geantyref:1.3.4")
+    compileOnlyApi("io.leangen.geantyref:geantyref:1.3.13")
     compileOnlyApi(libs.spigotutils)
 
     implementation(libs.paperlib)
