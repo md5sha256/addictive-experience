@@ -11,7 +11,7 @@ dependencies {
     implementation(libs.paperlib)
 
     testRuntimeOnly("commons-lang:commons-lang:2.6")
-    testRuntimeOnly("io.leangen.geantyref:geantyref:1.3.4")
+    testRuntimeOnly("io.leangen.geantyref:geantyref:1.3.13")
 
     testImplementation(libs.adventureApi)
     testImplementation(libs.spigotutils)
