@@ -61,7 +61,7 @@ public final class SimpleDrugItemDataFactory implements DrugItemDataFactory {
         final Key keyComponent = Key.key(identifierComponent);
         final Optional<IDrugForm> optionalDrugForm = this.drugRegistry.formByKey(keyForm);
         final Optional<IDrug> optionalDrug = this.drugRegistry.drugByKey(keyComponent);
-        if (!optionalDrugForm.isPresent() || !optionalDrug.isPresent()) {
+        if (optionalDrugForm.isEmpty() || optionalDrug.isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(DrugItemData.of(optionalDrug.get(), optionalDrugForm.get()));

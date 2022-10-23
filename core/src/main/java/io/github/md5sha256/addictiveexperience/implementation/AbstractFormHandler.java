@@ -45,9 +45,9 @@ public abstract class AbstractFormHandler {
         final IDrug drug = itemData.drug();
         if (!drug.permission().isBlank() && !sender.hasPermission(drug.permission())) {
             sender.sendMessage(Utils.legacyColorize(this.plugin.getConfig().getString("nopermstoconsume")));
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     protected abstract void sendMessageOnItemUse(@NotNull Player player, @NotNull DrugItemData used);
@@ -56,7 +56,7 @@ public abstract class AbstractFormHandler {
                                  @NotNull ItemStack itemStack,
                                  @NotNull DrugItemData itemData
     ) {
-        if (!checkPermissions(entity, itemData)) {
+        if (checkPermissions(entity, itemData)) {
             return;
         }
         final IDrug drug = itemData.drug();
@@ -83,7 +83,7 @@ public abstract class AbstractFormHandler {
 
     protected void handlePlayerDrugUse(@NotNull Player player, @NotNull EquipmentSlot equipmentSlot,
                                        @NotNull ItemStack itemStack, @NotNull DrugItemData itemData) {
-        if (!checkPermissions(player, itemData)) {
+        if (checkPermissions(player, itemData)) {
             return;
         }
         handleDrugUse(player, itemStack, itemData);
@@ -91,12 +91,8 @@ public abstract class AbstractFormHandler {
         player.getInventory().setItem(equipmentSlot, itemStack);
         player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1.0f, 0.6f);
         sendMessageOnItemUse(player, itemData);
-        Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
-            // if (this.plugin.acs)
-            if (true) {
-                player.playSound(player.getLocation(), Sound.ENTITY_EVOKER_CELEBRATE, 0.6f, 1.0f);
-            }
-        }, 8L);
+        Runnable playSound = () -> player.playSound(player.getLocation(), Sound.ENTITY_EVOKER_CELEBRATE, 0.6f, 1.0f);
+        Bukkit.getScheduler().runTaskLater(this.plugin, playSound, 8L);
     }
 
     protected void scheduleTask(@NotNull Runnable task, long delayTicks) {

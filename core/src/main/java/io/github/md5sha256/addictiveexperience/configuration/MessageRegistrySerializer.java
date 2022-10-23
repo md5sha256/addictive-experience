@@ -27,8 +27,7 @@ public class MessageRegistrySerializer extends ScalarSerializer<MessageRegistry>
     @Override
     public MessageRegistry deserialize(Type type, Object obj) {
         final Map<MessageKey, Message> messageMap = new HashMap<>();
-        if (obj instanceof ConfigurationNode) {
-            final ConfigurationNode root = (ConfigurationNode) obj;
+        if (obj instanceof final ConfigurationNode root) {
             for (Map.Entry<Object, ? extends ConfigurationNode> entry : root.childrenMap().entrySet()) {
                 final MessageKey key = resolveMessageKey(entry.getKey());
                 final ConfigurationNode node = entry.getValue();

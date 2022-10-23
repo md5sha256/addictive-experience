@@ -13,7 +13,7 @@ import java.util.Map;
 public class SimpleShopConfiguration implements ShopConfiguration {
 
     @Setting
-    private Map<Key, Double> unitPrices = new HashMap<>();
+    private final Map<Key, Double> unitPrices = new HashMap<>();
 
     @Override
     public double unitPrice(@NotNull final IDrugComponent drugComponent) {

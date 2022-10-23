@@ -49,17 +49,15 @@ public final class FormHandlerSyringe extends AbstractFormHandler implements Lis
     public void handleSyringeInjection(final EntityDamageByEntityEvent event) {
         final Entity entityDamager = event.getDamager();
         final Entity entityTarget = event.getEntity();
-        if (!(entityDamager instanceof Player) || !(entityTarget instanceof LivingEntity)) {
+        if (!(entityDamager instanceof final Player damager) || !(entityTarget instanceof final LivingEntity target)) {
             return;
         }
-        final Player damager = (Player) entityDamager;
-        final LivingEntity target = (LivingEntity) entityTarget;
 
         final PlayerInventory inventory = damager.getInventory();
 
         final ItemStack inMainHand = inventory.getItemInMainHand();
         final Optional<DrugItemData> optionalItemData = this.drugRegistry.dataFor(inMainHand);
-        if (!optionalItemData.isPresent()) {
+        if (optionalItemData.isEmpty()) {
             return;
         }
         final DrugItemData data = optionalItemData.get();

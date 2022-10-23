@@ -16,6 +16,7 @@ import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.meta.SimpleCommandMeta;
 import cloud.commandframework.minecraft.extras.MinecraftHelp;
 import cloud.commandframework.paper.PaperCommandManager;
+import com.google.inject.Inject;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
@@ -24,7 +25,6 @@ import io.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import io.github.md5sha256.addictiveexperience.api.util.KeyRegistry;
 import io.github.md5sha256.addictiveexperience.implementation.shop.DrugShopUI;
 import io.github.md5sha256.addictiveexperience.util.Utils;
-import com.google.inject.Inject;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -56,10 +56,11 @@ public class AddictiveExperienceCommandHandler {
     private final IDrugForms drugForms;
 
     @Inject
-    public AddictiveExperienceCommandHandler(@NotNull Plugin plugin,
-                                             @NotNull DrugRegistry drugRegistry,
-                                             @NotNull IDrugForms drugForms,
-                                             @NotNull DrugShopUI drugShopUI
+    public AddictiveExperienceCommandHandler(
+            @NotNull Plugin plugin,
+            @NotNull DrugRegistry drugRegistry,
+            @NotNull IDrugForms drugForms,
+            @NotNull DrugShopUI drugShopUI
     ) {
         this.drugShopUI = drugShopUI;
         this.drugForms = drugForms;
@@ -93,7 +94,7 @@ public class AddictiveExperienceCommandHandler {
             manager.registerAsynchronousCompletions();
         } catch (final Exception e) {
             plugin.getLogger()
-                  .warning("Failed to enable asynchronous completions: " + e.getMessage());
+                    .warning("Failed to enable asynchronous completions: " + e.getMessage());
         }
 
         final MinecraftHelp<CommandSender> minecraftHelp = new MinecraftHelp<>(
@@ -111,8 +112,10 @@ public class AddictiveExperienceCommandHandler {
 
 
     @Suggestions("drug-components")
-    public @NotNull List<String> suggestDrugComponents(@NotNull CommandContext<CommandSender> context,
-                                                       @NotNull String input) {
+    public @NotNull List<String> suggestDrugComponents(
+            @NotNull CommandContext<CommandSender> context,
+            @NotNull String input
+    ) {
         return suggestFromKeyRegistry(input, this.drugRegistry.keysForComponents());
     }
 
@@ -135,35 +138,35 @@ public class AddictiveExperienceCommandHandler {
     ) {
         if (input == null || input.isEmpty()) {
             return keyRegistry.keys().stream()
-                              .sorted(Comparator.reverseOrder())
-                              .collect(Collectors.toList());
+                    .sorted(Comparator.reverseOrder())
+                    .toList();
         }
         final Matcher matcher = PATTERN_KEY.matcher(input);
         if (!matcher.matches()) {
             // Suggest the keys first
             if (input.indexOf(':') == -1) {
                 return keyRegistry.keys().stream()
-                                  .sorted(Comparator.reverseOrder())
-                                  .map(s -> s + ":")
-                                  .collect(Collectors.toList());
+                        .sorted(Comparator.reverseOrder())
+                        .map(s -> s + ":")
+                        .toList();
             }
             // Try to resolve anyway
             final String end = ":" + input;
             final Set<String> keys = keyRegistry.keysForValue(input);
             return keys.stream()
-                       .sorted(Comparator.reverseOrder())
-                       .map(s -> s + end)
-                       .collect(Collectors.toList());
+                    .sorted(Comparator.reverseOrder())
+                    .map(s -> s + end)
+                    .collect(Collectors.toList());
         }
         final String key = matcher.group(1);
         final Set<String> values = keyRegistry.values(key);
         final String value = matcher.group(2);
         Stream<String> stream = values.stream()
-                                      .sorted(Comparator.reverseOrder());
+                .sorted(Comparator.reverseOrder());
         if (value != null && !value.isEmpty()) {
             stream = stream.filter(suggestion ->
-                                           value.startsWith(suggestion) || value
-                                                   .equalsIgnoreCase(suggestion));
+                    value.startsWith(suggestion) || value
+                            .equalsIgnoreCase(suggestion));
         }
         return stream.collect(Collectors.toList());
     }
@@ -184,8 +187,10 @@ public class AddictiveExperienceCommandHandler {
 
     @Parser
     @SuppressWarnings("PatternValidation")
-    public IDrugComponent parseDrugComponent(@NotNull CommandContext<CommandSender> context,
-                                             @NotNull Queue<String> inputs) throws ParseException {
+    public IDrugComponent parseDrugComponent(
+            @NotNull CommandContext<CommandSender> context,
+            @NotNull Queue<String> inputs
+    ) throws ParseException {
         final String input = inputs.remove();
         if (input == null) {
             throw new ParseException("No input!", 0);
@@ -237,7 +242,7 @@ public class AddictiveExperienceCommandHandler {
     public void giveItem(Player player,
                          @NotNull
                          @Argument(value = "item", suggestions = "drug-components")
-                                 IDrugComponent component,
+                         IDrugComponent component,
                          @Flag(value = "form", suggestions = "drug-forms") IDrugForm form,
                          @Flag(value = "amount") @Range(min = "1", max = "64") Integer amt,
                          @Flag(value = "model-only") boolean modelOnly

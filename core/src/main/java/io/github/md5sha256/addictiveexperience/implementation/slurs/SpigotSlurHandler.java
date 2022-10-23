@@ -37,7 +37,7 @@ public final class SpigotSlurHandler extends AbstractSlurHandler implements List
         final Player player = event.getPlayer();
         final Optional<ISlurEffect> optional = this.slurEffectState
                 .currentSlurEffect(player.getUniqueId());
-        if (!optional.isPresent()) {
+        if (optional.isEmpty()) {
             return;
         }
         final String message = convertToFormat(player, event.getMessage());

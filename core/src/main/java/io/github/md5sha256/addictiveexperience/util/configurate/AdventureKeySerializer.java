@@ -19,7 +19,7 @@ public class AdventureKeySerializer extends ScalarSerializer<Key> {
     }
 
     @Override
-    public Key deserialize(Type type, Object obj) throws SerializationException {
+    public Key deserialize(Type type, Object obj) {
         return Key.key(obj.toString());
     }
 }

@@ -31,14 +31,11 @@ public final class Blunts implements IBlunts {
 
     @Override
     public @NotNull FormBlunt of(@NotNull BluntState state) {
-        switch (state) {
-            case LIT:
-                return this.lit;
-            case UNLIT:
-                return this.unlit;
-            default:
-                throw new IllegalArgumentException("Unknown BluntState: " + state);
-        }
+        return switch (state) {
+            case LIT -> this.lit;
+            case UNLIT -> this.unlit;
+            default -> throw new IllegalArgumentException("Unknown BluntState: " + state);
+        };
     }
 
 }

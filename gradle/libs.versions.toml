@@ -1,6 +1,6 @@
 [versions]
 # Platform
-minecraft = "1.18.2-R0.1-SNAPSHOT"
+minecraft = "1.19.2-R0.1-SNAPSHOT"
 findbugs = "3.0.2"
 gson = "2.8.0"
 adventure = "4.10.1"

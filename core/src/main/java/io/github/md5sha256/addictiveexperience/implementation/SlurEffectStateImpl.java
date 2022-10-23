@@ -35,12 +35,12 @@ public final class SlurEffectStateImpl implements SlurEffectState {
     @Override
     public void registerSlur(@NotNull UUID player, @NotNull IDrug drug) {
         @NotNull Optional<DrugMeta> optionalDrugMeta = this.drugRegistry.metaData(drug, DrugMeta.KEY);
-        if (!optionalDrugMeta.isPresent()) {
+        if (optionalDrugMeta.isEmpty()) {
             throw new IllegalStateException("Failed to get DrugMeta for drug: " + drug.key());
         }
         final DrugMeta meta = optionalDrugMeta.get();
         final Optional<ISlurEffect> optionalEffect = meta.slurEffect();
-        if (!optionalEffect.isPresent()) {
+        if (optionalEffect.isEmpty()) {
             return;
         }
         final ISlurEffect effect = optionalEffect.get();

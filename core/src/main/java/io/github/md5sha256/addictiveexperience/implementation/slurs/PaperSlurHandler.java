@@ -39,7 +39,7 @@ public class PaperSlurHandler implements Listener {
     ) {
         final Optional<ISlurEffect> optional = this.slurEffectState
                 .currentSlurEffect(source.getUniqueId());
-        if (!optional.isPresent()) {
+        if (optional.isEmpty()) {
             return ChatRenderer.defaultRenderer()
                                .render(source, sourceDisplayName, message, viewer);
         }
