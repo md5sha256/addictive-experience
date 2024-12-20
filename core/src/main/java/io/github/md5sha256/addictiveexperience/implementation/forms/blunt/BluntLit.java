@@ -54,7 +54,7 @@ public class BluntLit extends AbstractDrugForm implements FormBlunt {
 
     @Override
     public @NotNull ItemStack asItem(@NotNull final IDrug drug) {
-        final ItemStack itemStack = new ItemStack(Material.TORCH);
+        final ItemStack itemStack = ItemStack.of(Material.TORCH);
         itemStack.setItemMeta(asMeta(drug));
         return itemStack;
     }

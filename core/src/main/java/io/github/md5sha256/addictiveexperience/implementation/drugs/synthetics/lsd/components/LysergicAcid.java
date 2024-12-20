@@ -59,7 +59,7 @@ public final class LysergicAcid extends AbstractDrugComponent {
     @Override
     protected final @NotNull ItemMeta meta() {
         final ItemMeta meta = this.itemFactory.getItemMeta(Material.WATER_BUCKET);
-        meta.addEnchant(Enchantment.DURABILITY, 1, true);
+        meta.addEnchant(Enchantment.UNBREAKING, 1, true);
         final Component displayName = Component.text("Lysergic Acid", NamedTextColor.AQUA);
         AdventureUtils.setDisplayName(meta, displayName);
         final List<Component> lore = Collections.singletonList(

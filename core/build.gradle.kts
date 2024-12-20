@@ -1,7 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.gradleup.shadow") version "9.0.0-beta4"
 }
 
 var relocationBase = "com.github.md5sha256.addictiveexperience.shaded"
@@ -87,14 +87,14 @@ tasks {
         archiveClassifier.set("")
 
         dependencies {
-            exclude(dependency(libs.gson.orNull))
-            exclude(dependency(libs.guava.orNull))
-            exclude(dependency(libs.errorproneAnnotation.orNull))
-            exclude(dependency(libs.adventureApi.orNull))
-            exclude(dependency(libs.adventureKey.orNull))
-            exclude(dependency(libs.adventureBom.orNull))
-            exclude(dependency(libs.examinationApi.orNull))
-            exclude(dependency(libs.examinationString.orNull))
+            exclude(dependency(libs.gson.orNull!!))
+            exclude(dependency(libs.guava.orNull!!))
+            exclude(dependency(libs.errorproneAnnotation.orNull!!))
+            exclude(dependency(libs.adventureApi.orNull!!))
+            exclude(dependency(libs.adventureKey.orNull!!))
+            exclude(dependency(libs.adventureBom.orNull!!))
+            exclude(dependency(libs.examinationApi.orNull!!))
+            exclude(dependency(libs.examinationString.orNull!!))
         }
 
         relocate("com.github.md5sha256.spigotutils", "${relocationBase}.spigotutils")

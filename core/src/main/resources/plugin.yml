@@ -1,8 +1,8 @@
 name: AddictiveExperience
 version: "@version@"
 main: io.github.md5sha256.addictiveexperience.AddictiveExperiencePlugin
-api-version: 1.18
+api-version: 1.21
 depend:
-  - vault
+  - Vault
 softdepend:
   - essentials

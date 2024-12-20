@@ -38,7 +38,7 @@ public class MushroomPsilocybin extends AbstractDrug implements IOrganic {
                 .toBuilder()
                 .slurEffect(null)
                 .potionEffects(
-                        new PotionEffect(PotionEffectType.CONFUSION, 100, 2),
+                        new PotionEffect(PotionEffectType.NAUSEA, 100, 2),
                         new PotionEffect(PotionEffectType.SPEED, 500, 5)
                 )
                 .overdoseThreshold(200)

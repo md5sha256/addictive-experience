@@ -62,7 +62,7 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
                 .potionEffects(
                         new PotionEffect(PotionEffectType.SPEED, 1000, 5),
                         new PotionEffect(PotionEffectType.BLINDNESS, 500, 4),
-                        new PotionEffect(PotionEffectType.CONFUSION, 300, 5)
+                        new PotionEffect(PotionEffectType.NAUSEA, 300, 5)
                 )
                 .build();
         drugRegistry.registerComponent(
@@ -91,7 +91,7 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
 
     protected final @NotNull ItemMeta meta() {
         final ItemMeta meta = this.itemFactory.getItemMeta(Material.PAPER);
-        meta.addEnchant(Enchantment.DURABILITY, 1, true);
+        meta.addEnchant(Enchantment.UNBREAKING, 1, true);
         AdventureUtils.setDisplayName(meta, Component.text("LSD", NamedTextColor.AQUA));
         final List<Component> lore = Arrays.asList(
                 Component.text("Lysergic acid diethylamide, also known", NamedTextColor.WHITE),

@@ -58,7 +58,7 @@ public final class DrugMethamphetamine extends AbstractDrug implements ISyntheti
                 .overdoseThreshold(60)
                 .potionEffects(
                         new PotionEffect(PotionEffectType.POISON, 300, 2),
-                        new PotionEffect(PotionEffectType.FAST_DIGGING, 200, 2)
+                        new PotionEffect(PotionEffectType.HASTE, 200, 2)
                 )
                 .build();
         drugRegistry.registerComponent(hcl, phosphorus, iodine, ephedrine, plantEphedrine);

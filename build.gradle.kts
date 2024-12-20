@@ -7,7 +7,9 @@ plugins {
 group = "io.github.md5sha256"
 version = "0.0.1-SNAPSHOT"
 
-java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+val javaVersion = 21;
+
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
 
 subprojects {
 
@@ -21,7 +23,7 @@ subprojects {
         plugin<EclipsePlugin>()
     }
 
-    java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    java.toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
 
     repositories {
         mavenCentral()
@@ -35,16 +37,15 @@ subprojects {
         }
         maven {
             name = "paper-repo"
-            url = uri("https://papermc.io/repo/repository/maven-public/")
+            url = uri("https://repo.papermc.io/repository/maven-public/")
         }
     }
 
     tasks {
 
         withType(JavaCompile::class) {
-            options.release.set(17)
+            options.release.set(javaVersion)
             options.encoding = Charsets.UTF_8.name()
-            options.isFork = true
             options.isDeprecation = true
         }
 

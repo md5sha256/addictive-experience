@@ -44,7 +44,7 @@ public final class MethylChloride extends AbstractDrugComponent {
 
     protected final @NotNull ItemMeta meta() {
         final ItemMeta meta = this.itemFactory.getItemMeta(Material.GLASS_BOTTLE);
-        meta.addEnchant(Enchantment.DURABILITY, 1, true);
+        meta.addEnchant(Enchantment.UNBREAKING, 1, true);
         final Component displayName = Component.text("Methylamine Chloride", NamedTextColor.GOLD);
         AdventureUtils.setDisplayName(meta, displayName);
         final List<Component> lore = Arrays.asList(

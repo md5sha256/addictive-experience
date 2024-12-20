@@ -28,7 +28,7 @@ public final class Mercury extends AbstractDrugComponent {
 
     protected final @NotNull ItemMeta meta() {
         final ItemMeta meta = this.itemFactory.getItemMeta(Material.GUNPOWDER);
-        meta.addEnchant(Enchantment.DURABILITY, 1, true);
+        meta.addEnchant(Enchantment.UNBREAKING, 1, true);
         AdventureUtils.setDisplayName(meta, Component.text("mercury", NamedTextColor.GOLD));
         List<Component> lore = Arrays.asList(
                 Component.text("Highly toxic element, which is", NamedTextColor.WHITE),

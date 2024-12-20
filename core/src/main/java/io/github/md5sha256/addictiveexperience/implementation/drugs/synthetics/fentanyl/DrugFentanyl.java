@@ -63,7 +63,7 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
                 .overdoseThreshold(50)
                 .slurEffect(null)
                 .potionEffects(
-                        new PotionEffect(PotionEffectType.CONFUSION, 200, 3)
+                        new PotionEffect(PotionEffectType.NAUSEA, 200, 3)
                 )
                 .customEffects(effectRandomDeath)
                 .build();

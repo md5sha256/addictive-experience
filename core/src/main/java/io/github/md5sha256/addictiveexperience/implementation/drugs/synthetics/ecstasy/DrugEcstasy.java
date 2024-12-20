@@ -57,7 +57,7 @@ public final class DrugEcstasy extends AbstractDrug {
                 .overdoseThreshold(70)
                 .potionEffects(
                         new PotionEffect(PotionEffectType.SPEED, 500, 2),
-                        new PotionEffect(PotionEffectType.JUMP, 1000, 5)
+                        new PotionEffect(PotionEffectType.JUMP_BOOST, 1000, 5)
                 )
                 .build();
         drugRegistry.registerComponent(this, barkSafrole, safrole, seedSafrole, mcl, mercury);

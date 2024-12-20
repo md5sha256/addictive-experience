@@ -56,7 +56,7 @@ public final class DrugHeroin extends AbstractDrug implements ISynthetic {
                 .slurEffect(null)
                 .overdoseThreshold(40)
                 .potionEffects(
-                        new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 2),
+                        new PotionEffect(PotionEffectType.STRENGTH, 100, 2),
                         new PotionEffect(PotionEffectType.BLINDNESS, 60, 2)
                 )
                 .build();

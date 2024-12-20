@@ -35,7 +35,7 @@ public abstract class AbstractDrugComponent implements IDrugComponent {
         this.itemFactory = Objects.requireNonNull(itemFactory);
         this.name = Objects.requireNonNull(name);
         this.key = key;
-        this.item = new ItemStack(material);
+        this.item = ItemStack.of(material);
         this.meta = meta();
         this.item.setItemMeta(this.meta);
     }

@@ -84,7 +84,7 @@ public final class DrugShopUI {
     }
 
     private GuiElement elementPanes(char c) {
-        final ItemStack itemStack = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+        final ItemStack itemStack = ItemStack.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
         final ItemMeta meta = itemStack.getItemMeta();
         AdventureUtils.setDisplayName(meta, Component.empty());
         itemStack.setItemMeta(meta);
@@ -92,7 +92,7 @@ public final class DrugShopUI {
     }
 
     private GuiElement elementExit(char c) {
-        final ItemStack itemStack = new ItemStack(Material.BARRIER);
+        final ItemStack itemStack = ItemStack.of(Material.BARRIER);
         final Component displayName = Component.text("Exit", NamedTextColor.RED);
         return new StaticGuiElement(c,
                                     itemStack,
@@ -103,7 +103,7 @@ public final class DrugShopUI {
     }
 
     private GuiElement elementNext(char c) {
-        final ItemStack itemStack = new ItemStack(Material.PAPER);
+        final ItemStack itemStack = ItemStack.of(Material.PAPER);
         final Component displayName = Component.text("Next Page", NamedTextColor.DARK_AQUA);
         return new GuiPageElement(c,
                                   itemStack,
@@ -112,7 +112,7 @@ public final class DrugShopUI {
     }
 
     private GuiElement elementPrevious(char c) {
-        final ItemStack itemStack = new ItemStack(Material.PAPER);
+        final ItemStack itemStack = ItemStack.of(Material.PAPER);
         final Component displayName = Component.text("Previous Page", NamedTextColor.DARK_AQUA);
         return new GuiPageElement(c,
                                   itemStack,
@@ -131,7 +131,7 @@ public final class DrugShopUI {
     private GuiElement elementDrug(IDrugComponent component) {
         final char c = 'a';
         final ItemStack drugAsItem = component.asItem();
-        final ItemStack button = new ItemStack(drugAsItem.getType());
+        final ItemStack button = ItemStack.of(drugAsItem.getType());
         final ItemMeta meta = button.getItemMeta();
         final Component displayName = AdventureUtils.getDisplayName(meta);
         final Component buttonDisplayName = Component

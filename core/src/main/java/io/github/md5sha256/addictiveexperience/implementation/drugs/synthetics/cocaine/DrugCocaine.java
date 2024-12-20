@@ -53,7 +53,7 @@ public final class DrugCocaine extends AbstractDrug implements ISynthetic {
                 .slurEffect(null)
                 .potionEffects(
                         new PotionEffect(PotionEffectType.SPEED, 400, 2),
-                        new PotionEffect(PotionEffectType.JUMP, 300, 2)
+                        new PotionEffect(PotionEffectType.JUMP_BOOST, 300, 2)
                 )
                 .build();
         drugRegistry.registerComponent(this, plantCocaine, leafCocaine);

@@ -52,7 +52,7 @@ public class TestSimpleItemDataFactory {
         drugRegistry.registerComponent(drug);
         final DrugItemDataFactory itemDataFactory = new SimpleDrugItemDataFactory(plugin, drugRegistry);
 
-        final ItemStack original = new ItemStack(Material.STRING);
+        final ItemStack original = ItemStack.of(Material.STRING);
         final ItemStack drugEncoded = original.clone();
         itemDataFactory.data(drugEncoded, DrugItemData.of(drug, form));
         final Optional<IDrugComponent> optionalComponent = itemDataFactory.parseComponent(drugEncoded);

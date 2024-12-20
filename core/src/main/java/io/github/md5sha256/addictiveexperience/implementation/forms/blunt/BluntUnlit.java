@@ -35,7 +35,7 @@ public final class BluntUnlit extends AbstractDrugForm implements FormBlunt {
                @NotNull DrugMarijuana marijuana) {
         super(itemFactory, Utils.internalKey("blunt_unlit"), "Blunt_Unlit");
         this.metaEmptyContents = metaEmpty();
-        this.itemEmptyContents = new ItemStack(Material.STICK);
+        this.itemEmptyContents = ItemStack.of(Material.STICK);
         this.itemEmptyContents.setItemMeta(this.metaEmptyContents);
         registerRecipes(plugin, marijuana);
     }
@@ -106,7 +106,7 @@ public final class BluntUnlit extends AbstractDrugForm implements FormBlunt {
 
     @Override
     public @NotNull ItemStack asItem(@NotNull final IDrug drug) {
-        final ItemStack itemStack = new ItemStack(Material.STICK);
+        final ItemStack itemStack = ItemStack.of(Material.STICK);
         itemStack.setItemMeta(asMeta(drug));
         return itemStack;
     }

@@ -32,14 +32,14 @@ public final class FormSyringe extends AbstractDrugForm implements IDrugForm {
 
     @Override
     public @NotNull Optional<@NotNull ItemStack> asItem() {
-        final ItemStack itemStack = new ItemStack(this.material);
+        final ItemStack itemStack = ItemStack.of(this.material);
         asMeta().ifPresent(itemStack::setItemMeta);
         return Optional.of(itemStack);
     }
 
     @Override
     public @NotNull ItemStack asItem(@NotNull IDrug drug) {
-        final ItemStack item = new ItemStack(this.material);
+        final ItemStack item = ItemStack.of(this.material);
         item.setItemMeta(asMeta(drug));
         return item;
     }
