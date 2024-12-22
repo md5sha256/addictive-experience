@@ -15,8 +15,9 @@ dependencies {
 
     testImplementation(libs.adventureApi)
     testImplementation(libs.spigotutils)
-    testCompileOnly(libs.junitApi)
-    testRuntimeOnly(libs.junitEngine)
+    testImplementation(platform(libs.junitBom))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation(libs.mockbukkit)
     testImplementation(testFixtures(projects.api))
 }

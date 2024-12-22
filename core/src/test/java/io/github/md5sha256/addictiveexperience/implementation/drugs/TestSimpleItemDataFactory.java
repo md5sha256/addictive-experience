@@ -1,7 +1,7 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
