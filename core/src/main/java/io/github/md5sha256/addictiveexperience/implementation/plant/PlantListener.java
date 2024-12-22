@@ -176,7 +176,7 @@ public final class PlantListener implements DeregisterableListener {
 
         final double probabilityHarvest = meta.harvestSuccessProbability();
         final int amountHarvest = meta.harvestAmount();
-        final boolean harvest = this.random.nextDouble() >= probabilityHarvest;
+        final boolean harvest = this.random.nextDouble() <= probabilityHarvest;
         if (!harvest) {
             return;
         }
@@ -185,7 +185,7 @@ public final class PlantListener implements DeregisterableListener {
         final int amountSeed = meta.seedDropAmount();
         final boolean dropSeeds;
         if (optionalSeed.isPresent()) {
-            dropSeeds = this.random.nextDouble() >= probabilitySeedDrop;
+            dropSeeds = this.random.nextDouble() <= probabilitySeedDrop;
         } else {
             dropSeeds = false;
         }
