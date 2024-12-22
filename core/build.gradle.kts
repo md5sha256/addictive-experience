@@ -2,6 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     id("com.gradleup.shadow") version "9.0.0-beta4"
+    id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
 var relocationBase = "com.github.md5sha256.addictiveexperience.shaded"
@@ -122,5 +123,19 @@ tasks {
     withType(Test::class) {
         useJUnitPlatform()
     }
+
+    runServer {
+        // Configure the Minecraft version for our task.
+        // This is the only required configuration besides applying the plugin.
+        // Your plugin's jar (or shadowJar if present) will be used automatically.
+        minecraftVersion("1.21.1")
+        downloadPlugins {
+            // Essentials
+            url("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsX-2.21.0-dev+151-f2af952.jar")
+            // Vault
+            github("MilkBowl", "Vault", "1.7.3", "Vault.jar")
+        }
+    }
+
 
 }
