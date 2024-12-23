@@ -4,9 +4,12 @@ import io.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
+import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.cocaine.components.LeafCocaine;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.cocaine.components.PlantCocaine;
+import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
+import io.github.md5sha256.addictiveexperience.implementation.forms.FormPowder;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.google.inject.Inject;
@@ -39,6 +42,7 @@ public final class DrugCocaine extends AbstractDrug implements ISynthetic {
                 @NotNull ItemFactory itemFactory,
                 @NotNull PlantCocaine plantCocaine,
                 @NotNull LeafCocaine leafCocaine,
+                @NotNull DrugForms forms,
                 @NotNull DrugRegistry drugRegistry
     ) {
         super(itemFactory,
@@ -46,7 +50,6 @@ public final class DrugCocaine extends AbstractDrug implements ISynthetic {
               "Cocaine",
               Material.SUGAR,
               "addictiveexperience.consumecocaine");
-        this.recipe = createRecipe(plugin, leafCocaine);
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .overdoseThreshold(50)
@@ -56,15 +59,16 @@ public final class DrugCocaine extends AbstractDrug implements ISynthetic {
                         new PotionEffect(PotionEffectType.JUMP_BOOST, 300, 2)
                 )
                 .build();
-        drugRegistry.registerComponent(this, plantCocaine, leafCocaine);
+        drugRegistry.registerComponent(this);
         drugRegistry.metaData(plantCocaine, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this));
+        this.recipe = createRecipe(plugin, forms.powder(), leafCocaine, drugRegistry);
     }
 
-    private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull LeafCocaine leafCocaine) {
+    private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull IDrugForm form, @NotNull LeafCocaine leafCocaine, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "Cocaine");
-        final ShapedRecipe recipe = new ShapedRecipe(key, asItem(1));
+        final ShapedRecipe recipe = new ShapedRecipe(key, registry.itemForDrug(this, form));
         recipe.shape(" $ ", "$ $", " $ ");
-        recipe.setIngredient('$', leafCocaine.asItem(1));
+        recipe.setIngredient('$', registry.itemForComponent(leafCocaine));
         return recipe;
     }
 

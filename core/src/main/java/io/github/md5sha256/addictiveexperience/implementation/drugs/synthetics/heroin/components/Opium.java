@@ -44,15 +44,16 @@ public final class Opium extends AbstractDrugComponent {
           @NotNull DrugRegistry drugRegistry
           ) {
         super(itemFactory, Utils.internalKey("opium"), "Opium", Material.LIGHT_GRAY_DYE);
-        this.recipe = createRecipe(plugin, seedOpium);
+        drugRegistry.registerComponent(this);
         drugRegistry.metaData(plantOpium, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this, seedOpium));
+        this.recipe = createRecipe(plugin, seedOpium, drugRegistry);
     }
 
-    private Recipe createRecipe(@NotNull Plugin plugin, @NotNull SeedOpium seedOpium) {
+    private Recipe createRecipe(@NotNull Plugin plugin, @NotNull SeedOpium seedOpium, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "opium");
-        final RecipeChoice choiceOpium = new RecipeChoice.ExactChoice(seedOpium.asItem());
+        final RecipeChoice choiceOpium = new RecipeChoice.ExactChoice(registry.itemForComponent(seedOpium));
         return new FurnaceRecipe(key,
-                                 this.asItem(this.smeltingMeta.smeltProductQuantity()),
+                                 registry.itemForComponent(this).asQuantity(this.smeltingMeta.smeltProductQuantity()),
                                  choiceOpium,
                                  this.smeltingMeta.experienceGain(),
                                  this.smeltingMeta.cookTimeTicks());

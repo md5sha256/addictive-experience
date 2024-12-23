@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.SmeltingMeta;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
@@ -35,16 +36,18 @@ public final class PlantSafrole extends AbstractDrugComponent {
     @Inject
     PlantSafrole(@NotNull Plugin plugin,
                  @NotNull ItemFactory itemFactory,
-                 @NotNull BarkSafrole barkSafrole) {
+                 @NotNull BarkSafrole barkSafrole,
+                 @NotNull DrugRegistry registry) {
         super(itemFactory, Utils.internalKey("plant_safrole"), "Safrole", Material.SUNFLOWER);
-        this.recipe = createRecipe(plugin, barkSafrole);
+        registry.registerComponent(this);
+        this.recipe = createRecipe(plugin, barkSafrole, registry);
     }
 
-    private Recipe createRecipe(@NotNull Plugin plugin, @NotNull BarkSafrole barkSafrole) {
+    private Recipe createRecipe(@NotNull Plugin plugin, @NotNull BarkSafrole barkSafrole, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "safrole");
-        final RecipeChoice choiceBarkSafrole = new RecipeChoice.ExactChoice(barkSafrole.asItem());
+        final RecipeChoice choiceBarkSafrole = new RecipeChoice.ExactChoice(registry.itemForComponent(barkSafrole));
         return new FurnaceRecipe(key,
-                                 this.asItem(this.smeltingMeta.smeltProductQuantity()),
+                                 registry.itemForComponent(this).asQuantity(this.smeltingMeta.smeltProductQuantity()),
                                  choiceBarkSafrole,
                                  this.smeltingMeta.experienceGain(),
                                  this.smeltingMeta.cookTimeTicks());

@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
@@ -26,14 +27,15 @@ public final class Ethanol extends AbstractDrugComponent {
     private final Recipe recipe;
 
     @Inject
-    Ethanol(@NotNull Plugin plugin, @NotNull ItemFactory itemFactory) {
+    Ethanol(@NotNull Plugin plugin, @NotNull ItemFactory itemFactory, DrugRegistry registry) {
         super(itemFactory, Utils.internalKey("ethanol"), "Ethanol", Material.WATER_BUCKET);
-        this.recipe = createRecipe(plugin);
+        registry.registerComponent(this);
+        this.recipe = createRecipe(plugin, registry);
     }
 
-    private Recipe createRecipe(@NotNull Plugin plugin) {
+    private Recipe createRecipe(@NotNull Plugin plugin, @NotNull DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "ethanol");
-        final ShapelessRecipe recipe = new ShapelessRecipe(key, this.asItem());
+        final ShapelessRecipe recipe = new ShapelessRecipe(key, registry.itemForComponent(this));
         recipe.addIngredient(Material.WATER_BUCKET);
         recipe.addIngredient(Material.SUGAR_CANE);
         recipe.addIngredient(Material.BEETROOT);

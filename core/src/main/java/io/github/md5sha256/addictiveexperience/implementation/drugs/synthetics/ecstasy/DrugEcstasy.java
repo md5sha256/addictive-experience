@@ -3,12 +3,14 @@ package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
+import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.BarkSafrole;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.Mercury;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.MethylChloride;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.PlantSafrole;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.SeedSafrole;
+import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.google.inject.Inject;
@@ -41,6 +43,7 @@ public final class DrugEcstasy extends AbstractDrug {
     DrugEcstasy(@NotNull Plugin plugin,
                 @NotNull ItemFactory itemFactory,
                 @NotNull DrugRegistry drugRegistry,
+                @NotNull DrugForms forms,
                 @NotNull BarkSafrole barkSafrole,
                 @NotNull PlantSafrole safrole,
                 @NotNull SeedSafrole seedSafrole,
@@ -50,7 +53,6 @@ public final class DrugEcstasy extends AbstractDrug {
         super(itemFactory,
               Utils.internalKey("ecstasy"),
               "Ecstasy", Material.IRON_NUGGET, "addictiveexperience.consumeecstasy");
-        this.recipe = createRecipe(plugin, safrole, mcl, mercury);
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .slurEffect(null)
@@ -60,20 +62,23 @@ public final class DrugEcstasy extends AbstractDrug {
                         new PotionEffect(PotionEffectType.JUMP_BOOST, 1000, 5)
                 )
                 .build();
-        drugRegistry.registerComponent(this, barkSafrole, safrole, seedSafrole, mcl, mercury);
+        drugRegistry.registerComponent(this);
         drugRegistry.metaData(safrole, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this, seedSafrole));
+        this.recipe = createRecipe(plugin, safrole, mcl, mercury, forms.powder(), drugRegistry);
     }
 
     private @NotNull Recipe createRecipe(@NotNull Plugin plugin,
                                          @NotNull PlantSafrole safrole,
                                          @NotNull MethylChloride mcl,
-                                         @NotNull Mercury mercury
+                                         @NotNull Mercury mercury,
+                                         @NotNull IDrugForm form,
+                                         @NotNull DrugRegistry registry
     ) {
         final NamespacedKey key = new NamespacedKey(plugin, "ecstasy");
-        final ShapelessRecipe recipe = new ShapelessRecipe(key, this.asItem());
-        recipe.addIngredient(new RecipeChoice.ExactChoice(safrole.asItem()));
-        recipe.addIngredient(new RecipeChoice.ExactChoice(mcl.asItem()));
-        recipe.addIngredient(new RecipeChoice.ExactChoice(mercury.asItem()));
+        final ShapelessRecipe recipe = new ShapelessRecipe(key, registry.itemForDrug(this, form));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(safrole)));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(mcl)));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(mercury)));
         recipe.addIngredient(Material.IRON_INGOT);
         return recipe;
     }

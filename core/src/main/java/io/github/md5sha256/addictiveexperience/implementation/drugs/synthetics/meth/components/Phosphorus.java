@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
@@ -21,8 +22,9 @@ import java.util.Optional;
 public final class Phosphorus extends AbstractDrugComponent {
 
     @Inject
-    Phosphorus(@NotNull ItemFactory itemFactory) {
+    Phosphorus(@NotNull ItemFactory itemFactory, @NotNull DrugRegistry registry) {
         super(itemFactory, Utils.internalKey("phosphorus"), "Phosphorus", Material.RED_DYE);
+        registry.registerComponent(this);
     }
 
     @Override

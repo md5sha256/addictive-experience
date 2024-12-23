@@ -5,9 +5,11 @@ import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
 import io.github.md5sha256.addictiveexperience.api.drugs.PassiveEffect;
 import io.github.md5sha256.addictiveexperience.api.effect.CustomEffect;
+import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.effects.EffectRandomDeath;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.Opium;
+import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.github.md5sha256.spigotutils.Common;
@@ -45,6 +47,7 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
                  @NotNull ItemFactory itemFactory,
                  @NotNull Opium opium,
                  @NotNull EffectRandomDeath randomDeath,
+                 @NotNull DrugForms forms,
                  @NotNull DrugRegistry drugRegistry
     ) {
         super(itemFactory,
@@ -52,7 +55,6 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
               "Fentanyl",
               Material.WHITE_DYE,
               "addictiveexperience.consumefentanyl");
-        this.recipe = createRecipe(plugin, opium);
         final CustomEffect effectRandomDeath = randomDeath.createEffect(
                 Common.toTicks(2, TimeUnit.MINUTES),
                 TimeUnit.SECONDS.toMillis(30),
@@ -69,13 +71,14 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
                 .build();
         this.effects = Collections.singleton(randomDeath);
         drugRegistry.registerComponent(this);
+        this.recipe = createRecipe(plugin, forms.powder(), opium, drugRegistry);
     }
 
-    private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull Opium opium) {
+    private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull IDrugForm form, @NotNull Opium opium, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "fentanyl");
-        final ShapedRecipe recipe = new ShapedRecipe(key, asItem(1));
+        final ShapedRecipe recipe = new ShapedRecipe(key, registry.itemForDrug(this, form));
         recipe.shape("$ $", " $ ", "$ $");
-        recipe.setIngredient('$', opium.asItem(1));
+        recipe.setIngredient('$', registry.itemForComponent(opium));
         return recipe;
     }
 

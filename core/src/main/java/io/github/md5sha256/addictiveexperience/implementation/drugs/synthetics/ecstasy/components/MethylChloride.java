@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
@@ -27,14 +28,15 @@ public final class MethylChloride extends AbstractDrugComponent {
     private final Recipe recipe;
 
     @Inject
-    MethylChloride(@NotNull Plugin plugin, @NotNull ItemFactory itemFactory) {
+    MethylChloride(@NotNull Plugin plugin, @NotNull ItemFactory itemFactory, @NotNull DrugRegistry registry) {
         super(itemFactory, Utils.internalKey("methylchloride"), "MethylChloride", Material.GLASS_BOTTLE);
-        this.recipe = createRecipe(plugin);
+        registry.registerComponent(this);
+        this.recipe = createRecipe(plugin, registry);
     }
 
-    private Recipe createRecipe(@NotNull Plugin plugin) {
+    private Recipe createRecipe(@NotNull Plugin plugin, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "methylchloride");
-        final ShapelessRecipe recipe = new ShapelessRecipe(key, this.asItem());
+        final ShapelessRecipe recipe = new ShapelessRecipe(key, registry.itemForComponent(this));
         recipe.addIngredient(Material.GLASS_BOTTLE);
         recipe.addIngredient(Material.BLAZE_POWDER);
         recipe.addIngredient(Material.NETHER_WART);

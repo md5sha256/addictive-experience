@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.cocaine.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
@@ -22,8 +23,9 @@ import java.util.Optional;
 public final class PlantCocaine extends AbstractDrugComponent implements IDrugComponent {
 
     @Inject
-    PlantCocaine(@NotNull ItemFactory itemFactory) {
+    PlantCocaine(@NotNull ItemFactory itemFactory, @NotNull DrugRegistry registry) {
         super(itemFactory, Utils.internalKey("plant_cocaine"), "Coca Plant", Material.TALL_GRASS);
+        registry.registerComponent(this);
     }
 
     protected final @NotNull ItemMeta meta() {

@@ -3,11 +3,13 @@ package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
+import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.Morphine;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.Opium;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.PlantOpium;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.SeedOpium;
+import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.google.inject.Inject;
@@ -43,14 +45,14 @@ public final class DrugHeroin extends AbstractDrug implements ISynthetic {
                @NotNull Morphine morphine,
                @NotNull Opium opium,
                @NotNull PlantOpium plantOpium,
-               @NotNull SeedOpium seedOpium
-    ) {
+               @NotNull SeedOpium seedOpium,
+               @NotNull DrugForms forms
+               ) {
         super(itemFactory,
               Utils.internalKey("heroin"),
               "Heroin",
               Material.GRAY_DYE,
               "addictiveexperience.consumeheroin");
-        this.recipe = createRecipe(plugin, morphine);
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .slurEffect(null)
@@ -60,14 +62,15 @@ public final class DrugHeroin extends AbstractDrug implements ISynthetic {
                         new PotionEffect(PotionEffectType.BLINDNESS, 60, 2)
                 )
                 .build();
-        drugRegistry.registerComponent(this, morphine, opium, plantOpium, seedOpium);
+        drugRegistry.registerComponent(this);
+        this.recipe = createRecipe(plugin, forms.syringe(), morphine, drugRegistry);
     }
 
-    private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull Morphine morphine) {
+    private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull IDrugForm form, @NotNull Morphine morphine, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "heroin");
-        final ShapedRecipe recipe = new ShapedRecipe(key, this.asItem());
+        final ShapedRecipe recipe = new ShapedRecipe(key, registry.itemForComponent(this));
         recipe.shape("  $", " $ ", "$  ");
-        recipe.setIngredient('$', new RecipeChoice.ExactChoice(morphine.asItem()));
+        recipe.setIngredient('$', new RecipeChoice.ExactChoice(registry.itemForComponent(morphine)));
         return recipe;
     }
 

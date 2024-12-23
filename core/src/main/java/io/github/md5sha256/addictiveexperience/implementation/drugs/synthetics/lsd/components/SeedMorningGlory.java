@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
@@ -21,11 +22,12 @@ import java.util.Optional;
 public final class SeedMorningGlory extends AbstractDrugComponent {
 
     @Inject
-    SeedMorningGlory(@NotNull ItemFactory itemFactory) {
+    SeedMorningGlory(@NotNull ItemFactory itemFactory, @NotNull DrugRegistry registry) {
         super(itemFactory,
               Utils.internalKey("seed_morning-glory"),
               "Morning Glory Plant Seeds",
               Material.MELON_SEEDS);
+        registry.registerComponent(this);
     }
 
     @Override

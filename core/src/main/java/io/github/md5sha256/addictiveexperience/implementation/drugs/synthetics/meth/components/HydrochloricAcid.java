@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
@@ -21,8 +22,9 @@ import java.util.Optional;
 public final class HydrochloricAcid extends AbstractDrugComponent {
 
     @Inject
-    HydrochloricAcid(@NotNull ItemFactory itemFactory) {
+    HydrochloricAcid(@NotNull ItemFactory itemFactory, DrugRegistry registry) {
         super(itemFactory, Utils.internalKey("hydrochloric-acid"), "Hydrochloric Acid", Material.WATER_BUCKET);
+        registry.registerComponent(this);
     }
 
     @Override

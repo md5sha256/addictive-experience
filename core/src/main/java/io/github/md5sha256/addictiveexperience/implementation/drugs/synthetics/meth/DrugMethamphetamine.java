@@ -3,12 +3,14 @@ package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
+import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.Ephedrine;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.HydrochloricAcid;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.Iodine;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.Phosphorus;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.PlantEphedrine;
+import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.google.inject.Inject;
@@ -44,14 +46,13 @@ public final class DrugMethamphetamine extends AbstractDrug implements ISyntheti
                         @NotNull Phosphorus phosphorus,
                         @NotNull Iodine iodine,
                         @NotNull Ephedrine ephedrine,
-                        @NotNull PlantEphedrine plantEphedrine
-    ) {
+                        @NotNull DrugForms forms
+                        ) {
         super(itemFactory,
               Utils.internalKey("meth"),
               "Meth",
               Material.CYAN_DYE,
               "addictiveexperience.consumemeth");
-        this.recipe = createRecipe(plugin, hcl, phosphorus, iodine, ephedrine);
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .slurEffect(null)
@@ -61,22 +62,26 @@ public final class DrugMethamphetamine extends AbstractDrug implements ISyntheti
                         new PotionEffect(PotionEffectType.HASTE, 200, 2)
                 )
                 .build();
-        drugRegistry.registerComponent(hcl, phosphorus, iodine, ephedrine, plantEphedrine);
+        drugRegistry.registerComponent(this);
+        this.recipe = createRecipe(plugin, hcl, phosphorus, iodine, ephedrine, drugRegistry, forms.powder());
     }
 
     private @NotNull Recipe createRecipe(@NotNull Plugin plugin,
                                          @NotNull HydrochloricAcid hcl,
                                          @NotNull Phosphorus phosphorus,
                                          @NotNull Iodine iodine,
-                                         @NotNull Ephedrine ephedrine
-    ) {
+                                         @NotNull Ephedrine ephedrine,
+                                         @NotNull DrugRegistry registry,
+                                         @NotNull IDrugForm form
+                                         ) {
         final NamespacedKey key = new NamespacedKey(plugin, "Meth");
-        final ShapedRecipe recipe = new ShapedRecipe(key, this.asItem(1));
+        final ShapedRecipe recipe = new ShapedRecipe(key, registry.itemForDrug(this, form));
         recipe.shape(" % ", "$ £", " * ");
-        recipe.setIngredient('%', hcl.asItem(1));
-        recipe.setIngredient('$', phosphorus.asItem(1));
-        recipe.setIngredient('£', iodine.asItem(1));
-        recipe.setIngredient('*', ephedrine.asItem(1));
+        recipe.setIngredient('%', registry.itemForComponent(hcl));
+        recipe.setIngredient('$', registry.itemForComponent(phosphorus));
+        recipe.setIngredient('£', registry.itemForComponent(iodine));
+        recipe.setIngredient('*', registry.itemForComponent(ephedrine));
+
         return recipe;
     }
 

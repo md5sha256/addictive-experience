@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
@@ -27,16 +28,17 @@ public final class Morphine extends AbstractDrugComponent {
     private final Recipe recipe;
 
     @Inject
-    Morphine(@NotNull Plugin plugin, @NotNull ItemFactory itemFactory, @NotNull Opium opium) {
+    Morphine(@NotNull Plugin plugin, @NotNull ItemFactory itemFactory, @NotNull Opium opium, DrugRegistry registry) {
         super(itemFactory, Utils.internalKey("morphine"), "Morphine", Material.LIGHT_GRAY_DYE);
-        this.recipe = createRecipe(plugin, opium);
+        registry.registerComponent(this);
+        this.recipe = createRecipe(plugin, opium, registry);
     }
 
-    private Recipe createRecipe(@NotNull Plugin plugin, @NotNull Opium opium) {
+    private Recipe createRecipe(@NotNull Plugin plugin, @NotNull Opium opium, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "morphine");
-        final ShapedRecipe recipe = new ShapedRecipe(key, this.asItem());
+        final ShapedRecipe recipe = new ShapedRecipe(key, registry.itemForComponent(this));
         recipe.shape("$$$", "$$$", "$$$");
-        recipe.setIngredient('$', new RecipeChoice.ExactChoice(opium.asItem()));
+        recipe.setIngredient('$', new RecipeChoice.ExactChoice(registry.itemForComponent(opium)));
         return recipe;
     }
 

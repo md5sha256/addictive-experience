@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
@@ -21,11 +22,12 @@ import java.util.Optional;
 public final class SeedSafrole extends AbstractDrugComponent {
 
     @Inject
-    SeedSafrole(@NotNull ItemFactory itemFactory) {
+    SeedSafrole(@NotNull ItemFactory itemFactory, DrugRegistry registry) {
         super(itemFactory,
               Utils.internalKey("sapling_safrole"),
               "Safrole Sapling",
               Material.OAK_SAPLING);
+        registry.registerComponent(this);
     }
 
     protected final @NotNull ItemMeta meta() {

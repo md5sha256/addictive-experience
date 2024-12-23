@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.SmeltingMeta;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
@@ -36,19 +37,20 @@ public final class LysergicAcid extends AbstractDrugComponent {
     @Inject
     LysergicAcid(@NotNull Plugin plugin,
                  @NotNull ItemFactory itemFactory,
-                 @NotNull SeedMorningGlory glorySeeds
+                 @NotNull SeedMorningGlory glorySeeds,
+                 @NotNull DrugRegistry registry
     ) {
         super(itemFactory,
               Utils.internalKey("lysergic-acid"),
               "Lysergic Acid",
               Material.WATER_BUCKET);
-        this.recipe = createRecipe(plugin, glorySeeds);
+        this.recipe = createRecipe(plugin, glorySeeds, registry);
     }
 
-    private Recipe createRecipe(@NotNull Plugin plugin, @NotNull SeedMorningGlory glorySeeds) {
+    private Recipe createRecipe(@NotNull Plugin plugin, @NotNull SeedMorningGlory glorySeeds, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "lysergic-acid");
-        final RecipeChoice choiceGlorySeeds = new RecipeChoice.ExactChoice(glorySeeds.asItem());
-        final ItemStack result = this.asItem(this.smeltingMeta.smeltProductQuantity());
+        final RecipeChoice choiceGlorySeeds = new RecipeChoice.ExactChoice(registry.itemForComponent(glorySeeds));
+        final ItemStack result = registry.itemForComponent(this).asQuantity(this.smeltingMeta.smeltProductQuantity());
         return new FurnaceRecipe(key,
                                  result,
                                  choiceGlorySeeds,

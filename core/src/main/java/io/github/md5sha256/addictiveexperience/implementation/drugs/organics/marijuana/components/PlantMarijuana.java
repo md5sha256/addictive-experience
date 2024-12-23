@@ -28,6 +28,7 @@ public final class PlantMarijuana extends AbstractDrugComponent implements IDrug
               Utils.internalKey("plant_marijuana"),
               "Marijuana Plant",
               Material.LARGE_FERN);
+        drugRegistry.registerComponent(this);
     }
 
     protected final @NotNull ItemMeta meta() {

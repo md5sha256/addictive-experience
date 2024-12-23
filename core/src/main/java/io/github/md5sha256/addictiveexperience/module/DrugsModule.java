@@ -8,6 +8,7 @@ import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.e
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.DrugHeroin;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.DrugLSD;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.DrugMethamphetamine;
+import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components.PlantEphedrine;
 import io.github.md5sha256.addictiveexperience.implementation.forms.blunt.Blunts;
 import com.google.inject.AbstractModule;
 
@@ -15,6 +16,7 @@ public final class DrugsModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        // TODO refactor to individual modules
         bind(IBlunts.class).to(Blunts.class).asEagerSingleton();
         // Organics
         bind(DrugMarijuana.class).asEagerSingleton();
@@ -26,5 +28,6 @@ public final class DrugsModule extends AbstractModule {
         bind(DrugHeroin.class).asEagerSingleton();
         bind(DrugLSD.class).asEagerSingleton();
         bind(DrugMethamphetamine.class).asEagerSingleton();
+        bind(PlantEphedrine.class).asEagerSingleton();
     }
 }

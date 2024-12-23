@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.MethylChloride;
 import io.github.md5sha256.addictiveexperience.util.Utils;
@@ -27,17 +28,18 @@ public final class Chloroform extends AbstractDrugComponent {
     private final Recipe recipe;
 
     @Inject
-    Chloroform(@NotNull Plugin plugin, @NotNull ItemFactory itemFactory, @NotNull MethylChloride mcl) {
+    Chloroform(@NotNull Plugin plugin, @NotNull ItemFactory itemFactory, @NotNull MethylChloride mcl, DrugRegistry registry) {
         super(itemFactory, Utils.internalKey("chloroform"), "Chloroform", Material.PAPER);
-        this.recipe = createRecipe(plugin, mcl);
+        registry.registerComponent(this);
+        this.recipe = createRecipe(plugin, mcl, registry);
     }
 
-    private Recipe createRecipe(@NotNull Plugin plugin, @NotNull MethylChloride mcl) {
+    private Recipe createRecipe(@NotNull Plugin plugin, @NotNull MethylChloride mcl, @NotNull DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "chloroform");
-        final ShapelessRecipe recipe = new ShapelessRecipe(key, this.asItem(3));
+        final ShapelessRecipe recipe = new ShapelessRecipe(key, registry.itemForComponent(this).asQuantity(3));
         recipe.addIngredient(Material.PAPER);
         recipe.addIngredient(Material.WATER_BUCKET);
-        recipe.addIngredient(mcl.asItem());
+        recipe.addIngredient(registry.itemForComponent(mcl));
         return recipe;
     }
 

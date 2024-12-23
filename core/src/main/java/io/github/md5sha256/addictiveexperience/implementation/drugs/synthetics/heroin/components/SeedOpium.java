@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
@@ -21,11 +22,12 @@ import java.util.Optional;
 public final class SeedOpium extends AbstractDrugComponent {
 
     @Inject
-    SeedOpium(@NotNull ItemFactory itemFactory) {
+    SeedOpium(@NotNull ItemFactory itemFactory, DrugRegistry registry) {
         super(itemFactory,
               Utils.internalKey("seed_opium"),
               "Opium Poppy Seeds",
               Material.LIME_DYE);
+        registry.registerComponent(this);
     }
 
     @Override

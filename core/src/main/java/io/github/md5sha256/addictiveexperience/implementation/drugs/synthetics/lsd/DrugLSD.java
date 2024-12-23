@@ -4,12 +4,14 @@ import io.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
+import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components.Chloroform;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components.Ethanol;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components.LysergicAcid;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components.PlantMorningGlory;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.lsd.components.SeedMorningGlory;
+import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.google.inject.Inject;
@@ -47,14 +49,14 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
             @NotNull Ethanol ethanol,
             @NotNull Chloroform chloroform,
             @NotNull PlantMorningGlory plantMorningGlory,
-            @NotNull SeedMorningGlory seedMorningGlory
-    ) {
+            @NotNull SeedMorningGlory seedMorningGlory,
+            @NotNull DrugForms forms
+            ) {
         super(itemFactory,
               Utils.internalKey("lsd"),
               "LSD",
               Material.PAPER,
               "addictiveexperience.consumelsd");
-        this.recipe = createRecipe(plugin, lysergicAcid, ethanol, chloroform);
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .slurEffect(null)
@@ -65,27 +67,23 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
                         new PotionEffect(PotionEffectType.NAUSEA, 300, 5)
                 )
                 .build();
-        drugRegistry.registerComponent(
-                this,
-                lysergicAcid,
-                ethanol,
-                chloroform,
-                plantMorningGlory,
-                seedMorningGlory
-        );
+        drugRegistry.registerComponent(this);
         drugRegistry.metaData(plantMorningGlory, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this, seedMorningGlory));
+        this.recipe = createRecipe(plugin, lysergicAcid, ethanol, chloroform, drugRegistry, forms.defaultForm());
     }
 
     private Recipe createRecipe(@NotNull Plugin plugin,
                                 @NotNull LysergicAcid lysergicAcid,
                                 @NotNull Ethanol ethanol,
-                                @NotNull Chloroform chloroform
-    ) {
+                                @NotNull Chloroform chloroform,
+                                @NotNull DrugRegistry registry,
+                                @NotNull IDrugForm form
+                                ) {
         final NamespacedKey key = new NamespacedKey(plugin, "lsd");
-        final ShapelessRecipe recipe = new ShapelessRecipe(key, this.asItem());
-        recipe.addIngredient(new RecipeChoice.ExactChoice(lysergicAcid.asItem()));
-        recipe.addIngredient(new RecipeChoice.ExactChoice(ethanol.asItem()));
-        recipe.addIngredient(new RecipeChoice.ExactChoice(chloroform.asItem()));
+        final ShapelessRecipe recipe = new ShapelessRecipe(key, registry.itemForDrug(this, form));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(lysergicAcid)));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(ethanol)));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(chloroform)));
         return recipe;
     }
 

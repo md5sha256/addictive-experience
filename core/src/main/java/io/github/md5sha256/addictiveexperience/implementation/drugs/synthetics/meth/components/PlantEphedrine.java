@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.meth.components;
 
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugComponent;
 import io.github.md5sha256.addictiveexperience.util.Utils;
@@ -22,8 +23,9 @@ import java.util.Optional;
 public final class PlantEphedrine extends AbstractDrugComponent implements IDrugComponent {
 
     @Inject
-    PlantEphedrine(@NotNull ItemFactory itemFactory) {
+    PlantEphedrine(@NotNull ItemFactory itemFactory, @NotNull DrugRegistry registry) {
         super(itemFactory, Utils.internalKey("plant_ephedrine"), "Ephedrine Plant", Material.RED_TULIP);
+        registry.registerComponent(this);
     }
 
     @Override

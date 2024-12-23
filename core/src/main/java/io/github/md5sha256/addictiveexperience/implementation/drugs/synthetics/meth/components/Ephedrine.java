@@ -27,6 +27,7 @@ public final class Ephedrine extends AbstractDrugComponent {
               @NotNull PlantEphedrine plantEphedrine,
               @NotNull DrugRegistry drugRegistry) {
         super(itemFactory, Utils.internalKey("ephedrine"), "Ephedrine", Material.BLUE_DYE);
+        drugRegistry.registerComponent(this);
         drugRegistry.metaData(plantEphedrine, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this));
     }
 
