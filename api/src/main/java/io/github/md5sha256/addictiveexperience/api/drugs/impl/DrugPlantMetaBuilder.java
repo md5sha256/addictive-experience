@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.api.drugs.impl;
 
+import com.google.common.base.Preconditions;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import org.apache.commons.lang.Validate;
@@ -81,16 +82,16 @@ public final class DrugPlantMetaBuilder {
     }
 
     private void validate() {
-        Validate.isTrue(growthTimeMillis > 0, "Invalid growth time: ", growthTimeMillis);
-        Validate.isTrue(seedDropAmount >= 0, "Invalid seed drop amount: ", seedDropAmount);
-        Validate.isTrue(seedDropProbability >= 0 && seedDropProbability <= 1,
+        Preconditions.checkArgument(growthTimeMillis > 0, "Invalid growth time: ", growthTimeMillis);
+        Preconditions.checkArgument(seedDropAmount >= 0, "Invalid seed drop amount: ", seedDropAmount);
+        Preconditions.checkArgument(seedDropProbability >= 0 && seedDropProbability <= 1,
                         "Invalid seed drop probability: ",
                         seedDropProbability);
-        Validate.isTrue(harvestProbability >= 0 && harvestProbability <= 1,
+        Preconditions.checkArgument(harvestProbability >= 0 && harvestProbability <= 1,
                         "Invalid harvest probability: ",
                         harvestProbability);
-        Validate.isTrue(harvestAmount >= 0, "Invalid harvest amount: ", harvestAmount);
-        Validate.notNull(result, "Drug cannot be null");
+        Preconditions.checkArgument(harvestAmount >= 0, "Invalid harvest amount: ", harvestAmount);
+        Preconditions.checkNotNull(result, "Drug cannot be null");
     }
 
     public DrugPlantMetaImpl build() {

@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.api.drugs.impl;
 
+import com.google.common.base.Preconditions;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantData;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import com.github.md5sha256.spigotutils.blocks.BlockPosition;
@@ -54,9 +55,9 @@ public final class DrugPlantDataBuilder {
     }
 
     private void validate() {
-        Validate.notNull(this.meta, "Meta cannot be null");
-        Validate.notNull(this.position, "Position cannot be null");
-        Validate.isTrue(this.startTimeEpochMilli >= 0, "Invalid start time");
+        Preconditions.checkNotNull(this.meta, "Meta cannot be null");
+        Preconditions.checkNotNull(this.position, "Position cannot be null");
+        Preconditions.checkArgument(this.startTimeEpochMilli >= 0, "Invalid start time");
     }
 
     public @NotNull DrugPlantDataImpl build() {

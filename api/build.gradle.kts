@@ -20,6 +20,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation(libs.mockbukkit)
     testImplementation(testFixtures(projects.api))
+    testImplementation(libs.paper)
 }
 
 project.extensions.getByType(JavaPluginExtension::class).withSourcesJar()

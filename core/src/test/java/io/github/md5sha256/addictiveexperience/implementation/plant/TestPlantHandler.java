@@ -43,7 +43,7 @@ public class TestPlantHandler {
         plugin = MockBukkit.createMockPlugin("plugin");
         DrugRegistry drugRegistry = new SimpleDrugRegistry(plugin);
         factory = new SimplePlantDataResolverFactory(plugin, drugRegistry);
-        IDrug drug = new DummyDrugImpl(Bukkit.getItemFactory(), Key.key("dummy:dummy"), "dummy", Material.COCOA, "");
+        IDrug drug = new DummyDrugImpl(Bukkit.getItemFactory(), Key.key("dummy:dummy"), "dummy", Material.COCOA_BEANS, "");
         drugRegistry.registerComponent(drug);
         world = new WorldMock();
         mock.addWorld(world);

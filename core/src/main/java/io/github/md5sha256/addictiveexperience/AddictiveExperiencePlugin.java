@@ -102,7 +102,10 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
 
     public void registerRecipes(@NotNull Server server) {
         for (IDrugComponent component : this.drugRegistry.components()) {
-            component.recipe().ifPresent(server::addRecipe);
+            component.recipe().ifPresent(recipe -> {
+                getLogger().info("Registered recipe for " + component.displayName());
+                server.addRecipe(recipe);
+            });
         }
     }
 }

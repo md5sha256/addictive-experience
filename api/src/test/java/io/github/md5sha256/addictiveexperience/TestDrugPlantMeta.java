@@ -96,7 +96,7 @@ public class TestDrugPlantMeta {
                 .seed(null)
                 .build();
         final DrugPlantMetaBuilder invalidResult = valid.toBuilder().result(null);
-        Assertions.assertThrows(IllegalArgumentException.class, invalidResult::build);
+        Assertions.assertThrows(NullPointerException.class, invalidResult::build);
         final DrugPlantMetaBuilder invalidGrowthTime = valid.toBuilder().growthTimeMillis(-1);
         Assertions.assertThrows(IllegalArgumentException.class, invalidGrowthTime::build);
         final DrugPlantMetaBuilder invalidHarvestAmount = valid.toBuilder().harvestAmount(-1);

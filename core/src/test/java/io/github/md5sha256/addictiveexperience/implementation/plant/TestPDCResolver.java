@@ -43,7 +43,7 @@ public class TestPDCResolver {
     public void testPDCResolver() {
         Plugin plugin = MockBukkit.createMockPlugin("plugin");
         DrugRegistry drugRegistry = new SimpleDrugRegistry(plugin);
-        IDrug drug = new DummyDrugImpl(Bukkit.getItemFactory(), Key.key("dummy:dummy"), "dummy", Material.COCOA, "");
+        IDrug drug = new DummyDrugImpl(Bukkit.getItemFactory(), Key.key("dummy:dummy"), "dummy", Material.COCOA_BEANS, "");
         drugRegistry.registerComponent(drug);
         World world = new WorldMock();
         Chunk chunk = world.getChunkAt(0, 0);

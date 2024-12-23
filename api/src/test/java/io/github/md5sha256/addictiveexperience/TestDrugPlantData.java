@@ -98,12 +98,12 @@ public class TestDrugPlantData {
                 .position(null)
                 .meta(meta)
                 .startTimeEpochMilli(0);
-        Assertions.assertThrows(IllegalArgumentException.class, invalidPosition::build, "Position cannot be null");
+        Assertions.assertThrows(NullPointerException.class, invalidPosition::build, "Position cannot be null");
         final DrugPlantDataBuilder invalidMeta = DrugPlantData.builder()
                 .position(position)
                 .meta(null)
                 .startTimeEpochMilli(0);
-        Assertions.assertThrows(IllegalArgumentException.class, invalidMeta::build, "Meta cannot be null");
+        Assertions.assertThrows(NullPointerException.class, invalidMeta::build, "Meta cannot be null");
     }
 
     @Test
