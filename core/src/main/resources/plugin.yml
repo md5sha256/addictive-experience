@@ -1,5 +1,5 @@
 name: AddictiveExperience
-version: "@version@"
+version: "${version}"
 main: io.github.md5sha256.addictiveexperience.AddictiveExperiencePlugin
 api-version: 1.21
 depend:
