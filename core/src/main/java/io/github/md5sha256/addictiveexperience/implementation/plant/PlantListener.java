@@ -180,6 +180,7 @@ public final class PlantListener implements DeregisterableListener {
         if (!harvest) {
             return;
         }
+        data.elapsed().reset();
         final Optional<IDrugComponent> optionalSeed = meta.seed();
         final double probabilitySeedDrop = meta.seedDropProbability();
         final int amountSeed = meta.seedDropAmount();
