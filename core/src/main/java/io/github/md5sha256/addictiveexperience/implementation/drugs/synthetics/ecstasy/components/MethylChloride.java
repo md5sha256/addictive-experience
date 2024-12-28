@@ -36,7 +36,7 @@ public final class MethylChloride extends AbstractDrugComponent {
 
     private Recipe createRecipe(@NotNull Plugin plugin, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "methylchloride");
-        final ShapelessRecipe recipe = new ShapelessRecipe(key, registry.itemForComponent(this));
+        final ShapelessRecipe recipe = new ShapelessRecipe(key, asItem(registry));
         recipe.addIngredient(Material.GLASS_BOTTLE);
         recipe.addIngredient(Material.BLAZE_POWDER);
         recipe.addIngredient(Material.NETHER_WART);

@@ -36,10 +36,10 @@ public final class Chloroform extends AbstractDrugComponent {
 
     private Recipe createRecipe(@NotNull Plugin plugin, @NotNull MethylChloride mcl, @NotNull DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "chloroform");
-        final ShapelessRecipe recipe = new ShapelessRecipe(key, registry.itemForComponent(this).asQuantity(3));
+        final ShapelessRecipe recipe = new ShapelessRecipe(key, asItem(registry).asQuantity(3));
         recipe.addIngredient(Material.PAPER);
         recipe.addIngredient(Material.WATER_BUCKET);
-        recipe.addIngredient(registry.itemForComponent(mcl));
+        recipe.addIngredient(mcl.asItem(registry));
         return recipe;
     }
 

@@ -35,7 +35,7 @@ public final class Ethanol extends AbstractDrugComponent {
 
     private Recipe createRecipe(@NotNull Plugin plugin, @NotNull DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "ethanol");
-        final ShapelessRecipe recipe = new ShapelessRecipe(key, registry.itemForComponent(this));
+        final ShapelessRecipe recipe = new ShapelessRecipe(key, asItem(registry));
         recipe.addIngredient(Material.WATER_BUCKET);
         recipe.addIngredient(Material.SUGAR_CANE);
         recipe.addIngredient(Material.BEETROOT);

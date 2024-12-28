@@ -38,7 +38,7 @@ public final class Morphine extends AbstractDrugComponent {
         final NamespacedKey key = new NamespacedKey(plugin, "morphine");
         final ShapedRecipe recipe = new ShapedRecipe(key, registry.itemForComponent(this));
         recipe.shape("$$$", "$$$", "$$$");
-        recipe.setIngredient('$', new RecipeChoice.ExactChoice(registry.itemForComponent(opium)));
+        recipe.setIngredient('$', new RecipeChoice.ExactChoice(opium.asItem(registry)));
         return recipe;
     }
 

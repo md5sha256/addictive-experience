@@ -49,8 +49,8 @@ public final class LysergicAcid extends AbstractDrugComponent {
 
     private Recipe createRecipe(@NotNull Plugin plugin, @NotNull SeedMorningGlory glorySeeds, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "lysergic-acid");
-        final RecipeChoice choiceGlorySeeds = new RecipeChoice.ExactChoice(registry.itemForComponent(glorySeeds));
-        final ItemStack result = registry.itemForComponent(this).asQuantity(this.smeltingMeta.smeltProductQuantity());
+        final RecipeChoice choiceGlorySeeds = new RecipeChoice.ExactChoice(glorySeeds.asItem(registry));
+        final ItemStack result =asItem(registry).asQuantity(this.smeltingMeta.smeltProductQuantity());
         return new FurnaceRecipe(key,
                                  result,
                                  choiceGlorySeeds,

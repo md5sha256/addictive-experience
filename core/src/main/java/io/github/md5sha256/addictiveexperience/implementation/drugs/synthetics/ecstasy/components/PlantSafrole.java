@@ -45,9 +45,9 @@ public final class PlantSafrole extends AbstractDrugComponent {
 
     private Recipe createRecipe(@NotNull Plugin plugin, @NotNull BarkSafrole barkSafrole, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "safrole");
-        final RecipeChoice choiceBarkSafrole = new RecipeChoice.ExactChoice(registry.itemForComponent(barkSafrole));
+        final RecipeChoice choiceBarkSafrole = new RecipeChoice.ExactChoice(barkSafrole.asItem(registry));
         return new FurnaceRecipe(key,
-                                 registry.itemForComponent(this).asQuantity(this.smeltingMeta.smeltProductQuantity()),
+                                 asItem(registry).asQuantity(this.smeltingMeta.smeltProductQuantity()),
                                  choiceBarkSafrole,
                                  this.smeltingMeta.experienceGain(),
                                  this.smeltingMeta.cookTimeTicks());
