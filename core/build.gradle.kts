@@ -114,7 +114,7 @@ tasks {
         relocate("org.checkerframework", "${relocationBase}.checkerframework")
         relocate("org.yaml.snakeyaml", "${relocationBase}.snakeyaml")
         relocate("jakarta.inject", "${relocationBase}.jakarta.inject")
-        relocate("javax.annotation", "${relocationBase}.javax.annotation")
+        relocate("jakarta.annotation", "${relocationBase}.jakarta.annotation")
 
         minimize()
     }
