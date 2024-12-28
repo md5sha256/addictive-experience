@@ -61,7 +61,7 @@ public final class DrugMarijuana extends AbstractDrug implements IOrganic {
                         .build();
         drugRegistry.registerComponent(this);
         drugRegistry.metaData(plantMarijuana, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this));
-        bluntUnlit.registerUnlitBluntRecipe(plugin, this);
+        bluntUnlit.registerUnlitBluntRecipe(plugin, drugRegistry, this);
     }
 
     protected final @NotNull ItemMeta meta() {
