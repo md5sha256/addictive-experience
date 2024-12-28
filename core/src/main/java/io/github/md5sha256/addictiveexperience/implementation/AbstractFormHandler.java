@@ -87,10 +87,15 @@ public abstract class AbstractFormHandler {
             return;
         }
         handleDrugUse(player, itemStack, itemData);
-        itemStack.setAmount(itemStack.getAmount() - 1);
+        itemStack.subtract(1);
         player.getInventory().setItem(equipmentSlot, itemStack);
-        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1.0f, 0.6f);
+
         sendMessageOnItemUse(player, itemData);
+        playSounds(player);
+    }
+
+    protected void playSounds(Player player) {
+        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1.0f, 0.6f);
         Runnable playSound = () -> player.playSound(player.getLocation(), Sound.ENTITY_EVOKER_CELEBRATE, 0.6f, 1.0f);
         Bukkit.getScheduler().runTaskLater(this.plugin, playSound, 8L);
     }

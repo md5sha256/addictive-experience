@@ -1,12 +1,12 @@
 package io.github.md5sha256.addictiveexperience.implementation.forms.blunt;
 
+import com.github.md5sha256.spigotutils.AdventureUtils;
+import com.google.inject.Inject;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import io.github.md5sha256.addictiveexperience.api.forms.BluntState;
 import io.github.md5sha256.addictiveexperience.api.forms.FormBlunt;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugForm;
 import io.github.md5sha256.addictiveexperience.util.Utils;
-import com.github.md5sha256.spigotutils.AdventureUtils;
-import com.google.inject.Inject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -35,8 +35,8 @@ public class BluntLit extends AbstractDrugForm implements FormBlunt {
         final ItemMeta meta = this.itemFactory.getItemMeta(Material.TORCH);
         final Component displayName =
                 Component.text("Blunt", NamedTextColor.DARK_GRAY)
-                         .append(Component.space())
-                         .append(Component.text("<Lit>", NamedTextColor.RED));
+                        .append(Component.space())
+                        .append(Component.text("<Lit>", NamedTextColor.RED));
         AdventureUtils.setDisplayName(meta, displayName);
         final List<Component> lore = Arrays.asList(
                 Component.text(String.format("Contents: %s", contents), NamedTextColor.WHITE),

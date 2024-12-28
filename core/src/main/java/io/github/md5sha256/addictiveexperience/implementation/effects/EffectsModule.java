@@ -3,7 +3,7 @@ package io.github.md5sha256.addictiveexperience.implementation.effects;
 import io.github.md5sha256.addictiveexperience.api.effect.IEffectHandler;
 import com.google.inject.AbstractModule;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 public class EffectsModule extends AbstractModule {
 

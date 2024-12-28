@@ -1,13 +1,14 @@
 package io.github.md5sha256.addictiveexperience.implementation.forms.blunt;
 
+import com.github.md5sha256.spigotutils.AdventureUtils;
+import com.google.inject.Inject;
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import io.github.md5sha256.addictiveexperience.api.forms.BluntState;
 import io.github.md5sha256.addictiveexperience.api.forms.FormBlunt;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugForm;
-import io.github.md5sha256.addictiveexperience.implementation.drugs.organics.marijuana.DrugMarijuana;
 import io.github.md5sha256.addictiveexperience.util.Utils;
-import com.github.md5sha256.spigotutils.AdventureUtils;
-import com.google.inject.Inject;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -30,30 +31,32 @@ public final class BluntUnlit extends AbstractDrugForm implements FormBlunt {
     private final ItemMeta metaEmptyContents;
 
     @Inject
-    BluntUnlit(@NotNull Plugin plugin,
-               @NotNull ItemFactory itemFactory,
-               @NotNull DrugMarijuana marijuana) {
+    BluntUnlit(@NotNull ItemFactory itemFactory) {
         super(itemFactory, Utils.internalKey("blunt_unlit"), "Blunt_Unlit");
         this.metaEmptyContents = metaEmpty();
         this.itemEmptyContents = ItemStack.of(Material.STICK);
         this.itemEmptyContents.setItemMeta(this.metaEmptyContents);
-        registerRecipes(plugin, marijuana);
     }
 
-    private void registerRecipes(@NotNull Plugin plugin, @NotNull DrugMarijuana marijuana) {
-        final ItemStack unlitBlunt = this.itemEmptyContents;
-        final ItemStack marijuanaItem = marijuana.itemModel();
+    private String toValue(Key key) {
+        return key.toString().replace(":", "_");
+    }
 
-        final NamespacedKey key1 = new NamespacedKey(plugin, "Blunt1");
-        final ShapedRecipe recipe1 = new ShapedRecipe(key1, unlitBlunt);
+    public void registerUnlitBluntRecipe(@NotNull Plugin plugin, @NotNull DrugRegistry registry, @NotNull IDrug drug) {
+        final ItemStack emptyBlunt = this.itemEmptyContents;
+        final ItemStack drugItem = registry.itemForDrug(drug, this);
+
+        final NamespacedKey key1 = new NamespacedKey(plugin, "unlit-blunt-" + toValue(drug.key()));
+        final ShapedRecipe recipe1 = new ShapedRecipe(key1, emptyBlunt);
         recipe1.shape("$$$", "%%%", "   ");
-        recipe1.setIngredient('$', new RecipeChoice.ExactChoice(marijuanaItem));
+        recipe1.setIngredient('$', new RecipeChoice.ExactChoice(drugItem));
         recipe1.setIngredient('%', Material.PAPER);
 
-        final NamespacedKey key2 = new NamespacedKey(plugin, "Blunt2");
-        final ShapedRecipe recipe2 = new ShapedRecipe(key2, unlitBlunt);
+        final NamespacedKey key2 = new NamespacedKey(plugin,
+                "unlit-blunt-alt" + toValue(drug.key()));
+        final ShapedRecipe recipe2 = new ShapedRecipe(key2, emptyBlunt);
         recipe2.shape("   ", "%%%", "$$$");
-        recipe2.setIngredient('%', new RecipeChoice.ExactChoice(marijuanaItem));
+        recipe2.setIngredient('%', new RecipeChoice.ExactChoice(drugItem));
         recipe2.setIngredient('$', Material.PAPER);
 
         plugin.getServer().addRecipe(recipe1);
@@ -69,8 +72,8 @@ public final class BluntUnlit extends AbstractDrugForm implements FormBlunt {
         final ItemMeta meta = this.itemFactory.getItemMeta(Material.STICK);
         final Component displayName =
                 Component.text("Blunt", NamedTextColor.DARK_GRAY)
-                         .append(Component.space())
-                         .append(Component.text("<Not Lit>", NamedTextColor.DARK_GRAY));
+                        .append(Component.space())
+                        .append(Component.text("<Not Lit>", NamedTextColor.DARK_GRAY));
 
         AdventureUtils.setDisplayName(meta, displayName);
         final List<Component> lore = Arrays.asList(
@@ -85,8 +88,8 @@ public final class BluntUnlit extends AbstractDrugForm implements FormBlunt {
         final ItemMeta meta = this.itemFactory.getItemMeta(Material.STICK);
         final Component displayName =
                 Component.text("Blunt", NamedTextColor.DARK_GRAY)
-                         .append(Component.space())
-                         .append(Component.text("<Not Lit>", NamedTextColor.DARK_GRAY));
+                        .append(Component.space())
+                        .append(Component.text("<Not Lit>", NamedTextColor.DARK_GRAY));
 
         AdventureUtils.setDisplayName(meta, displayName);
         final List<Component> lore = Arrays.asList(

@@ -54,6 +54,8 @@ dependencies {
 
     compileOnly(libs.paper)
     compileOnly(libs.jetbrainsAnnotations)
+    implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
+
 
 
     implementation(libs.guice)
@@ -111,7 +113,7 @@ tasks {
         relocate("org.spongepowered.configurate", "${relocationBase}.configurate")
         relocate("org.checkerframework", "${relocationBase}.checkerframework")
         relocate("org.yaml.snakeyaml", "${relocationBase}.snakeyaml")
-        relocate("javax.inject", "${relocationBase}.javax.inject")
+        relocate("jakarta.inject", "${relocationBase}.jakarta.inject")
         relocate("javax.annotation", "${relocationBase}.javax.annotation")
 
         minimize()

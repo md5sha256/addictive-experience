@@ -9,7 +9,7 @@ import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IOrganic;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.organics.marijuana.components.PlantMarijuana;
-import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
+import io.github.md5sha256.addictiveexperience.implementation.forms.blunt.BluntUnlit;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -17,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
@@ -32,18 +33,20 @@ public final class DrugMarijuana extends AbstractDrug implements IOrganic {
     private final DrugMeta defaultMeta;
 
     @Inject
-    DrugMarijuana(@NotNull ItemFactory itemFactory,
-                  @NotNull DrugRegistry drugRegistry,
-                  @NotNull PlantMarijuana plantMarijuana,
-                  @NotNull DrugForms forms
-                  ) {
+    DrugMarijuana(
+            @NotNull Plugin plugin,
+            @NotNull ItemFactory itemFactory,
+            @NotNull DrugRegistry drugRegistry,
+            @NotNull PlantMarijuana plantMarijuana,
+            @NotNull BluntUnlit bluntUnlit
+    ) {
         super(
                 itemFactory,
                 Utils.internalKey("marijuana"),
                 "Marijuana",
                 Material.GREEN_DYE,
                 "addictiveexperience.consumeweed",
-                forms.blunt().unlit()
+                bluntUnlit
         );
         this.defaultMeta =
                 DrugMeta.DEFAULT
@@ -58,6 +61,7 @@ public final class DrugMarijuana extends AbstractDrug implements IOrganic {
                         .build();
         drugRegistry.registerComponent(this);
         drugRegistry.metaData(plantMarijuana, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this));
+        bluntUnlit.registerUnlitBluntRecipe(plugin, this);
     }
 
     protected final @NotNull ItemMeta meta() {
