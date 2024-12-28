@@ -42,7 +42,7 @@ public final class BluntUnlit extends AbstractDrugForm implements FormBlunt {
 
     private void registerRecipes(@NotNull Plugin plugin, @NotNull DrugMarijuana marijuana) {
         final ItemStack unlitBlunt = this.itemEmptyContents;
-        final ItemStack marijuanaItem = marijuana.asItem();
+        final ItemStack marijuanaItem = marijuana.itemModel();
 
         final NamespacedKey key1 = new NamespacedKey(plugin, "Blunt1");
         final ShapedRecipe recipe1 = new ShapedRecipe(key1, unlitBlunt);

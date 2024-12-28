@@ -1,5 +1,8 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy;
 
+import com.github.md5sha256.spigotutils.AdventureUtils;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
@@ -12,9 +15,6 @@ import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.e
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.ecstasy.components.SeedSafrole;
 import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
 import io.github.md5sha256.addictiveexperience.util.Utils;
-import com.github.md5sha256.spigotutils.AdventureUtils;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -51,8 +51,11 @@ public final class DrugEcstasy extends AbstractDrug {
                 @NotNull Mercury mercury
     ) {
         super(itemFactory,
-              Utils.internalKey("ecstasy"),
-              "Ecstasy", Material.IRON_NUGGET, "addictiveexperience.consumeecstasy");
+                Utils.internalKey("ecstasy"),
+                "Ecstasy",
+                Material.IRON_NUGGET,
+                "addictiveexperience.consumeecstasy",
+                forms.powder());
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .slurEffect(null)
@@ -63,22 +66,23 @@ public final class DrugEcstasy extends AbstractDrug {
                 )
                 .build();
         drugRegistry.registerComponent(this);
-        drugRegistry.metaData(safrole, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this, seedSafrole));
-        this.recipe = createRecipe(plugin, safrole, mcl, mercury, forms.powder(), drugRegistry);
+        drugRegistry.metaData(safrole,
+                DrugPlantMeta.KEY,
+                DrugPlantMeta.defaultMeta(this, seedSafrole));
+        this.recipe = createRecipe(plugin, safrole, mcl, mercury, drugRegistry);
     }
 
     private @NotNull Recipe createRecipe(@NotNull Plugin plugin,
                                          @NotNull PlantSafrole safrole,
                                          @NotNull MethylChloride mcl,
                                          @NotNull Mercury mercury,
-                                         @NotNull IDrugForm form,
                                          @NotNull DrugRegistry registry
     ) {
         final NamespacedKey key = new NamespacedKey(plugin, "ecstasy");
-        final ShapelessRecipe recipe = new ShapelessRecipe(key, registry.itemForDrug(this, form));
-        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(safrole)));
-        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(mcl)));
-        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(mercury)));
+        final ShapelessRecipe recipe = new ShapelessRecipe(key, asItem(registry));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(safrole.asItem(registry)));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(mcl.asItem(registry)));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(mercury.asItem(registry)));
         recipe.addIngredient(Material.IRON_INGOT);
         return recipe;
     }

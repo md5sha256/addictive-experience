@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.plant;
 
+import io.github.md5sha256.addictiveexperience.fixtures.DummyDrugForm;
 import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockbukkit.mockbukkit.world.WorldMock;
@@ -43,7 +44,7 @@ public class TestPlantHandler {
         plugin = MockBukkit.createMockPlugin("plugin");
         DrugRegistry drugRegistry = new SimpleDrugRegistry(plugin);
         factory = new SimplePlantDataResolverFactory(plugin, drugRegistry);
-        IDrug drug = new DummyDrugImpl(Bukkit.getItemFactory(), Key.key("dummy:dummy"), "dummy", Material.COCOA_BEANS, "");
+        IDrug drug = new DummyDrugImpl(Bukkit.getItemFactory(), Key.key("dummy:dummy"), "dummy", Material.COCOA_BEANS, "", new DummyDrugForm(Bukkit.getItemFactory()));
         drugRegistry.registerComponent(drug);
         world = new WorldMock();
         mock.addWorld(world);

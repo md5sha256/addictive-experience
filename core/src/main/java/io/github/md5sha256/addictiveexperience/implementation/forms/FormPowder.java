@@ -28,7 +28,7 @@ public final class FormPowder extends AbstractDrugForm implements IDrugForm {
 
     @Override
     public @NotNull ItemStack asItem(@NotNull IDrug drug) {
-        return drug.asItem();
+        return drug.itemModel();
     }
 
     @Override

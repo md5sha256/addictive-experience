@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.drugs;
 
+import io.github.md5sha256.addictiveexperience.fixtures.DummyDrugForm;
 import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockbukkit.mockbukkit.ServerMock;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
@@ -45,7 +46,8 @@ public class TestSimpleItemDataFactory {
                 Key.key("addictive-experience", "dummy-drug"),
                 "dummy-drug",
                 Material.IRON_INGOT,
-                "permission"
+                "permission",
+                new DummyDrugForm(mock.getItemFactory())
         );
         final IDrugForm form = new FormDefault(mock.getItemFactory());
         drugRegistry.registerDrugForm(form);

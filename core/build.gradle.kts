@@ -5,7 +5,7 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
-var relocationBase = "com.github.md5sha256.addictiveexperience.shaded"
+var relocationBase = "io.github.md5sha256.addictiveexperience.shaded"
 
 repositories {
     maven {

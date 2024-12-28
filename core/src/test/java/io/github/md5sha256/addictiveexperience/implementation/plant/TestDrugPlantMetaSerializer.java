@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience.implementation.plant;
 
+import io.github.md5sha256.addictiveexperience.fixtures.DummyDrugForm;
 import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockbukkit.mockbukkit.ServerMock;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
@@ -43,7 +44,9 @@ public class TestDrugPlantMetaSerializer {
                 Key.key("dummy", "dummy-drug"),
                 "dummy drug",
                 Material.IRON_AXE,
-                "");
+                "",
+                new DummyDrugForm(mock.getItemFactory())
+        );
         DrugPlantMeta plantMeta = DrugPlantMeta.defaultMeta(mockDrug);
         DrugRegistry drugRegistry = new SimpleDrugRegistry(plugin);
         drugRegistry.registerComponent(mockDrug);

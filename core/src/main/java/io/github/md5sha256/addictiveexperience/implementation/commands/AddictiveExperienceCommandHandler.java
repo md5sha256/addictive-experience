@@ -258,7 +258,7 @@ public class AddictiveExperienceCommandHandler {
             }
         } else {
             if (modelOnly) {
-                toGive = component.asItem();
+                toGive = component.itemModel();
             } else {
                 toGive = this.drugRegistry.itemForComponent(component);
             }

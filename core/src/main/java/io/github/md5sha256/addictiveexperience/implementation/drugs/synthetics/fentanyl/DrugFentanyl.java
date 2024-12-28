@@ -54,7 +54,8 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
               Utils.internalKey("fentanyl"),
               "Fentanyl",
               Material.WHITE_DYE,
-              "addictiveexperience.consumefentanyl");
+              "addictiveexperience.consumefentanyl",
+                forms.powder());
         final CustomEffect effectRandomDeath = randomDeath.createEffect(
                 Common.toTicks(2, TimeUnit.MINUTES),
                 TimeUnit.SECONDS.toMillis(30),
@@ -71,14 +72,14 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
                 .build();
         this.effects = Collections.singleton(randomDeath);
         drugRegistry.registerComponent(this);
-        this.recipe = createRecipe(plugin, forms.powder(), opium, drugRegistry);
+        this.recipe = createRecipe(plugin, opium, drugRegistry);
     }
 
-    private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull IDrugForm form, @NotNull Opium opium, DrugRegistry registry) {
+    private @NotNull Recipe createRecipe(@NotNull Plugin plugin,@NotNull Opium opium, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "fentanyl");
-        final ShapedRecipe recipe = new ShapedRecipe(key, registry.itemForDrug(this, form));
+        final ShapedRecipe recipe = new ShapedRecipe(key, asItem(registry));
         recipe.shape("$ $", " $ ", "$ $");
-        recipe.setIngredient('$', registry.itemForComponent(opium));
+        recipe.setIngredient('$', opium.asItem(registry));
         return recipe;
     }
 

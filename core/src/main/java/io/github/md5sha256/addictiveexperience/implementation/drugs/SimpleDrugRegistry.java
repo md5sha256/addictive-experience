@@ -181,7 +181,7 @@ public final class SimpleDrugRegistry implements DrugRegistry {
 
     @Override
     public @NotNull ItemStack itemForComponent(@NotNull IDrugComponent component) {
-        final ItemStack itemStack = component.asItem();
+        final ItemStack itemStack = component.itemModel();
         this.itemDataFactory.data(itemStack, component);
         return itemStack;
     }
@@ -189,7 +189,7 @@ public final class SimpleDrugRegistry implements DrugRegistry {
     @Override
     public @NotNull ItemStack itemForDrug(@NotNull final IDrug drug,
                                           @NotNull final IDrugForm form) {
-        final ItemStack itemStack = drug.asItem();
+        final ItemStack itemStack = drug.itemModel();
         this.itemDataFactory.data(itemStack, DrugItemData.of(drug, form));
         return itemStack;
     }

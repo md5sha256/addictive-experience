@@ -56,7 +56,8 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
               Utils.internalKey("lsd"),
               "LSD",
               Material.PAPER,
-              "addictiveexperience.consumelsd");
+              "addictiveexperience.consumelsd",
+                forms.defaultForm());
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .slurEffect(null)
@@ -69,21 +70,20 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
                 .build();
         drugRegistry.registerComponent(this);
         drugRegistry.metaData(plantMorningGlory, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this, seedMorningGlory));
-        this.recipe = createRecipe(plugin, lysergicAcid, ethanol, chloroform, drugRegistry, forms.defaultForm());
+        this.recipe = createRecipe(plugin, lysergicAcid, ethanol, chloroform, drugRegistry);
     }
 
     private Recipe createRecipe(@NotNull Plugin plugin,
                                 @NotNull LysergicAcid lysergicAcid,
                                 @NotNull Ethanol ethanol,
                                 @NotNull Chloroform chloroform,
-                                @NotNull DrugRegistry registry,
-                                @NotNull IDrugForm form
+                                @NotNull DrugRegistry registry
                                 ) {
         final NamespacedKey key = new NamespacedKey(plugin, "lsd");
-        final ShapelessRecipe recipe = new ShapelessRecipe(key, registry.itemForDrug(this, form));
-        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(lysergicAcid)));
-        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(ethanol)));
-        recipe.addIngredient(new RecipeChoice.ExactChoice(registry.itemForComponent(chloroform)));
+        final ShapelessRecipe recipe = new ShapelessRecipe(key, asItem(registry));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(lysergicAcid.asItem(registry)));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(ethanol.asItem(registry)));
+        recipe.addIngredient(new RecipeChoice.ExactChoice(chloroform.asItem(registry)));
         return recipe;
     }
 

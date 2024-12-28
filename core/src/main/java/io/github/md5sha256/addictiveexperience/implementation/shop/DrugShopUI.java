@@ -130,7 +130,7 @@ public final class DrugShopUI {
 
     private GuiElement elementDrug(IDrugComponent component) {
         final char c = 'a';
-        final ItemStack drugAsItem = component.asItem();
+        final ItemStack drugAsItem = component.itemModel();
         final ItemStack button = ItemStack.of(drugAsItem.getType());
         final ItemMeta meta = button.getItemMeta();
         final Component displayName = AdventureUtils.getDisplayName(meta);

@@ -1,5 +1,6 @@
 package io.github.md5sha256.addictiveexperience;
 
+import io.github.md5sha256.addictiveexperience.fixtures.DummyDrugForm;
 import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockbukkit.mockbukkit.world.WorldMock;
@@ -34,6 +35,7 @@ public class TestDrugPlantData {
                 .material(Material.IRON_INGOT)
                 .name("test")
                 .permission("permission")
+                .drugForm(new DummyDrugForm(mock.getItemFactory()))
                 .build();
         meta = DrugPlantMeta.builder()
                             .result(drug)

@@ -6,6 +6,7 @@ import io.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IOrganic;
+import io.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import net.kyori.adventure.text.Component;
@@ -28,12 +29,15 @@ public class MushroomPsilocybin extends AbstractDrug implements IOrganic {
 
     @Inject
     public MushroomPsilocybin(@NotNull ItemFactory itemFactory,
-                              @NotNull DrugRegistry drugRegistry) {
+                              @NotNull DrugRegistry drugRegistry,
+                              @NotNull IDrugForms forms) {
         super(itemFactory,
                 Utils.internalKey("mushroom_psilocybin"),
                 "Psilocybin Mushroom",
                 Material.BROWN_MUSHROOM,
-                "addictiveexperience.consumepsilocybin");
+                "addictiveexperience.consumepsilocybin",
+                forms.defaultForm()
+        );
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .slurEffect(null)

@@ -1,11 +1,9 @@
-package io.github.md5sha256.addictiveexperience.implementation.forms;
+package io.github.md5sha256.addictiveexperience.fixtures;
 
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrugForm;
-import io.github.md5sha256.addictiveexperience.util.Utils;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import net.kyori.adventure.key.Key;
 import org.bukkit.inventory.ItemFactory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,12 +11,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-@Singleton
-public final class FormDefault extends AbstractDrugForm implements IDrugForm {
+public class DummyDrugForm extends AbstractDrugForm implements IDrugForm {
 
-    @Inject
-    public FormDefault(@NotNull ItemFactory itemFactory) {
-        super(itemFactory, Utils.internalKey("default"), "Default Form");
+
+    public DummyDrugForm(@NotNull ItemFactory itemFactory) {
+        super(itemFactory, Key.key("dummy", "dummy"), "dummy");
     }
 
     @Override
@@ -40,5 +37,4 @@ public final class FormDefault extends AbstractDrugForm implements IDrugForm {
     public @NotNull Optional<@NotNull ItemMeta> asMeta() {
         return Optional.empty();
     }
-
 }

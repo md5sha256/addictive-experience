@@ -15,12 +15,10 @@ public interface IDrugComponent extends Keyed {
 
     @NotNull String displayName();
 
-    @NotNull ItemStack asItem();
+    @NotNull ItemStack itemModel();
 
-    default @NotNull ItemStack asItem(int amount) {
-        final ItemStack itemStack = asItem();
-        itemStack.setAmount(amount);
-        return itemStack;
+    default @NotNull ItemStack asItem(DrugRegistry registry) {
+        return registry.itemForComponent(this);
     }
 
     @NotNull ItemMeta asMeta();

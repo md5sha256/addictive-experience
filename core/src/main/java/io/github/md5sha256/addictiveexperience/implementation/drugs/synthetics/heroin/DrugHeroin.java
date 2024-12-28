@@ -52,7 +52,8 @@ public final class DrugHeroin extends AbstractDrug implements ISynthetic {
               Utils.internalKey("heroin"),
               "Heroin",
               Material.GRAY_DYE,
-              "addictiveexperience.consumeheroin");
+              "addictiveexperience.consumeheroin",
+                forms.syringe());
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .slurEffect(null)
@@ -63,14 +64,14 @@ public final class DrugHeroin extends AbstractDrug implements ISynthetic {
                 )
                 .build();
         drugRegistry.registerComponent(this);
-        this.recipe = createRecipe(plugin, forms.syringe(), morphine, drugRegistry);
+        this.recipe = createRecipe(plugin, morphine, drugRegistry);
     }
 
-    private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull IDrugForm form, @NotNull Morphine morphine, DrugRegistry registry) {
+    private @NotNull Recipe createRecipe(@NotNull Plugin plugin,@NotNull Morphine morphine, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "heroin");
-        final ShapedRecipe recipe = new ShapedRecipe(key, registry.itemForComponent(this));
+        final ShapedRecipe recipe = new ShapedRecipe(key, asItem(registry));
         recipe.shape("  $", " $ ", "$  ");
-        recipe.setIngredient('$', new RecipeChoice.ExactChoice(registry.itemForComponent(morphine)));
+        recipe.setIngredient('$', new RecipeChoice.ExactChoice(morphine.asItem(registry)));
         return recipe;
     }
 

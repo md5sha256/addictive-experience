@@ -56,7 +56,7 @@ public abstract class AbstractDrugComponent implements IDrugComponent {
     }
 
     @Override
-    public @NotNull ItemStack asItem() {
+    public @NotNull ItemStack itemModel() {
         return this.item.clone();
     }
 

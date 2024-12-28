@@ -49,7 +49,8 @@ public final class DrugCocaine extends AbstractDrug implements ISynthetic {
               Utils.internalKey("cocaine"),
               "Cocaine",
               Material.SUGAR,
-              "addictiveexperience.consumecocaine");
+              "addictiveexperience.consumecocaine",
+                forms.powder());
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .overdoseThreshold(50)
@@ -61,14 +62,14 @@ public final class DrugCocaine extends AbstractDrug implements ISynthetic {
                 .build();
         drugRegistry.registerComponent(this);
         drugRegistry.metaData(plantCocaine, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this));
-        this.recipe = createRecipe(plugin, forms.powder(), leafCocaine, drugRegistry);
+        this.recipe = createRecipe(plugin, leafCocaine, drugRegistry);
     }
 
-    private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull IDrugForm form, @NotNull LeafCocaine leafCocaine, DrugRegistry registry) {
+    private @NotNull Recipe createRecipe(@NotNull Plugin plugin, @NotNull LeafCocaine leafCocaine, DrugRegistry registry) {
         final NamespacedKey key = new NamespacedKey(plugin, "Cocaine");
-        final ShapedRecipe recipe = new ShapedRecipe(key, registry.itemForDrug(this, form));
+        final ShapedRecipe recipe = new ShapedRecipe(key, asItem(registry));
         recipe.shape(" $ ", "$ $", " $ ");
-        recipe.setIngredient('$', registry.itemForComponent(leafCocaine));
+        recipe.setIngredient('$', leafCocaine.asItem(registry));
         return recipe;
     }
 

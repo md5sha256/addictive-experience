@@ -131,7 +131,7 @@ public final class PlantListener implements DeregisterableListener {
             return;
         }
         final IDrugComponent component = optionalSeed.get();
-        this.dropMap.put(event, component.asItem(1));
+        this.dropMap.put(event, component.itemModel().asOne());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -193,11 +193,11 @@ public final class PlantListener implements DeregisterableListener {
 
         final World world = block.getWorld();
         final Location location = block.getLocation();
-        final ItemStack itemDrug = meta.result().asItem(amountHarvest);
+        final ItemStack itemDrug = meta.result().itemModel().asQuantity(amountHarvest);
         world.dropItemNaturally(location, itemDrug);
         if (dropSeeds) {
             final IDrugComponent component = optionalSeed.get();
-            final ItemStack itemSeed = component.asItem(amountSeed);
+            final ItemStack itemSeed = component.itemModel().asQuantity(amountSeed);
             world.dropItemNaturally(location, itemSeed);
         }
     }

@@ -1,17 +1,16 @@
 package io.github.md5sha256.addictiveexperience.implementation.plant;
 
-import org.mockbukkit.mockbukkit.MockBukkit;
-import org.mockbukkit.mockbukkit.world.WorldMock;
-import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantData;
-import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
-import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
-import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
-import io.github.md5sha256.addictiveexperience.fixtures.DummyDrugImpl;
-import io.github.md5sha256.addictiveexperience.implementation.drugs.SimpleDrugRegistry;
 import com.github.md5sha256.spigotutils.blocks.BlockPosition;
 import com.github.md5sha256.spigotutils.blocks.ChunkPosition;
 import com.github.md5sha256.spigotutils.timing.GuavaAdapter;
 import com.github.md5sha256.spigotutils.timing.Stopwatches;
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantData;
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
+import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
+import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
+import io.github.md5sha256.addictiveexperience.fixtures.DummyDrugForm;
+import io.github.md5sha256.addictiveexperience.fixtures.DummyDrugImpl;
+import io.github.md5sha256.addictiveexperience.implementation.drugs.SimpleDrugRegistry;
 import net.kyori.adventure.key.Key;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -22,6 +21,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.world.WorldMock;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -43,7 +44,12 @@ public class TestPDCResolver {
     public void testPDCResolver() {
         Plugin plugin = MockBukkit.createMockPlugin("plugin");
         DrugRegistry drugRegistry = new SimpleDrugRegistry(plugin);
-        IDrug drug = new DummyDrugImpl(Bukkit.getItemFactory(), Key.key("dummy:dummy"), "dummy", Material.COCOA_BEANS, "");
+        IDrug drug = new DummyDrugImpl(Bukkit.getItemFactory(),
+                Key.key("dummy:dummy"),
+                "dummy",
+                Material.COCOA_BEANS,
+                "",
+                new DummyDrugForm(Bukkit.getItemFactory()));
         drugRegistry.registerComponent(drug);
         World world = new WorldMock();
         Chunk chunk = world.getChunkAt(0, 0);
@@ -61,7 +67,8 @@ public class TestPDCResolver {
         DrugPlantData deserialized = loaded.iterator().next();
         data.elapsed().stop();
         deserialized.elapsed().stop();
-        deserialized.elapsed().setElapsedTime(data.growthTimeElapsedMillis(), TimeUnit.MILLISECONDS);
+        deserialized.elapsed()
+                .setElapsedTime(data.growthTimeElapsedMillis(), TimeUnit.MILLISECONDS);
         Assertions.assertTrue(data.isSimilar(deserialized));
     }
 

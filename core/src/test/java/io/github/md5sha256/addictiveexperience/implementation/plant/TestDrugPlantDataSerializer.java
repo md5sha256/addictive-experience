@@ -1,5 +1,7 @@
 package io.github.md5sha256.addictiveexperience.implementation.plant;
 
+import io.github.md5sha256.addictiveexperience.fixtures.DummyDrugForm;
+import org.bukkit.Bukkit;
 import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockbukkit.mockbukkit.world.WorldMock;
@@ -54,7 +56,8 @@ public class TestDrugPlantDataSerializer {
                 Key.key("dummy", "dummy-drug"),
                 "dummy drug",
                 Material.IRON_AXE,
-                "");
+                "",
+                new DummyDrugForm(Bukkit.getItemFactory()));
         DrugRegistry drugRegistry = new SimpleDrugRegistry(plugin);
         drugRegistry.registerComponent(mockDrug);
         DrugPlantData plantData = DrugPlantData.builder()
