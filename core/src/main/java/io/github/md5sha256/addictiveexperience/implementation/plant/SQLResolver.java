@@ -2,6 +2,7 @@ package io.github.md5sha256.addictiveexperience.implementation.plant;
 
 import com.github.md5sha256.spigotutils.blocks.BlockPosition;
 import com.github.md5sha256.spigotutils.blocks.ChunkPosition;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.AssistedInject;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -61,28 +62,31 @@ public class SQLResolver implements PlantDataResolver {
     private final File file;
     private final DataSource dataSource;
 
-    @AssistedInject
+    @Inject
     SQLResolver(@NotNull Plugin plugin,
                 @NotNull DrugRegistry drugRegistry,
                 @NotNull @Named("database") ExecutorService databaseExecutor) {
         this.resolver = new ConfigurateResolver(plugin, drugRegistry);
         this.executorService = databaseExecutor;
         this.file = new File(plugin.getDataFolder(), "plants.db");
+        initFile();
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl("jdbc:sqlite://" + file.getAbsolutePath());
         this.dataSource = new HikariDataSource(config);
-        init();
+        initDb();
     }
 
-    private void init() {
+    private void initFile() {
         if (!this.file.exists()) {
-            this.file.mkdirs();
             try {
                 this.file.createNewFile();
             } catch (IOException ex) {
                 throw new IllegalStateException(ex);
             }
         }
+    }
+
+    private void initDb() {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(CREATE_DRUG_PLANT)) {
             statement.execute();

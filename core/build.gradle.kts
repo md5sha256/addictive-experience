@@ -136,7 +136,7 @@ tasks {
         minecraftVersion("1.21.1")
         downloadPlugins {
             // Essentials
-            url("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsX-2.21.0-dev+151-f2af952.jar")
+            url("https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsX-2.21.0-dev+153-8e53214.jar")
             // Vault
             github("MilkBowl", "Vault", "1.7.3", "Vault.jar")
         }
