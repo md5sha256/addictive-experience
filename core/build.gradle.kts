@@ -46,7 +46,7 @@ dependencies {
     implementation(libs.paperlib)
     implementation(libs.configurateGson)
     implementation(libs.configurateYaml)
-    implementation("de.themoep:inventorygui:1.5.1-SNAPSHOT")
+    implementation("de.themoep:inventorygui:1.6-SNAPSHOT")
     implementation(libs.spigotutils)
     implementation(libs.cloud)
     implementation(libs.cloudMinecraftExtras)
