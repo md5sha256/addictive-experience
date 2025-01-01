@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockbukkit.mockbukkit.world.WorldMock;
 
 import java.util.Collection;
@@ -30,13 +31,16 @@ import java.util.concurrent.TimeUnit;
 
 public class TestPDCResolver {
 
+    private static ServerMock mock;
+
     @BeforeAll
     public static void init() {
-        MockBukkit.mock();
+        mock = MockBukkit.mock();
     }
 
     @AfterAll
     public static void teardown() {
+        mock = null;
         MockBukkit.unmock();
     }
 
@@ -51,7 +55,7 @@ public class TestPDCResolver {
                 "",
                 new DummyDrugForm(Bukkit.getItemFactory()));
         drugRegistry.registerComponent(drug);
-        World world = new WorldMock();
+        World world = mock.addSimpleWorld("test");
         Chunk chunk = world.getChunkAt(0, 0);
         PlantDataResolver resolver = new PDCResolver(plugin, drugRegistry);
         ChunkPosition chunkPosition = new ChunkPosition(chunk);
@@ -64,6 +68,7 @@ public class TestPDCResolver {
         Collection<DrugPlantData> collection = Collections.singleton(data);
         resolver.saveData(chunkPosition, collection);
         Collection<DrugPlantData> loaded = resolver.loadData(chunkPosition).values();
+        Assertions.assertEquals(1, loaded.size());
         DrugPlantData deserialized = loaded.iterator().next();
         data.elapsed().stop();
         deserialized.elapsed().stop();

@@ -118,7 +118,6 @@ public final class ConfigurateResolver {
         final ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
         final ConfigurationLoader<?> loader = loader(bos);
         final ConfigurationNode node = loader.createNode();
-        final List<DrugPlantData> dataAsList;
         try {
             node.set(DrugPlantData.class, data);
             loader.save(node);
