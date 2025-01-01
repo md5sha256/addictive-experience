@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.cloud)
     implementation(libs.cloudMinecraftExtras)
     implementation(libs.cloudAnnotations)
+    implementation(libs.sqlite)
+    implementation(libs.hikaricp)
 
     compileOnly(libs.paper)
     compileOnly(libs.jetbrainsAnnotations)

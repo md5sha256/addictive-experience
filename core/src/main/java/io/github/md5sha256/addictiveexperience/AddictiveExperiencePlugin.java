@@ -1,5 +1,7 @@
 package io.github.md5sha256.addictiveexperience;
 
+import com.google.inject.Key;
+import com.google.inject.name.Names;
 import io.github.md5sha256.addictiveexperience.api.AddictiveExperience;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugHandler;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
@@ -16,6 +18,9 @@ import com.google.inject.Stage;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public final class AddictiveExperiencePlugin extends JavaPlugin implements AddictiveExperience {
 
@@ -78,6 +83,14 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
     }
 
     private void shutdownInjector() {
+        ExecutorService executorService
+                = this.injector.getInstance(Key.get(ExecutorService.class,
+                Names.named("database")));
+        try {
+            executorService.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

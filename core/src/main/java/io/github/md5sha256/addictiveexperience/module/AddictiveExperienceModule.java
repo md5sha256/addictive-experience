@@ -1,5 +1,8 @@
 package io.github.md5sha256.addictiveexperience.module;
 
+import com.google.inject.Scopes;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import io.github.md5sha256.addictiveexperience.api.AddictiveExperience;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugHandler;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
@@ -29,6 +32,9 @@ import org.jetbrains.annotations.NotNull;
 
 import jakarta.inject.Singleton;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public final class AddictiveExperienceModule extends AbstractModule {
 
     private final AddictiveExperience api;
@@ -47,6 +53,9 @@ public final class AddictiveExperienceModule extends AbstractModule {
         install(new BukkitPlatformModule());
         bind(Plugin.class).toInstance(this.plugin);
         bind(JavaPlugin.class).toInstance(this.plugin);
+        bind(ExecutorService.class).annotatedWith(Names.named("database"))
+                .toProvider(Executors::newSingleThreadExecutor)
+                .asEagerSingleton();
         install(new DependencyModule());
         bind(AddictiveExperienceConfiguration.class).to(SimpleAddictiveConfiguration.class);
         bind(ShopConfiguration.class).to(SimpleShopConfiguration.class).asEagerSingleton();

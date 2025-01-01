@@ -1,10 +1,7 @@
 package io.github.md5sha256.addictiveexperience.implementation.plant;
 
 import com.github.md5sha256.spigotutils.blocks.BlockPosition;
-import com.github.md5sha256.spigotutils.blocks.ChunkPosition;
 import com.github.md5sha256.spigotutils.timing.VariableStopwatch;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantData;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
@@ -15,10 +12,7 @@ import io.github.md5sha256.addictiveexperience.util.configurate.DrugPlantMetaSer
 import io.github.md5sha256.addictiveexperience.util.configurate.VariableStopwatchSerializer;
 import io.github.md5sha256.addictiveexperience.util.configurate.WorldSerializer;
 import net.kyori.adventure.key.Key;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -60,7 +54,7 @@ public final class ConfigurateResolver {
                         .register(VariableStopwatch.class, new VariableStopwatchSerializer()));
     }
 
-    public Map<Long, @NotNull DrugPlantData> fromBytes(byte[] bytes) {
+    public Map<Long, @NotNull DrugPlantData> fromChunkBytes(byte[] bytes) {
         if (bytes == null) {
             return Collections.emptyMap();
         }
@@ -81,7 +75,23 @@ public final class ConfigurateResolver {
         return new HashMap<>(map);
     }
 
-    public byte @Nullable [] toBytes(@NotNull Collection<DrugPlantData> data) {
+    public DrugPlantData fromBytes(byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+        final ConfigurationLoader<?> loader = loader(bytes);
+
+        try {
+            final ConfigurationNode root = loader.load();
+            return root.get(DrugPlantData.class);
+        } catch (IOException ex) {
+            // FIXME log warning
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public byte @Nullable [] toChunkBytes(@NotNull Collection<DrugPlantData> data) {
 
         final ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
         final ConfigurationLoader<?> loader = loader(bos);
@@ -94,6 +104,23 @@ public final class ConfigurateResolver {
         }
         try {
             node.setList(DrugPlantData.class, dataAsList);
+            loader.save(node);
+        } catch (IOException ex) {
+            // FIXME log warning
+            ex.printStackTrace();
+            // Remove all data
+            return null;
+        }
+        return bos.toByteArray();
+    }
+
+    public byte @Nullable [] toBytes(@NotNull DrugPlantData data) {
+        final ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
+        final ConfigurationLoader<?> loader = loader(bos);
+        final ConfigurationNode node = loader.createNode();
+        final List<DrugPlantData> dataAsList;
+        try {
+            node.set(DrugPlantData.class, data);
             loader.save(node);
         } catch (IOException ex) {
             // FIXME log warning

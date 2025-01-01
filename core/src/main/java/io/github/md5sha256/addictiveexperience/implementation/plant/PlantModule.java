@@ -8,7 +8,6 @@ public class PlantModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(PlantListener.class).asEagerSingleton();
-        install(new FactoryModuleBuilder().implement(PlantDataResolver.class, PDCResolver.class)
-                .build(PlantDataResolverFactory.class));
+        bind(PlantDataResolver.class).to(SQLResolver.class).asEagerSingleton();
     }
 }

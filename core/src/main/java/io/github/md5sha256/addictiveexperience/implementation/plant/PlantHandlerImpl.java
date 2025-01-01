@@ -30,9 +30,7 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 public final class PlantHandlerImpl implements IPlantHandler {
 
-    private final PlantDataResolverFactory resolverFactory;
-
-    private final Map<World, PlantDataResolver> resolverCache = new WeakHashMap<>();
+    private final PlantDataResolver resolver;
     private final Map<ChunkPosition, Map<Long, DrugPlantData>> cache = new HashMap<>();
 
     private final BukkitTask task;
@@ -40,20 +38,16 @@ public final class PlantHandlerImpl implements IPlantHandler {
     @Inject
     public PlantHandlerImpl(@NotNull BukkitScheduler scheduler,
                             @NotNull Plugin plugin,
-                            @NotNull PlantDataResolverFactory dataResolver) {
-        this.resolverFactory = dataResolver;
+                            @NotNull PlantDataResolver resolver) {
         long ticks = Common.toTicks(5, TimeUnit.SECONDS);
         this.task = scheduler.runTaskTimer(plugin, (Runnable) this::saveData, ticks, ticks);
-    }
-
-    private @NotNull PlantDataResolver resolver(@NotNull World world) {
-        return this.resolverCache.computeIfAbsent(world, resolverFactory::createResolverForWorld);
+        this.resolver = resolver;
     }
 
     @Override
     public void addEntry(@NotNull BlockPosition position, @NotNull DrugPlantData data) {
         this.cache.computeIfAbsent(new ChunkPosition(position.getChunk()), x -> new HashMap<>())
-                  .put(position.getPosition(), data);
+                .put(position.getPosition(), data);
     }
 
     @Override
@@ -124,7 +118,7 @@ public final class PlantHandlerImpl implements IPlantHandler {
     @Override
     public void saveData() {
         for (Map.Entry<ChunkPosition, Map<Long, DrugPlantData>> entry : this.cache.entrySet()) {
-            resolver(entry.getKey().getWorld()).saveData(entry.getKey(), entry.getValue().values());
+            this.resolver.saveData(entry.getKey(), entry.getValue().values());
         }
     }
 
@@ -134,13 +128,13 @@ public final class PlantHandlerImpl implements IPlantHandler {
         final Collection<DrugPlantData> data = this.cache
                 .getOrDefault(chunk, Collections.emptyMap())
                 .values();
-        resolver(chunk.getWorld()).saveData(chunk, data);
+        this.resolver.saveData(chunk, data);
     }
 
 
     @Override
     public void loadData(@NotNull ChunkPosition chunk) {
-        final Map<Long, DrugPlantData> data = resolver(chunk.getWorld()).loadData(chunk);
+        final Map<Long, DrugPlantData> data = this.resolver.loadData(chunk);
         if (data.isEmpty()) {
             return;
         }
@@ -167,7 +161,7 @@ public final class PlantHandlerImpl implements IPlantHandler {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onChunkUnload(@NotNull ChunkUnloadEvent event) {
         final ChunkPosition position = new ChunkPosition(event.getChunk());
-        final PlantDataResolver resolver = resolver(event.getWorld());
+        final PlantDataResolver resolver = this.resolver;
         final Map<Long, DrugPlantData> data = this.cache.get(position);
         if (data != null) {
             for (DrugPlantData plantData : data.values()) {

@@ -53,7 +53,7 @@ public class TestPDCResolver {
         drugRegistry.registerComponent(drug);
         World world = new WorldMock();
         Chunk chunk = world.getChunkAt(0, 0);
-        PlantDataResolver resolver = new PDCResolver(plugin, drugRegistry, world);
+        PlantDataResolver resolver = new PDCResolver(plugin, drugRegistry);
         ChunkPosition chunkPosition = new ChunkPosition(chunk);
         DrugPlantData data = DrugPlantData.builder()
                 .elapsed(Stopwatches.variableStopwatch(GuavaAdapter.ofUnstarted()))

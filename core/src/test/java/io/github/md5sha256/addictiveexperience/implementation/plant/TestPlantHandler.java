@@ -36,14 +36,14 @@ public class TestPlantHandler {
     private static ServerMock mock;
     private static Plugin plugin;
     private static WorldMock world;
-    private static PlantDataResolverFactory factory;
+    private static PlantDataResolver resolver;
 
     @BeforeAll
     public static void init() {
         mock = MockBukkit.mock();
         plugin = MockBukkit.createMockPlugin("plugin");
         DrugRegistry drugRegistry = new SimpleDrugRegistry(plugin);
-        factory = new SimplePlantDataResolverFactory(plugin, drugRegistry);
+        resolver = new PDCResolver(plugin, drugRegistry);
         IDrug drug = new DummyDrugImpl(Bukkit.getItemFactory(), Key.key("dummy:dummy"), "dummy", Material.COCOA_BEANS, "", new DummyDrugForm(Bukkit.getItemFactory()));
         drugRegistry.registerComponent(drug);
         world = new WorldMock();
@@ -58,21 +58,24 @@ public class TestPlantHandler {
 
     @AfterAll
     public static void teardown() {
+        mock = null;
+        plugin = null;
+        world = null;
         plantData = null;
-        factory = null;
+        resolver = null;
         MockBukkit.unmock();
     }
 
     @Test
     public void testSerialization() {
         BukkitScheduler scheduler = mock.getScheduler();
-        PlantHandlerImpl plantHandler = new PlantHandlerImpl(scheduler, plugin, factory);
+        PlantHandlerImpl plantHandler = new PlantHandlerImpl(scheduler, plugin, resolver);
         plantHandler.shutdown();
         BlockPosition position = new BlockPosition(world, 0, 0, 0);
         plantHandler.addEntry(position, plantData);
         Assertions.assertSame(plantData, plantHandler.plantData(position).orElse(null));
         plantHandler.saveData();
-        plantHandler = new PlantHandlerImpl(scheduler, plugin, factory);
+        plantHandler = new PlantHandlerImpl(scheduler, plugin, resolver);
         plantHandler.shutdown();
         plantHandler.loadData(new ChunkPosition(position.getChunk()));
         DrugPlantData deserialized = plantHandler.plantData(position).orElse(null);
@@ -86,7 +89,7 @@ public class TestPlantHandler {
     @Test
     public void testGettersAndSetters() {
         final BukkitScheduler scheduler = mock.getScheduler();
-        final PlantHandlerImpl plantHandler = new PlantHandlerImpl(scheduler, plugin, factory);
+        final PlantHandlerImpl plantHandler = new PlantHandlerImpl(scheduler, plugin, resolver);
         plantHandler.shutdown();
         final BlockPosition blockPosition = new BlockPosition(world, 0, 0, 0);
         plantHandler.addEntry(blockPosition, plantData);
@@ -100,7 +103,7 @@ public class TestPlantHandler {
     @Test
     public void testUpdating() {
         final BukkitScheduler scheduler = mock.getScheduler();
-        final PlantHandlerImpl plantHandler = new PlantHandlerImpl(scheduler, plugin, factory);
+        final PlantHandlerImpl plantHandler = new PlantHandlerImpl(scheduler, plugin, resolver);
         plantHandler.shutdown();
         plantData.elapsed().stop();
         plantData.elapsed().setElapsedTime(0, TimeUnit.MILLISECONDS);
@@ -122,12 +125,12 @@ public class TestPlantHandler {
     @Test
     public void testListeners() {
         BukkitScheduler scheduler = mock.getScheduler();
-        PlantHandlerImpl plantHandler1 = new PlantHandlerImpl(scheduler, plugin, factory);
+        PlantHandlerImpl plantHandler1 = new PlantHandlerImpl(scheduler, plugin, resolver);
         plantHandler1.shutdown();
         BlockPosition position = new BlockPosition(world, 0, 0, 0);
         plantHandler1.addEntry(position, plantData);
         plantHandler1.saveData();
-        PlantHandlerImpl plantHandler2 = new PlantHandlerImpl(scheduler, plugin, factory);
+        PlantHandlerImpl plantHandler2 = new PlantHandlerImpl(scheduler, plugin, resolver);
         plantHandler2.shutdown();
         Chunk chunk = position.getChunk();
         plantHandler2.onChunkLoad( new ChunkLoadEvent(chunk, false));
@@ -140,7 +143,7 @@ public class TestPlantHandler {
         Assertions.assertTrue(plantData.isSimilar(optional.get()));
         plantHandler2.removeEntry(position);
         plantHandler2.onChunkUnload(new ChunkUnloadEvent(chunk));
-        PlantHandlerImpl plantHandler3 = new PlantHandlerImpl(scheduler, plugin, factory);
+        PlantHandlerImpl plantHandler3 = new PlantHandlerImpl(scheduler, plugin, resolver);
         plantHandler3.shutdown();
         Assertions.assertTrue(plantHandler3.plantData(position).isEmpty());
     }
