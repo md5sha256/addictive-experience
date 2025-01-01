@@ -25,13 +25,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
 public final class PlantHandlerImpl implements IPlantHandler {
 
     private final PlantDataResolver resolver;
-    private final Map<ChunkPosition, Map<Long, DrugPlantData>> cache = new HashMap<>();
+    private final Map<ChunkPosition, Map<Long, DrugPlantData>> cache = new ConcurrentHashMap<>();
 
     private final BukkitTask task;
 
@@ -118,7 +119,10 @@ public final class PlantHandlerImpl implements IPlantHandler {
     @Override
     public void saveData() {
         for (Map.Entry<ChunkPosition, Map<Long, DrugPlantData>> entry : this.cache.entrySet()) {
-            this.resolver.saveData(entry.getKey(), entry.getValue().values());
+            Collection<DrugPlantData> copy = entry.getValue().values().stream()
+                    .<DrugPlantData>map(data -> data.toBuilder().build())
+                    .toList();
+            this.resolver.saveDataAsync(entry.getKey(), copy);
         }
     }
 
@@ -129,6 +133,16 @@ public final class PlantHandlerImpl implements IPlantHandler {
                 .getOrDefault(chunk, Collections.emptyMap())
                 .values();
         this.resolver.saveData(chunk, data);
+    }
+
+    private void saveDataAsync(@NotNull ChunkPosition chunk) {
+        Collection<DrugPlantData> copy = this.cache
+                .getOrDefault(chunk, Collections.emptyMap())
+                .values()
+                .stream()
+                .<DrugPlantData>map(data -> data.toBuilder().build())
+                .toList();
+        this.resolver.saveDataAsync(chunk, copy);
     }
 
 
@@ -145,6 +159,19 @@ public final class PlantHandlerImpl implements IPlantHandler {
         this.cache.putIfAbsent(chunk, data);
     }
 
+    public void loadDataAsync(@NotNull ChunkPosition chunk) {
+        this.resolver.loadDataAsync(chunk).thenAccept(data -> {
+            if (data.isEmpty()) {
+                return;
+            }
+            for (DrugPlantData plantData : data.values()) {
+                plantData.elapsed().start();
+            }
+            // Don't overwrite cached data
+            this.cache.putIfAbsent(chunk, data);
+        });
+    }
+
     public void shutdown() {
         if (!this.task.isCancelled()) {
             this.task.cancel();
@@ -155,7 +182,7 @@ public final class PlantHandlerImpl implements IPlantHandler {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onChunkLoad(@NotNull ChunkLoadEvent event) {
-        loadData(new ChunkPosition(event.getChunk()));
+        loadDataAsync(new ChunkPosition(event.getChunk()));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -168,9 +195,9 @@ public final class PlantHandlerImpl implements IPlantHandler {
                 // Pause the plant data
                 plantData.elapsed().stop();
             }
-            resolver.saveData(position, data.values());
+            resolver.saveDataAsync(position, data.values());
         } else {
-            resolver.clearData(position);
+            resolver.clearDataAsync(position);
         }
     }
 
