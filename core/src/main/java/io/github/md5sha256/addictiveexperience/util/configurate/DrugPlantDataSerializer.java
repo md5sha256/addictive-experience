@@ -13,6 +13,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
 
 import java.lang.reflect.Type;
+import java.util.Objects;
 
 public class DrugPlantDataSerializer implements TypeSerializer<DrugPlantData> {
 
@@ -20,12 +21,6 @@ public class DrugPlantDataSerializer implements TypeSerializer<DrugPlantData> {
     private static final String KEY_START_TIME = "start-time";
     private static final String KEY_STOPWATCH = "stopwatch";
     private static final String KEY_POSITION = "position";
-
-    private final World world;
-
-    public DrugPlantDataSerializer(@NotNull World world) {
-        this.world = world;
-    }
 
     @Override
     public DrugPlantData deserialize(final Type type,
@@ -44,8 +39,9 @@ public class DrugPlantDataSerializer implements TypeSerializer<DrugPlantData> {
         if (elapsed == null) {
             throw new SerializationException("Missing elapsed time!");
         }
+        BlockPosition blockPosition = position.get(BlockPosition.class);
         builder.meta(plantMeta)
-                .position(new BlockPosition(world, position.getLong()))
+                .position(Objects.requireNonNull(blockPosition))
                .startTimeEpochMilli(startTime.getLong())
                .elapsed(elapsed);
         try {
@@ -73,6 +69,6 @@ public class DrugPlantDataSerializer implements TypeSerializer<DrugPlantData> {
         final ConfigurationNode startTime = node.node(KEY_START_TIME);
         startTime.set(obj.startTimeEpochMillis());
         final ConfigurationNode position = node.node(KEY_POSITION);
-        position.set(obj.position().getPosition());
+        position.set(obj.position());
     }
 }

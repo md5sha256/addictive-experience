@@ -43,43 +43,20 @@ import java.util.Map;
 final class PDCResolver implements PlantDataResolver {
 
     private final NamespacedKey key;
-    private final ConfigurationOptions options;
+    private final ConfigurateResolver resolver;
 
     @AssistedInject
     PDCResolver(@NotNull Plugin plugin, @NotNull DrugRegistry drugRegistry,
                 @Assisted @NotNull World world) {
         this.key = new NamespacedKey(plugin, "drug-plant-data");
-        this.options = ConfigurationOptions
-                .defaults()
-                .serializers(builder -> builder
-                        .register(DrugPlantMeta.class, new DrugPlantMetaSerializer(drugRegistry))
-                        .register(DrugPlantData.class, new DrugPlantDataSerializer(world))
-                        .register(Key.class, new AdventureKeySerializer())
-                        .register(VariableStopwatch.class, new VariableStopwatchSerializer()));
+        this.resolver = new ConfigurateResolver(plugin, drugRegistry);
     }
 
     @Override
     public @NotNull Map<Long, @NotNull DrugPlantData> loadData(@NotNull final ChunkPosition chunk) {
         final PersistentDataContainer container = chunk.getChunk().getPersistentDataContainer();
         final byte[] raw = container.get(this.key, PersistentDataType.BYTE_ARRAY);
-        if (raw == null) {
-            return Collections.emptyMap();
-        }
-        final ConfigurationLoader<?> loader = loader(raw);
-        final Collection<DrugPlantData> data;
-        try {
-            final ConfigurationNode root = loader.load();
-            data = root.getList(DrugPlantData.class, Collections.emptyList());
-        } catch (IOException ex) {
-            // FIXME log warning
-            ex.printStackTrace();
-            return Collections.emptyMap();
-        }
-        final Map<Long, DrugPlantData> map = new HashMap<>(data.size());
-        for (DrugPlantData plantData : data) {
-            map.put(plantData.position().getPosition(), plantData);
-        }
-        return new HashMap<>(map);
+        return this.resolver.fromBytes(raw);
     }
 
     @Override
@@ -89,49 +66,17 @@ final class PDCResolver implements PlantDataResolver {
             clearData(chunk);
             return;
         }
-        final PersistentDataContainer container = chunk.getChunk().getPersistentDataContainer();
-        final ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
-        final ConfigurationLoader<?> loader = loader(bos);
-        final ConfigurationNode node = loader.createNode();
-        final List<DrugPlantData> dataAsList;
-        if (data instanceof List) {
-            dataAsList = (List<DrugPlantData>) data;
-        } else {
-            dataAsList = new ArrayList<>(data);
-        }
-        try {
-            node.setList(DrugPlantData.class, dataAsList);
-            loader.save(node);
-        } catch (IOException ex) {
-            // FIXME log warning
-            ex.printStackTrace();
-            // Remove all data
-            container.remove(this.key);
+        final byte[] bytes = this.resolver.toBytes(data);
+        if (bytes == null) {
+            clearData(chunk);
             return;
         }
-        container.set(this.key, PersistentDataType.BYTE_ARRAY, bos.toByteArray());
+        final PersistentDataContainer container = chunk.getChunk().getPersistentDataContainer();
+        container.set(this.key, PersistentDataType.BYTE_ARRAY, bytes);
     }
 
     @Override
     public void clearData(@NotNull final ChunkPosition chunk) {
         chunk.getChunk().getPersistentDataContainer().remove(this.key);
-    }
-
-    private ConfigurationLoader<?> loader(byte[] raw) {
-        final Reader reader = new InputStreamReader(new ByteArrayInputStream(raw), StandardCharsets.UTF_8);
-        return GsonConfigurationLoader.builder()
-                                      .defaultOptions(this.options)
-                                      .source(() -> new BufferedReader(reader))
-                                      .lenient(true)
-                                      .build();
-    }
-
-    private ConfigurationLoader<?> loader(@NotNull OutputStream os) {
-        final OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
-        return GsonConfigurationLoader.builder()
-                                      .defaultOptions(this.options)
-                                      .sink(() -> new BufferedWriter(osw))
-                                      .lenient(true)
-                                      .build();
     }
 }
