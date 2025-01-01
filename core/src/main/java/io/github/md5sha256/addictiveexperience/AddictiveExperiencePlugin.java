@@ -61,6 +61,12 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
         return this.addictiveExperienceConfiguration;
     }
 
+    private void initDataFolder() {
+        if (!getDataFolder().isDirectory()) {
+            getDataFolder().mkdirs();
+        }
+    }
+
     private void initializeInjector() {
         getLogger().info("Initialising the injector...");
         final Injector injector = Guice
@@ -104,6 +110,7 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
     @Override
     public void onEnable() {
         super.onEnable();
+        initDataFolder();
         try {
             initializeInjector();
         } catch (Throwable ex) {
