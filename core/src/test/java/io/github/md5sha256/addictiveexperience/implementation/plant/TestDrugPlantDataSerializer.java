@@ -1,7 +1,10 @@
 package io.github.md5sha256.addictiveexperience.implementation.plant;
 
 import io.github.md5sha256.addictiveexperience.fixtures.DummyDrugForm;
+import io.github.md5sha256.addictiveexperience.util.configurate.BlockPositionSerializer;
+import io.github.md5sha256.addictiveexperience.util.configurate.WorldSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockbukkit.mockbukkit.ServerMock;
 import org.mockbukkit.mockbukkit.world.WorldMock;
@@ -69,8 +72,10 @@ public class TestDrugPlantDataSerializer {
         DrugPlantMetaSerializer serializer = new DrugPlantMetaSerializer(drugRegistry);
         ConfigurationLoader<?> loader = GsonConfigurationLoader.builder()
                 .defaultOptions(options -> options.serializers(serializers -> {
+                    serializers.register(World.class, new WorldSerializer(mock));
+                    serializers.register(BlockPosition.class, new BlockPositionSerializer());
                     serializers.register(DrugPlantMeta.class, serializer);
-                    serializers.register(DrugPlantData.class, new DrugPlantDataSerializer(world));
+                    serializers.register(DrugPlantData.class, new DrugPlantDataSerializer());
                     serializers.register(VariableStopwatch.class, new VariableStopwatchSerializer());
                     serializers.register(Key.class, new AdventureKeySerializer());
                 }))
