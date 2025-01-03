@@ -150,7 +150,9 @@ public class SQLResolver implements PlantDataResolver {
                 statement.setInt(3, position.getZ());
                 statement.setBytes(4, uuidBytes(position.getWorld().getUID()));
                 statement.setBytes(5, this.resolver.toBytes(plantData));
+                statement.addBatch();
             }
+            statement.executeBatch();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -173,6 +175,7 @@ public class SQLResolver implements PlantDataResolver {
                 DELETE_DRUG_PLANT_CHUNK)) {
             statement.setInt(1, chunk.getX());
             statement.setInt(2, chunk.getZ());
+            statement.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
