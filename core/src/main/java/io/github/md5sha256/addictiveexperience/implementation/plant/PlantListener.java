@@ -193,11 +193,11 @@ public final class PlantListener implements DeregisterableListener {
 
         final World world = block.getWorld();
         final Location location = block.getLocation();
-        final ItemStack itemDrug = meta.result().itemModel().asQuantity(amountHarvest);
+        final ItemStack itemDrug = meta.result().asItem(this.drugRegistry).asQuantity(amountHarvest);
         world.dropItemNaturally(location, itemDrug);
         if (dropSeeds) {
             final IDrugComponent component = optionalSeed.get();
-            final ItemStack itemSeed = component.itemModel().asQuantity(amountSeed);
+            final ItemStack itemSeed = component.asItem(this.drugRegistry).asQuantity(amountSeed);
             world.dropItemNaturally(location, itemSeed);
         }
     }

@@ -178,14 +178,7 @@ public final class DrugShopUI {
             String text = String
                     .format("You have bought %d of %s", amount, component.displayName());
             person.sendMessage(Component.text(text, NamedTextColor.GREEN));
-            final ItemStack itemStack;
-            if (component instanceof IDrug) {
-                final IDrugForm defaultForm = this.drugForms.powder();
-                itemStack = this.drugRegistry.itemForDrug((IDrug) component, defaultForm);
-            } else {
-                itemStack = this.drugRegistry.itemForComponent(component);
-            }
-            itemStack.setAmount(amount);
+            final ItemStack itemStack = component.asItem(this.drugRegistry).asQuantity(amount);
             person.getInventory().addItem(itemStack);
         } else {
             // FIXME implementation
