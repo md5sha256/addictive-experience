@@ -127,15 +127,22 @@ public final class PlantHandlerImpl implements IPlantHandler {
     }
 
 
-    @Override
-    public void saveData(@NotNull ChunkPosition chunk) {
+    private void saveDataSync() {
+        for (Map.Entry<ChunkPosition, Map<Long, DrugPlantData>> entry : this.cache.entrySet()) {
+            this.resolver.saveData(entry.getKey(), entry.getValue().values());
+        }
+    }
+
+
+    public void saveDataSync(@NotNull ChunkPosition chunk) {
         final Collection<DrugPlantData> data = this.cache
                 .getOrDefault(chunk, Collections.emptyMap())
                 .values();
-        this.resolver.saveData(chunk, data);
+        this.resolver.saveDataAsync(chunk, data);
     }
 
-    private void saveDataAsync(@NotNull ChunkPosition chunk) {
+    @Override
+    public void saveData(@NotNull ChunkPosition chunk) {
         Collection<DrugPlantData> copy = this.cache
                 .getOrDefault(chunk, Collections.emptyMap())
                 .values()
@@ -146,8 +153,7 @@ public final class PlantHandlerImpl implements IPlantHandler {
     }
 
 
-    @Override
-    public void loadData(@NotNull ChunkPosition chunk) {
+    private void loadDataSync(@NotNull ChunkPosition chunk) {
         final Map<Long, DrugPlantData> data = this.resolver.loadData(chunk);
         if (data.isEmpty()) {
             return;
@@ -159,7 +165,8 @@ public final class PlantHandlerImpl implements IPlantHandler {
         this.cache.putIfAbsent(chunk, data);
     }
 
-    public void loadDataAsync(@NotNull ChunkPosition chunk) {
+    @Override
+    public void loadData(@NotNull ChunkPosition chunk) {
         this.resolver.loadDataAsync(chunk).thenAccept(data -> {
             if (data.isEmpty()) {
                 return;
@@ -175,14 +182,14 @@ public final class PlantHandlerImpl implements IPlantHandler {
     public void shutdown() {
         if (!this.task.isCancelled()) {
             this.task.cancel();
-            saveData();
+            saveDataSync();
             unregisterEvents();
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onChunkLoad(@NotNull ChunkLoadEvent event) {
-        loadDataAsync(new ChunkPosition(event.getChunk()));
+        loadData(new ChunkPosition(event.getChunk()));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

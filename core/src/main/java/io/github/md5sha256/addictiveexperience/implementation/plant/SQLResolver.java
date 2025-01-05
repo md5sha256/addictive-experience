@@ -3,7 +3,6 @@ package io.github.md5sha256.addictiveexperience.implementation.plant;
 import com.github.md5sha256.spigotutils.blocks.BlockPosition;
 import com.github.md5sha256.spigotutils.blocks.ChunkPosition;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.AssistedInject;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantData;

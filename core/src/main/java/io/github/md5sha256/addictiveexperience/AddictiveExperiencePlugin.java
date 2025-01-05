@@ -93,6 +93,7 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
                 = this.injector.getInstance(Key.get(ExecutorService.class,
                 Names.named("database")));
         try {
+            executorService.close();
             executorService.awaitTermination(1, TimeUnit.MINUTES);
         } catch (Exception ex) {
             ex.printStackTrace();
