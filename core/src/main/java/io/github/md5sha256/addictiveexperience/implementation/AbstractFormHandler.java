@@ -88,8 +88,7 @@ public abstract class AbstractFormHandler {
             return;
         }
         handleDrugUse(player, itemStack, itemData);
-        itemStack.subtract(1);
-        player.getInventory().setItem(equipmentSlot, itemStack);
+        player.getInventory().setItem(equipmentSlot, itemStack.subtract(1));
 
         sendMessageOnItemUse(player, itemData);
         playSounds(player);

@@ -41,7 +41,7 @@ public class FormHandlerLitBlunt extends AbstractFormHandler implements Listener
     }
 
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void processBluntLit(@NotNull InventoryClickEvent clickEvent) {
         if (!clickEvent.isRightClick()
                 || clickEvent.getCursor().getType() != Material.FLINT_AND_STEEL
@@ -94,6 +94,7 @@ public class FormHandlerLitBlunt extends AbstractFormHandler implements Listener
             return;
         }
         handlePlayerDrugUse(p, e.getHand(), used, itemData);
+        e.setCancelled(true);
     }
 
     @Override

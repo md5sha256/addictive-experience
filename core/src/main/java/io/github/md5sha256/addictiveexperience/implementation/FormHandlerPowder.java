@@ -52,7 +52,7 @@ public class FormHandlerPowder extends AbstractFormHandler implements Listener {
             return;
         }
         final Optional<DrugItemData> optionalData = this.drugRegistry.dataFor(used);
-        if (optionalData.isEmpty()) {
+        if (optionalData.isEmpty() || !optionalData.get().form().equals(this.form)) {
             return;
         }
         event.setCancelled(true);
