@@ -43,9 +43,9 @@ public final class BluntUnlit extends AbstractDrugForm implements FormBlunt {
     }
 
     public void registerUnlitBluntRecipe(@NotNull Plugin plugin, @NotNull DrugRegistry registry, @NotNull IDrug drug) {
-        final ItemStack emptyBlunt = this.itemEmptyContents;
-        final ItemStack drugItem = registry.itemForDrug(drug, this);
-
+        final ItemStack emptyBlunt = registry.itemForDrug(drug, this);
+        // FIXME debug the empty blunt item
+        final ItemStack drugItem = registry.itemForComponent(drug);
         final NamespacedKey key1 = new NamespacedKey(plugin, "unlit-blunt-" + toValue(drug.key()));
         final ShapedRecipe recipe1 = new ShapedRecipe(key1, emptyBlunt);
         recipe1.shape("$$$", "%%%", "   ");
@@ -56,8 +56,8 @@ public final class BluntUnlit extends AbstractDrugForm implements FormBlunt {
                 "unlit-blunt-alt" + toValue(drug.key()));
         final ShapedRecipe recipe2 = new ShapedRecipe(key2, emptyBlunt);
         recipe2.shape("   ", "%%%", "$$$");
-        recipe2.setIngredient('%', new RecipeChoice.ExactChoice(drugItem));
-        recipe2.setIngredient('$', Material.PAPER);
+        recipe2.setIngredient('$', new RecipeChoice.ExactChoice(drugItem));
+        recipe2.setIngredient('%', Material.PAPER);
 
         plugin.getServer().addRecipe(recipe1);
         plugin.getServer().addRecipe(recipe2);

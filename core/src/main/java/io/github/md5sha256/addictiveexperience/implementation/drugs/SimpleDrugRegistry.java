@@ -17,8 +17,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import net.kyori.adventure.key.Key;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -187,11 +189,10 @@ public final class SimpleDrugRegistry implements DrugRegistry {
     }
 
     @Override
-    public @NotNull ItemStack itemForDrug(@NotNull final IDrug drug,
-                                          @NotNull final IDrugForm form) {
-        final ItemStack itemStack = drug.itemModel();
-        this.itemDataFactory.data(itemStack, DrugItemData.of(drug, form));
-        return itemStack;
+    public @NotNull ItemStack itemForDrug(@NotNull IDrug drug, @NotNull IDrugForm form) {
+        ItemStack item = form.asItem(drug);
+        this.itemDataFactory.data(item, DrugItemData.of(drug, form));
+        return item;
     }
 
     @Override

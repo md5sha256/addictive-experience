@@ -4,6 +4,9 @@ import io.github.md5sha256.addictiveexperience.api.drugs.impl.DrugItemDataImpl;
 import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import io.github.md5sha256.addictiveexperience.api.util.SimilarLike;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public interface DrugItemData extends SimilarLike<DrugItemData> {
 

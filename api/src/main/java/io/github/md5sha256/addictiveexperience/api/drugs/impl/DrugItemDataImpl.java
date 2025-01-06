@@ -4,8 +4,10 @@ import io.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public final class DrugItemDataImpl implements DrugItemData {
 
@@ -42,7 +44,7 @@ public final class DrugItemDataImpl implements DrugItemData {
 
         DrugItemDataImpl that = (DrugItemDataImpl) o;
 
-        if (!drug.equals(that.drug)) return false;
+        if (!Objects.equals(drug, that.drug)) return false;
         return drugForm.equals(that.drugForm);
     }
 

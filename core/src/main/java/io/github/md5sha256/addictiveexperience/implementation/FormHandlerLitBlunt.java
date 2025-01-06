@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -28,6 +29,7 @@ public class FormHandlerLitBlunt extends AbstractFormHandler implements Listener
 
     @Inject
     FormHandlerLitBlunt(@NotNull Plugin plugin,
+                        @NotNull PluginManager pluginManager,
                         @NotNull DrugRegistry drugRegistry,
                         @NotNull DrugHandler drugHandler,
                         @NotNull SlurEffectState effectState,
@@ -35,6 +37,7 @@ public class FormHandlerLitBlunt extends AbstractFormHandler implements Listener
     ) {
         super(plugin, drugRegistry, drugHandler, effectState);
         this.drugForms = forms;
+        pluginManager.registerEvents(this, plugin);
     }
 
 
@@ -47,7 +50,7 @@ public class FormHandlerLitBlunt extends AbstractFormHandler implements Listener
             return;
         }
         ItemStack currentItem = clickEvent.getCurrentItem();
-        Optional<DrugItemData> optional = drugRegistry.dataFor(currentItem);
+        Optional<DrugItemData> optional = this.drugRegistry.dataFor(currentItem);
         if (optional.isEmpty()) {
             return;
         }

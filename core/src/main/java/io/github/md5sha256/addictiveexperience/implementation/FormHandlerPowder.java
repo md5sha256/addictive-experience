@@ -3,6 +3,7 @@ package io.github.md5sha256.addictiveexperience.implementation;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugHandler;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
+import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import io.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import io.github.md5sha256.addictiveexperience.implementation.forms.FormPowder;
 import io.github.md5sha256.addictiveexperience.util.Utils;

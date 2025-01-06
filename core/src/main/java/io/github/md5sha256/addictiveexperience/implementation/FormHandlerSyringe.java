@@ -71,7 +71,8 @@ public final class FormHandlerSyringe extends AbstractFormHandler implements Lis
         inMainHand.setAmount(inMainHand.getAmount() - 1);
         damager.getInventory().setItemInMainHand(inMainHand);
         damager.playSound(damager.getLocation(), Sound.ENTITY_ITEM_BREAK, 1f, 0.6f);
-        final String messagePathAttacker = String.format("Inject%sAttacker", component.displayName());
+        final String messagePathAttacker = String.format("Inject%sAttacker",
+                component.displayName());
         final String messagePathVictim = String.format("Inject%sVictim", component.displayName());
         // Send messages to both players here
 
@@ -82,7 +83,7 @@ public final class FormHandlerSyringe extends AbstractFormHandler implements Lis
                 .legacyColorize(plugin.getConfig().getString(messagePathVictim)));
         // Add potion effects
         this.drugRegistry.metaData(component, DrugMeta.KEY).map(DrugMeta::potionEffects)
-                         .ifPresent(target::addPotionEffects);
+                .ifPresent(target::addPotionEffects);
         // Manually update blood
         final DrugBloodData drugBloodData = this.drugHandler
                 .getOrCreateBloodData(target.getUniqueId());

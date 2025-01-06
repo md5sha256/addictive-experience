@@ -1,10 +1,7 @@
 package io.github.md5sha256.addictiveexperience.implementation.shop;
 
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
-import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
-import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
-import io.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import io.github.md5sha256.addictiveexperience.configuration.ShopConfiguration;
 import com.github.md5sha256.spigotutils.AdventureUtils;
 import com.google.inject.Inject;
@@ -26,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import jakarta.inject.Singleton;
+
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -40,18 +38,15 @@ public final class DrugShopUI {
     private final ShopConfiguration shopConfiguration;
     private final Economy economy;
     private final JavaPlugin plugin;
-    private final IDrugForms drugForms;
     private InventoryGui gui;
 
     @Inject
     public DrugShopUI(@NotNull JavaPlugin plugin,
                       @NotNull DrugRegistry drugRegistry,
-                      @NotNull IDrugForms drugForms,
                       @NotNull ShopConfiguration configuration,
                       @NotNull Economy economy) {
         this.plugin = plugin;
         this.drugRegistry = drugRegistry;
-        this.drugForms = drugForms;
         this.shopConfiguration = configuration;
         this.economy = economy;
         setup();
@@ -74,13 +69,13 @@ public final class DrugShopUI {
         // # = panes
         // b = back, n = next, e = exit
         this.gui = new InventoryGui(this.plugin,
-                                    "&b&lDrug Shop",
-                                    setup,
-                                    elementPanes(' '),
-                                    elementDrugs('d'),
-                                    elementNext('n'),
-                                    elementPrevious('b'),
-                                    elementExit('e'));
+                "&b&lDrug Shop",
+                setup,
+                elementPanes(' '),
+                elementDrugs('d'),
+                elementNext('n'),
+                elementPrevious('b'),
+                elementExit('e'));
     }
 
     private GuiElement elementPanes(char c) {
@@ -95,29 +90,29 @@ public final class DrugShopUI {
         final ItemStack itemStack = ItemStack.of(Material.BARRIER);
         final Component displayName = Component.text("Exit", NamedTextColor.RED);
         return new StaticGuiElement(c,
-                                    itemStack,
-                                    click -> {
-                                        InventoryGui.getOpen(click.getWhoClicked()).close();
-                                        return false;
-                                    }, AdventureUtils.toLegacy(displayName));
+                itemStack,
+                click -> {
+                    InventoryGui.getOpen(click.getWhoClicked()).close();
+                    return false;
+                }, AdventureUtils.toLegacy(displayName));
     }
 
     private GuiElement elementNext(char c) {
         final ItemStack itemStack = ItemStack.of(Material.PAPER);
         final Component displayName = Component.text("Next Page", NamedTextColor.DARK_AQUA);
         return new GuiPageElement(c,
-                                  itemStack,
-                                  GuiPageElement.PageAction.NEXT,
-                                  AdventureUtils.toLegacy(displayName));
+                itemStack,
+                GuiPageElement.PageAction.NEXT,
+                AdventureUtils.toLegacy(displayName));
     }
 
     private GuiElement elementPrevious(char c) {
         final ItemStack itemStack = ItemStack.of(Material.PAPER);
         final Component displayName = Component.text("Previous Page", NamedTextColor.DARK_AQUA);
         return new GuiPageElement(c,
-                                  itemStack,
-                                  GuiPageElement.PageAction.PREVIOUS,
-                                  AdventureUtils.toLegacy(displayName));
+                itemStack,
+                GuiPageElement.PageAction.PREVIOUS,
+                AdventureUtils.toLegacy(displayName));
     }
 
     private GuiElement elementDrugs(char c) {
@@ -141,8 +136,8 @@ public final class DrugShopUI {
                 .build();
 
         final String price = String.format("- Unit Price: %s",
-                                           PRICE_FORMAT.format(this.shopConfiguration
-                                                                       .unitPrice(component)));
+                PRICE_FORMAT.format(this.shopConfiguration
+                        .unitPrice(component)));
         final List<Component> text = Arrays.asList(
                 buttonDisplayName,
                 Component.text(price, NamedTextColor.GRAY)

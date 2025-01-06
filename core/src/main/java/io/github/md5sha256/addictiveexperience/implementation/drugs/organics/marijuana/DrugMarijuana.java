@@ -8,6 +8,7 @@ import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IOrganic;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
+import io.github.md5sha256.addictiveexperience.implementation.drugs.DrugItemDataFactory;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.organics.marijuana.components.PlantMarijuana;
 import io.github.md5sha256.addictiveexperience.implementation.forms.blunt.BluntUnlit;
 import io.github.md5sha256.addictiveexperience.util.Utils;

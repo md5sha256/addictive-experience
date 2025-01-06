@@ -252,7 +252,7 @@ public class AddictiveExperienceCommandHandler {
         final IDrugForm drugForm = form == null ? this.drugForms.powder() : form;
         if (component instanceof IDrug) {
             if (modelOnly) {
-                toGive = drugForm.asItem((IDrug) component);
+                toGive = component.itemModel();
             } else {
                 toGive = this.drugRegistry.itemForDrug((IDrug) component, drugForm);
             }

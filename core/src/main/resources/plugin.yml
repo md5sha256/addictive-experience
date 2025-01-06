@@ -1,6 +1,7 @@
 name: AddictiveExperience
 version: "${version}"
 main: io.github.md5sha256.addictiveexperience.AddictiveExperiencePlugin
+author: "andrewandy"
 api-version: 1.21
 depend:
   - Vault

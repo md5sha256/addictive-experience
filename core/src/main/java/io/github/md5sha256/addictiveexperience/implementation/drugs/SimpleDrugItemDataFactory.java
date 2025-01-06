@@ -49,8 +49,8 @@ public final class SimpleDrugItemDataFactory implements DrugItemDataFactory {
         final PersistentDataAdapterContext context = parentContainer.getAdapterContext();
         final PersistentDataContainer container = parentContainer
                 .getOrDefault(this.keyParent,
-                              PersistentDataType.TAG_CONTAINER,
-                              context.newPersistentDataContainer());
+                        PersistentDataType.TAG_CONTAINER,
+                        context.newPersistentDataContainer());
         final String identifierForm = container.get(this.keyForm, PersistentDataType.STRING);
         final String identifierComponent = container
                 .get(this.keyDrugComponent, PersistentDataType.STRING);
@@ -81,13 +81,13 @@ public final class SimpleDrugItemDataFactory implements DrugItemDataFactory {
         if (!parentContainer.has(this.keyParent, PersistentDataType.TAG_CONTAINER)) {
             return Optional.empty();
         }
-        final PersistentDataAdapterContext context = parentContainer.getAdapterContext();
-        final PersistentDataContainer container = parentContainer
-                .getOrDefault(this.keyParent,
-                              PersistentDataType.TAG_CONTAINER,
-                              context.newPersistentDataContainer());
-        final String identifierComponent = container
-                .get(this.keyDrugComponent, PersistentDataType.STRING);
+        final PersistentDataContainer container
+                = parentContainer.get(this.keyParent, PersistentDataType.TAG_CONTAINER);
+        if (container == null) {
+            return Optional.empty();
+        }
+        final String identifierComponent
+                = container.get(this.keyDrugComponent, PersistentDataType.STRING);
         if (identifierComponent == null) {
             return Optional.empty();
         }
@@ -97,32 +97,29 @@ public final class SimpleDrugItemDataFactory implements DrugItemDataFactory {
 
     @Override
     public void data(@NotNull ItemStack itemStack, @NotNull DrugItemData itemData) {
-        final ItemMeta meta = itemStack.getItemMeta();
-        if (meta == null) {
-            return;
-        }
-        final PersistentDataContainer parent = meta.getPersistentDataContainer();
-        final PersistentDataAdapterContext context = parent.getAdapterContext();
-        final PersistentDataContainer container = context.newPersistentDataContainer();
-        container.set(this.keyDrugComponent,
-                      PersistentDataType.STRING,
-                      itemData.drug().key().asString());
-        container.set(this.keyForm, PersistentDataType.STRING, itemData.form().key().asString());
-        parent.set(this.keyParent, PersistentDataType.TAG_CONTAINER, container);
-        itemStack.setItemMeta(meta);
+        itemStack.editMeta(meta -> {
+            final PersistentDataContainer parent = meta.getPersistentDataContainer();
+            final PersistentDataAdapterContext context = parent.getAdapterContext();
+            final PersistentDataContainer container = context.newPersistentDataContainer();
+            IDrug drug = itemData.drug();
+            container.set(this.keyDrugComponent, PersistentDataType.STRING, drug.key().asString());
+            container.set(this.keyForm,
+                    PersistentDataType.STRING,
+                    itemData.form().key().asString());
+            parent.set(this.keyParent, PersistentDataType.TAG_CONTAINER, container);
+        });
     }
 
     @Override
     public void data(@NotNull final ItemStack itemStack, @NotNull final IDrugComponent component) {
-        final ItemMeta meta = itemStack.getItemMeta();
-        if (meta == null) {
-            return;
-        }
-        final PersistentDataContainer parent = meta.getPersistentDataContainer();
-        final PersistentDataAdapterContext context = parent.getAdapterContext();
-        final PersistentDataContainer container = context.newPersistentDataContainer();
-        container.set(this.keyDrugComponent, PersistentDataType.STRING, component.key().asString());
-        parent.set(this.keyParent, PersistentDataType.TAG_CONTAINER, container);
-        itemStack.setItemMeta(meta);
+        itemStack.editMeta(meta -> {
+            final PersistentDataContainer parent = meta.getPersistentDataContainer();
+            final PersistentDataAdapterContext context = parent.getAdapterContext();
+            final PersistentDataContainer container = context.newPersistentDataContainer();
+            container.set(this.keyDrugComponent,
+                    PersistentDataType.STRING,
+                    component.key().asString());
+            parent.set(this.keyParent, PersistentDataType.TAG_CONTAINER, container);
+        });
     }
 }

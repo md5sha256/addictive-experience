@@ -53,7 +53,7 @@ public interface DrugRegistry {
 
     default @NotNull Optional<@NotNull IDrug> drugFromItem(@NotNull ItemStack itemStack) {
         final Optional<IDrugComponent> component = componentFromItem(itemStack);
-        if (!component.isPresent()) {
+        if (component.isEmpty()) {
             return Optional.empty();
         }
         final IDrugComponent drugComponent = component.get();
