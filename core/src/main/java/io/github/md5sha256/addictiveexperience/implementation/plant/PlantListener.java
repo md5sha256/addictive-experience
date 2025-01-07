@@ -19,6 +19,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
@@ -103,13 +104,13 @@ public final class PlantListener implements DeregisterableListener {
         final DrugPlantMeta plantMeta = optionalPlantMeta.get();
         final BlockPosition blockPosition = new BlockPosition(event.getBlock());
         final DrugPlantData plantData = DrugPlantData.builder()
-                                                     .meta(plantMeta)
-                                                     .position(blockPosition)
-                                                     .build();
+                .meta(plantMeta)
+                .position(blockPosition)
+                .build();
         this.plantHandler.addEntry(blockPosition, plantData);
         event.getPlayer().sendMessage(Component
-                                              .text("You have placed a drug plant! Plant: " + component
-                                                      .displayName()));
+                .text("You have placed a drug plant! Plant: " + component
+                        .displayName()));
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -162,16 +163,15 @@ public final class PlantListener implements DeregisterableListener {
         final DrugPlantData data = optionalData.get();
         if (data.remainingMillis() != 0) {
             event.getPlayer()
-                 .sendMessage(Component.text("This plant isn't ready to be harvested yet!"));
+                    .sendMessage(Component.text("This plant isn't ready to be harvested yet!"));
             return;
         }
-        handleHarvest(clicked, data);
-        event.getPlayer().sendMessage(Component
-                                              .text("You have harvested a drug plant. Result: " + data
-                                                      .meta().result().displayName()));
+        handleHarvest(event.getPlayer(), clicked, data);
     }
 
-    private void handleHarvest(@NotNull Block block, @NotNull DrugPlantData data) {
+    private void handleHarvest(@NotNull Player player,
+                               @NotNull Block block,
+                               @NotNull DrugPlantData data) {
         final DrugPlantMeta meta = data.meta();
 
         final double probabilityHarvest = meta.harvestSuccessProbability();
@@ -180,6 +180,10 @@ public final class PlantListener implements DeregisterableListener {
         if (!harvest) {
             return;
         }
+        Component message = Component.text("You have harvested a drug plant. Result: " + data.meta()
+                .result()
+                .displayName());
+        player.sendMessage(message);
         data.elapsed().reset();
         final Optional<IDrugComponent> optionalSeed = meta.seed();
         final double probabilitySeedDrop = meta.seedDropProbability();
@@ -193,7 +197,9 @@ public final class PlantListener implements DeregisterableListener {
 
         final World world = block.getWorld();
         final Location location = block.getLocation();
-        final ItemStack itemDrug = meta.result().asItem(this.drugRegistry).asQuantity(amountHarvest);
+        final ItemStack itemDrug = meta.result()
+                .asItem(this.drugRegistry)
+                .asQuantity(amountHarvest);
         world.dropItemNaturally(location, itemDrug);
         if (dropSeeds) {
             final IDrugComponent component = optionalSeed.get();
