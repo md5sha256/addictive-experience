@@ -3,6 +3,9 @@ version: "${version}"
 main: io.github.md5sha256.addictiveexperience.AddictiveExperiencePlugin
 author: "andrewandy"
 api-version: 1.21
+libraries:
+  - "org.xerial:sqlite-jdbc:3.47.1.0"
+  - "com.zaxxer:HikariCP:6.2.1"
 depend:
   - Vault
 softdepend:

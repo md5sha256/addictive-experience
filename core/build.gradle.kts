@@ -51,19 +51,19 @@ dependencies {
     implementation(libs.cloud)
     implementation(libs.cloudMinecraftExtras)
     implementation(libs.cloudAnnotations)
-    implementation(libs.sqlite)
-    implementation(libs.hikaricp)
 
     compileOnly(libs.paper)
     compileOnly(libs.jetbrainsAnnotations)
     implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
 
-
-
     implementation(libs.guice)
     implementation(libs.assistedInject) {
         exclude("com.google.inject", "guice")
     }
+
+    // Spigot library loader
+    compileOnlyApi(libs.sqlite)
+    compileOnlyApi(libs.hikaricp)
 
     compileOnly(libs.vault)
 
