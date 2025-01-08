@@ -3,6 +3,7 @@ package io.github.md5sha256.addictiveexperience.implementation.plant;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantData;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugPlantMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
+import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import io.github.md5sha256.addictiveexperience.api.drugs.IPlantHandler;
 import com.github.md5sha256.spigotutils.DeregisterableListener;
@@ -197,9 +198,17 @@ public final class PlantListener implements DeregisterableListener {
 
         final World world = block.getWorld();
         final Location location = block.getLocation();
-        final ItemStack itemDrug = meta.result()
-                .asItem(this.drugRegistry)
-                .asQuantity(amountHarvest);
+        final ItemStack itemDrug;
+        if (meta.result() instanceof IDrug drug) {
+            itemDrug = this.drugRegistry
+                    .itemForDrug(drug, drug.defaultForm())
+                    .asQuantity(amountHarvest);
+        } else {
+            itemDrug = meta.result()
+                    .asItem(this.drugRegistry)
+                    .asQuantity(amountHarvest);
+        }
+
         world.dropItemNaturally(location, itemDrug);
         if (dropSeeds) {
             final IDrugComponent component = optionalSeed.get();
