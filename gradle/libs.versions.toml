@@ -52,7 +52,7 @@ sqlite = { group = "org.xerial", name = "sqlite-jdbc", version.ref = "sqlite" }
 hikaricp = { group = "com.zaxxer", name = "HikariCP", version.ref = "hikaricp"}
 
 # Shadow Exclusions
-guava = { group = "com.google.guava", name = "guava", version = "30.1-jre" }
+guava = { group = "com.google.guava", name = "guava", version = "33.4.0-jre" }
 errorproneAnnotation = { group = "com.google.errorprone", name = "error_prone_annotations", version = "2.3.4" }
 
 # Unit test
