@@ -39,8 +39,6 @@ import java.util.Random;
 
 /**
  * Handles plant placement, interaction and breakages.'
- * FIXME: Bukkit call's the interact event twice on the {@link org.bukkit.block.data.Bisected.Half#BOTTOM},
- * FIXME: fix the duplicate method calls
  */
 @Singleton
 public final class PlantListener implements DeregisterableListener {
@@ -109,9 +107,7 @@ public final class PlantListener implements DeregisterableListener {
                 .position(blockPosition)
                 .build();
         this.plantHandler.addEntry(blockPosition, plantData);
-        event.getPlayer().sendMessage(Component
-                .text("You have placed a drug plant! Plant: " + component
-                        .displayName()));
+        event.getPlayer().sendActionBar(Component.text("Placed a " + component.displayName()));
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -126,8 +122,7 @@ public final class PlantListener implements DeregisterableListener {
 
         event.setDropItems(false);
         event.setExpToDrop(0);
-        event.getPlayer().sendMessage(Component.text("You have broken a drug plant. Result: " + meta
-                .result().displayName()));
+        event.getPlayer().sendActionBar(Component.text("Broken a " + meta.result().displayName()));
 
         if (optionalSeed.isEmpty()) {
             return;
@@ -164,7 +159,7 @@ public final class PlantListener implements DeregisterableListener {
         final DrugPlantData data = optionalData.get();
         if (data.remainingMillis() != 0) {
             event.getPlayer()
-                    .sendMessage(Component.text("This plant isn't ready to be harvested yet!"));
+                    .sendActionBar(Component.text("This plant isn't ready to be harvested yet!"));
             return;
         }
         handleHarvest(event.getPlayer(), clicked, data);
@@ -176,15 +171,13 @@ public final class PlantListener implements DeregisterableListener {
         final DrugPlantMeta meta = data.meta();
 
         final double probabilityHarvest = meta.harvestSuccessProbability();
-        final int amountHarvest = meta.harvestAmount();
         final boolean harvest = this.random.nextDouble() <= probabilityHarvest;
         if (!harvest) {
             return;
         }
-        Component message = Component.text("You have harvested a drug plant. Result: " + data.meta()
-                .result()
-                .displayName());
-        player.sendMessage(message);
+        final int amountHarvest = meta.harvestAmount();
+        Component message = Component.text("Harvested a " + data.meta().result().displayName());
+        player.sendActionBar(message);
         data.elapsed().reset();
         final Optional<IDrugComponent> optionalSeed = meta.seed();
         final double probabilitySeedDrop = meta.seedDropProbability();
@@ -198,7 +191,9 @@ public final class PlantListener implements DeregisterableListener {
 
         final World world = block.getWorld();
         final Location location = block.getLocation();
-        final ItemStack itemDrug = meta.result().asFunctionalItem(this.drugRegistry);
+        final ItemStack itemDrug = meta.result()
+                .asFunctionalItem(this.drugRegistry)
+                .asQuantity(amountHarvest);
 
         world.dropItemNaturally(location, itemDrug);
         if (dropSeeds) {
