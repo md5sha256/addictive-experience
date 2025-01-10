@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,12 +36,13 @@ public class SQLResolver implements PlantDataResolver {
                 plant_y INT NOT NULL,
                 plant_z INT NOT NULL,
                 plant_world BINARY(16) NOT NULL,
-                plant_data BLOB NOT NULL
+                plant_data BLOB NOT NULL,
+                UNIQUE(plant_x, plant_y, plant_z, plant_world)
             );
             """;
 
     private static final String INSERT_DRUG_PLANT = """
-            INSERT INTO DRUG_PLANT VALUES(?, ?, ?, ?, ?);
+            INSERT OR REPLACE INTO DRUG_PLANT VALUES(?, ?, ?, ?, ?);
             """;
 
     private static final String SELECT_DRUG_PLANT_CHUNK = """
@@ -90,7 +92,7 @@ public class SQLResolver implements PlantDataResolver {
              PreparedStatement statement = connection.prepareStatement(CREATE_DRUG_PLANT)) {
             statement.execute();
         } catch (SQLException ex) {
-            throw new IllegalStateException();
+            throw new IllegalStateException(ex);
         }
     }
 
@@ -140,8 +142,8 @@ public class SQLResolver implements PlantDataResolver {
 
     @Override
     public void saveData(@NotNull ChunkPosition chunk, @NotNull Collection<DrugPlantData> data) {
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(
-                INSERT_DRUG_PLANT)) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(INSERT_DRUG_PLANT)) {
             for (DrugPlantData plantData : data) {
                 BlockPosition position = plantData.position();
                 statement.setInt(1, position.getX());

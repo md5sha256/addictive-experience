@@ -26,7 +26,7 @@ public interface DrugPlantMeta extends SimilarLike<DrugPlantMeta> {
                             .result(result)
                             .seed(seed)
                             .harvestAmount(1)
-                            .growthTime(5, TimeUnit.MINUTES)
+                            .growthTime(10, TimeUnit.SECONDS)
                             .seedDropProbability(1)
                             .seedDropAmount(1)
                             .harvestProbability(1)

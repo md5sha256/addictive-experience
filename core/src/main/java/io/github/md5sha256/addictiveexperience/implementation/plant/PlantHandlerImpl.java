@@ -138,7 +138,7 @@ public final class PlantHandlerImpl implements IPlantHandler {
         final Collection<DrugPlantData> data = this.cache
                 .getOrDefault(chunk, Collections.emptyMap())
                 .values();
-        this.resolver.saveDataAsync(chunk, data);
+        this.resolver.saveData(chunk, data);
     }
 
     @Override
@@ -179,12 +179,13 @@ public final class PlantHandlerImpl implements IPlantHandler {
         });
     }
 
+    @Override
     public void shutdown() {
         if (!this.task.isCancelled()) {
             this.task.cancel();
-            saveDataSync();
-            unregisterEvents();
         }
+        saveDataSync();
+        unregisterEvents();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

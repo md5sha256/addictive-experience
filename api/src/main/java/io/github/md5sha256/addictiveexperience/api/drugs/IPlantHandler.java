@@ -25,4 +25,6 @@ public interface IPlantHandler extends DeregisterableListener {
 
     void loadData(@NotNull ChunkPosition chunk);
 
+    void shutdown();
+
 }

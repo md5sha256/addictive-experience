@@ -84,8 +84,7 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
     }
 
     private void shutdownTasks() {
-        final PlantHandlerImpl plantHandlerImpl = (PlantHandlerImpl) this.plantHandler;
-        plantHandlerImpl.shutdown();
+        this.plantHandler.shutdown();
     }
 
     private void shutdownInjector() {

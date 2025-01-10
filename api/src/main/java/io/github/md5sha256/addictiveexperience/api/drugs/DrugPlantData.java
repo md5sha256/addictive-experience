@@ -28,7 +28,9 @@ public interface DrugPlantData extends SimilarLike<DrugPlantData> {
     long growthTimeElapsedMillis();
 
     default long remainingMillis() {
-        return Math.max(meta().growthTimeMillis() - growthTimeElapsedMillis(), 0);
+        long total = meta().growthTimeMillis();
+        long elapsed = growthTimeElapsedMillis();
+        return Math.max(total - elapsed, 0);
     }
 
     @NotNull VariableStopwatch elapsed();
