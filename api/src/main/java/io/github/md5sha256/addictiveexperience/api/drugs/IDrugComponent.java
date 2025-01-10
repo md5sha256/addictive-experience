@@ -17,8 +17,12 @@ public interface IDrugComponent extends Keyed {
 
     @NotNull ItemStack itemModel();
 
-    default @NotNull ItemStack asItem(DrugRegistry registry) {
+    default @NotNull ItemStack asItem(@NotNull DrugRegistry registry) {
         return registry.itemForComponent(this);
+    }
+
+    default @NotNull ItemStack asFunctionalItem(@NotNull DrugRegistry registry) {
+        return asItem(registry);
     }
 
     @NotNull ItemMeta asMeta();

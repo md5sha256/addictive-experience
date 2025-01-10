@@ -1,6 +1,7 @@
 package io.github.md5sha256.addictiveexperience.implementation.shop;
 
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
+import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import io.github.md5sha256.addictiveexperience.configuration.ShopConfiguration;
 import com.github.md5sha256.spigotutils.AdventureUtils;
@@ -173,8 +174,8 @@ public final class DrugShopUI {
             String text = String
                     .format("You have bought %d of %s", amount, component.displayName());
             person.sendMessage(Component.text(text, NamedTextColor.GREEN));
-            final ItemStack itemStack = component.asItem(this.drugRegistry).asQuantity(amount);
-            person.getInventory().addItem(itemStack);
+            final ItemStack itemStack = component.asFunctionalItem(this.drugRegistry);
+            person.getInventory().addItem(itemStack.asQuantity(amount));
         } else {
             // FIXME implementation
         }

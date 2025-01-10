@@ -12,4 +12,9 @@ public interface IDrug extends IDrugComponent {
 
     @NotNull IDrugForm defaultForm();
 
+    @Override
+    default @NotNull ItemStack asFunctionalItem(@NotNull DrugRegistry registry) {
+        return registry.itemForDrug(this, defaultForm());
+    }
+
 }

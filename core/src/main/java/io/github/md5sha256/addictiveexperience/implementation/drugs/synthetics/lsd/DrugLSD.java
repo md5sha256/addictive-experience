@@ -57,7 +57,7 @@ public final class DrugLSD extends AbstractDrug implements ISynthetic {
               "LSD",
               Material.PAPER,
               "addictiveexperience.consumelsd",
-                forms.defaultForm());
+                forms.powder());
         this.defaultMeta = DrugMeta.DEFAULT
                 .toBuilder()
                 .slurEffect(null)
