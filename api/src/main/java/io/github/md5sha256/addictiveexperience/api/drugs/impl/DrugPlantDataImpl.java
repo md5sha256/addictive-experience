@@ -31,6 +31,7 @@ public final class DrugPlantDataImpl implements DrugPlantData {
         } else {
             this.stopwatch = Stopwatches.variableStopwatch(stopwatch);
         }
+        this.stopwatch.start();
     }
 
     @Override
