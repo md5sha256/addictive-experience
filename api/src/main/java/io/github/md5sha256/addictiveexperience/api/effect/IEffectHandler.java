@@ -38,6 +38,8 @@ public interface IEffectHandler extends DeregisterableListener {
             @NotNull CustomEffect customEffect
     );
 
+    void shutdown();
+
     @NotNull Collection<CustomEffect> enchantments(@NotNull LivingEntity holder);
 
     @NotNull Optional<@NotNull EffectData> enchantmentData(

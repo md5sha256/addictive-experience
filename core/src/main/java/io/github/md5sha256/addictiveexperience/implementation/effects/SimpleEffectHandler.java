@@ -7,6 +7,7 @@ import com.github.md5sha256.spigotutils.Common;
 import com.github.md5sha256.spigotutils.serial.Registry;
 import com.github.md5sha256.spigotutils.serial.SimpleRegistry;
 import com.github.md5sha256.spigotutils.timing.Stopwatches;
+import io.papermc.paper.util.Tick;
 import net.kyori.adventure.key.Key;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
@@ -16,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,14 +33,18 @@ public class SimpleEffectHandler implements IEffectHandler {
     private final CustomEffectResolver resolver;
     private final Registry<Key, CustomEffect> enchantmentRegistry = new SimpleRegistry<>();
     private final Map<LivingEntity, Map<Key, EffectData>> enchantmentCache = new HashMap<>();
-    private final BukkitTask task;
+    private final BukkitTask saveTask;
+    private final BukkitTask updateTask;
+
 
     @Inject
     public SimpleEffectHandler(@NotNull Plugin plugin,
                                @NotNull BukkitScheduler scheduler,
                                @NotNull CustomEffectResolver resolver) {
-        long ticks = Common.toTicks(1, TimeUnit.MINUTES);
-        this.task = scheduler.runTaskTimer(plugin, (Runnable) this::saveData, ticks, ticks);
+        long saveTicks = Tick.tick().fromDuration(Duration.ofMinutes(1));
+        long updateTicks = Tick.tick().fromDuration(Duration.ofSeconds(10));
+        this.saveTask = scheduler.runTaskTimer(plugin, (Runnable) this::saveData, saveTicks, saveTicks);
+        this.updateTask = scheduler.runTaskTimer(plugin, (Runnable) this::update, updateTicks, updateTicks);;
         this.resolver = resolver;
     }
 
@@ -45,9 +52,13 @@ public class SimpleEffectHandler implements IEffectHandler {
         return new SimpleEffectData(Stopwatches.variableStopwatch(Stopwatches.newInstance()), expectedDuration);
     }
 
+    @Override
     public void shutdown() {
-        if (!this.task.isCancelled()) {
-            this.task.cancel();
+        if (!this.updateTask.isCancelled()) {
+            this.updateTask.cancel();
+        }
+        if (!this.saveTask.isCancelled()) {
+            this.saveTask.cancel();
             saveData();
             unregisterEvents();
         }

@@ -14,6 +14,7 @@ import io.github.md5sha256.addictiveexperience.configuration.ShopConfiguration;
 import io.github.md5sha256.addictiveexperience.configuration.SimpleAddictiveConfiguration;
 import io.github.md5sha256.addictiveexperience.configuration.SimpleShopConfiguration;
 import io.github.md5sha256.addictiveexperience.implementation.DrugHandlerImpl;
+import io.github.md5sha256.addictiveexperience.implementation.FormHandlerGas;
 import io.github.md5sha256.addictiveexperience.implementation.FormHandlerLitBlunt;
 import io.github.md5sha256.addictiveexperience.implementation.FormHandlerPowder;
 import io.github.md5sha256.addictiveexperience.implementation.FormHandlerSyringe;
@@ -79,6 +80,7 @@ public final class AddictiveExperienceModule extends AbstractModule {
         bind(FormHandlerPowder.class).asEagerSingleton();
         bind(FormHandlerSyringe.class).asEagerSingleton();
         bind(FormHandlerLitBlunt.class).asEagerSingleton();
+        bind(FormHandlerGas.class).asEagerSingleton();
 
         // API bindings
         bind(IDrugForms.class).to(DrugForms.class).in(Singleton.class);

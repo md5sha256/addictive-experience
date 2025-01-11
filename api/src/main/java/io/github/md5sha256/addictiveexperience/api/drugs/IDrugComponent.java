@@ -29,6 +29,4 @@ public interface IDrugComponent extends Keyed {
 
     @NotNull Optional<@NotNull Recipe> recipe();
 
-    @NotNull Collection<@NotNull PassiveEffect> passiveEffects();
-
 }

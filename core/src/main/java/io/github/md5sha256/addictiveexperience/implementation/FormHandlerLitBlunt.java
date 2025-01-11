@@ -3,10 +3,12 @@ package io.github.md5sha256.addictiveexperience.implementation;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugHandler;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
+import io.github.md5sha256.addictiveexperience.api.effect.IEffectHandler;
 import io.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
 import jakarta.inject.Inject;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -33,9 +35,10 @@ public class FormHandlerLitBlunt extends AbstractFormHandler implements Listener
                         @NotNull DrugRegistry drugRegistry,
                         @NotNull DrugHandler drugHandler,
                         @NotNull SlurEffectState effectState,
+                        @NotNull IEffectHandler effectHandler,
                         @NotNull DrugForms forms
     ) {
-        super(plugin, drugRegistry, drugHandler, effectState);
+        super(plugin, drugRegistry, drugHandler, effectState, effectHandler);
         this.drugForms = forms;
         pluginManager.registerEvents(this, plugin);
     }
@@ -98,8 +101,8 @@ public class FormHandlerLitBlunt extends AbstractFormHandler implements Listener
     }
 
     @Override
-    protected void playSounds(Player player) {
-        player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_BURN, 1.0f, 0.7f);
+    protected void playSounds(Location location) {
+        location.getWorld().playSound(location, Sound.ENTITY_GENERIC_BURN, 1.0f, 0.7f);
     }
 
     @Override

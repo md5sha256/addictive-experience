@@ -14,6 +14,7 @@ public final class DrugForms implements IDrugForms {
     private final IDrugForm formPowder;
     private final IDrugForm formSyringe;
     private final IDrugForm formDefault;
+    private final IDrugForm formGas;
     private final IBlunts blunts;
 
     @Inject
@@ -21,12 +22,14 @@ public final class DrugForms implements IDrugForms {
             @NotNull FormDefault formDefault,
             @NotNull FormPowder formPowder,
             @NotNull FormSyringe formSyringe,
+            @NotNull FormGas formGas,
             @NotNull IBlunts blunts,
             @NotNull DrugRegistry drugRegistry
     ) {
         this.formDefault = formDefault;
         this.formPowder = formPowder;
         this.formSyringe = formSyringe;
+        this.formGas = formGas;
         this.blunts = blunts;
         drugRegistry.registerDrugForm(
                 formPowder,
@@ -50,6 +53,11 @@ public final class DrugForms implements IDrugForms {
     @Override
     public @NotNull IDrugForm syringe() {
         return this.formSyringe;
+    }
+
+    @Override
+    public @NotNull IDrugForm gas() {
+        return this.formGas;
     }
 
     @Override

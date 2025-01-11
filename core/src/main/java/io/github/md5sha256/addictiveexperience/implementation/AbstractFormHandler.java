@@ -6,12 +6,17 @@ import io.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
+import io.github.md5sha256.addictiveexperience.api.effect.CustomEffect;
+import io.github.md5sha256.addictiveexperience.api.effect.IEffectHandler;
 import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import io.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
@@ -31,15 +36,18 @@ public abstract class AbstractFormHandler {
     protected final DrugRegistry drugRegistry;
     protected final DrugHandler drugHandler;
     protected final SlurEffectState slurEffectState;
+    protected final IEffectHandler effectHandler;
 
     protected AbstractFormHandler(@NotNull Plugin plugin,
                                   @NotNull DrugRegistry drugRegistry,
                                   @NotNull DrugHandler drugHandler,
-                                  @NotNull SlurEffectState effectState) {
+                                  @NotNull SlurEffectState effectState,
+                                  @NotNull IEffectHandler effectHandler) {
         this.plugin = Objects.requireNonNull(plugin);
         this.drugHandler = Objects.requireNonNull(drugHandler);
         this.drugRegistry = Objects.requireNonNull(drugRegistry);
         this.slurEffectState = Objects.requireNonNull(effectState);
+        this.effectHandler = Objects.requireNonNull(effectHandler);
     }
 
     protected boolean checkPermissions(@NotNull CommandSender sender, @NotNull DrugItemData itemData) {
@@ -62,7 +70,7 @@ public abstract class AbstractFormHandler {
         }
         final IDrug drug = itemData.drug();
         final IDrugForm drugForm = itemData.form();
-        itemStack.setAmount(itemStack.getAmount() - 1);
+        itemStack.subtract(1);
         this.drugRegistry.metaData(drug, DrugMeta.KEY)
                          .map(DrugMeta::potionEffects)
                          .ifPresent(entity::addPotionEffects);
@@ -80,6 +88,10 @@ public abstract class AbstractFormHandler {
         entity.addPotionEffects(effects);
         // Register slur effect
         this.slurEffectState.registerSlur(playerUID, drug);
+        // Run custom effects
+        for (CustomEffect customEffect : drug.defaultMeta().customEffects()) {
+            this.effectHandler.applyEffect(entity, customEffect);
+        }
     }
 
     protected void handlePlayerDrugUse(@NotNull Player player, @NotNull EquipmentSlot equipmentSlot,
@@ -91,12 +103,13 @@ public abstract class AbstractFormHandler {
         player.getInventory().setItem(equipmentSlot, itemStack.subtract(1));
 
         sendMessageOnItemUse(player, itemData);
-        playSounds(player);
+        playSounds(player.getLocation());
     }
 
-    protected void playSounds(Player player) {
-        player.playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, 1.0f, 0.6f);
-        Runnable playSound = () -> player.playSound(player.getLocation(), Sound.ENTITY_EVOKER_CELEBRATE, 0.6f, 1.0f);
+    protected void playSounds(@NotNull Location location) {
+        World world = location.getWorld();
+        world.playSound(location, Sound.ENTITY_ITEM_BREAK, 1.0f, 0.6f);
+        Runnable playSound = () -> world.playSound(location, Sound.ENTITY_EVOKER_CELEBRATE, 0.6f, 1.0f);
         Bukkit.getScheduler().runTaskLater(this.plugin, playSound, 8L);
     }
 

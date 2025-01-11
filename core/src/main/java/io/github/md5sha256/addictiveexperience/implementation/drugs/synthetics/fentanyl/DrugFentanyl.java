@@ -3,9 +3,7 @@ package io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.ISynthetic;
-import io.github.md5sha256.addictiveexperience.api.drugs.PassiveEffect;
 import io.github.md5sha256.addictiveexperience.api.effect.CustomEffect;
-import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.effects.EffectRandomDeath;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.synthetics.heroin.components.Opium;
@@ -40,7 +38,6 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
 
     private final Recipe recipe;
     private final DrugMeta defaultMeta;
-    private final Collection<PassiveEffect> effects;
 
     @Inject
     DrugFentanyl(@NotNull Plugin plugin,
@@ -70,7 +67,6 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
                 )
                 .customEffects(effectRandomDeath)
                 .build();
-        this.effects = Collections.singleton(randomDeath);
         drugRegistry.registerComponent(this);
         this.recipe = createRecipe(plugin, opium, drugRegistry);
     }
@@ -105,10 +101,5 @@ public final class DrugFentanyl extends AbstractDrug implements ISynthetic {
     @Override
     public @NotNull DrugMeta defaultMeta() {
         return this.defaultMeta;
-    }
-
-    @Override
-    public @NotNull Collection<@NotNull PassiveEffect> passiveEffects() {
-        return this.effects;
     }
 }

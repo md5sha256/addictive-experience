@@ -44,26 +44,6 @@ public class EffectRandomTeleportation extends EffectRandomAction {
         return new EffectImpl(this.plugin, intervalTicks, durationMillis, chance, teleportationRadius);
     }
 
-    @Override
-    public void onPresentInInventory(@NotNull InventoryHolder inventoryHolder) {
-
-    }
-
-    @Override
-    public void onRemovalFromInventory(@NotNull InventoryHolder inventoryHolder) {
-
-    }
-
-    @Override
-    public void onPresentInEquipmentSlot(@NotNull EquipmentSlot equipmentSlot) {
-
-    }
-
-    @Override
-    public void onRemovalFromEquipmentSlot(@NotNull EquipmentSlot equipmentSlot) {
-
-    }
-
     private class EffectImpl extends BaseImpl {
 
         private final double halfRadius;

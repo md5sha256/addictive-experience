@@ -7,6 +7,7 @@ import io.github.md5sha256.addictiveexperience.api.drugs.DrugHandler;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrugComponent;
 import io.github.md5sha256.addictiveexperience.api.drugs.IPlantHandler;
+import io.github.md5sha256.addictiveexperience.api.effect.IEffectHandler;
 import io.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import io.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import io.github.md5sha256.addictiveexperience.configuration.AddictiveExperienceConfiguration;
@@ -31,6 +32,7 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
     private SlurEffectState slurEffectState;
     private DrugHandler drugHandler;
     private AddictiveExperienceConfiguration addictiveExperienceConfiguration;
+    private IEffectHandler effectHandler;
 
     @Override
     public @NotNull DrugRegistry drugRegistry() {
@@ -79,12 +81,14 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
                 AddictiveExperienceConfiguration.class);
         this.drugRegistry = injector.getInstance(DrugRegistry.class);
         this.plantHandler = injector.getInstance(IPlantHandler.class);
+        this.effectHandler = injector.getInstance(IEffectHandler.class);
         getServer().getPluginManager().registerEvents(this.plantHandler, this);
         this.injector = injector;
     }
 
     private void shutdownTasks() {
         this.plantHandler.shutdown();
+        this.effectHandler.shutdown();
     }
 
     private void shutdownInjector() {

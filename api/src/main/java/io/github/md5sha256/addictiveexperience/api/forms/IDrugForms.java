@@ -10,6 +10,8 @@ public interface IDrugForms {
 
     @NotNull IDrugForm syringe();
 
+    @NotNull IDrugForm gas();
+
     @NotNull IBlunts blunt();
 
 }

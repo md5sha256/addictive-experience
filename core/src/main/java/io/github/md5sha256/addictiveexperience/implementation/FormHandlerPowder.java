@@ -4,6 +4,7 @@ import io.github.md5sha256.addictiveexperience.api.drugs.DrugHandler;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
+import io.github.md5sha256.addictiveexperience.api.effect.IEffectHandler;
 import io.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import io.github.md5sha256.addictiveexperience.implementation.forms.FormPowder;
 import io.github.md5sha256.addictiveexperience.util.Utils;
@@ -32,8 +33,9 @@ public class FormHandlerPowder extends AbstractFormHandler implements Listener {
                              @NotNull DrugHandler handler,
                              @NotNull DrugRegistry registry,
                              @NotNull SlurEffectState effectState,
+                             @NotNull IEffectHandler effectHandler,
                              @NotNull FormPowder form) {
-        super(plugin, registry, handler, effectState);
+        super(plugin, registry, handler, effectState, effectHandler);
         this.form = form;
         pluginManager.registerEvents(this, plugin);
     }

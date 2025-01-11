@@ -6,6 +6,7 @@ import io.github.md5sha256.addictiveexperience.api.drugs.DrugItemData;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugMeta;
 import io.github.md5sha256.addictiveexperience.api.drugs.DrugRegistry;
 import io.github.md5sha256.addictiveexperience.api.drugs.IDrug;
+import io.github.md5sha256.addictiveexperience.api.effect.IEffectHandler;
 import io.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import io.github.md5sha256.addictiveexperience.implementation.forms.FormSyringe;
 import io.github.md5sha256.addictiveexperience.util.Utils;
@@ -35,8 +36,9 @@ public final class FormHandlerSyringe extends AbstractFormHandler implements Lis
                               @NotNull DrugRegistry drugRegistry,
                               @NotNull DrugHandler drugHandler,
                               @NotNull SlurEffectState slurEffectState,
+                              @NotNull IEffectHandler effectHandler,
                               @NotNull FormSyringe form) {
-        super(plugin, drugRegistry, drugHandler, slurEffectState);
+        super(plugin, drugRegistry, drugHandler, slurEffectState, effectHandler);
         this.form = form;
         pluginManager.registerEvents(this, plugin);
     }
