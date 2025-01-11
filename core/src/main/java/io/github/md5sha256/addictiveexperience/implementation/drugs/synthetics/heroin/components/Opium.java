@@ -61,7 +61,7 @@ public final class Opium extends AbstractDrugComponent {
 
     @Override
     protected final @NotNull ItemMeta meta() {
-        final ItemMeta meta = this.itemFactory.getItemMeta(Material.LIGHT_GRAY_DYE);
+        final ItemMeta meta = this.itemFactory.getItemMeta(Material.PINK_DYE);
         final Component displayName = Component.text("Opium", NamedTextColor.RED);
         AdventureUtils.setDisplayName(meta, displayName);
         final List<Component> lore = Collections.singletonList(
