@@ -10,6 +10,7 @@ import io.github.md5sha256.addictiveexperience.api.drugs.IOrganic;
 import io.github.md5sha256.addictiveexperience.api.util.AbstractDrug;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.DrugItemDataFactory;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.organics.marijuana.components.PlantMarijuana;
+import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
 import io.github.md5sha256.addictiveexperience.implementation.forms.blunt.BluntUnlit;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import net.kyori.adventure.text.Component;
@@ -39,15 +40,16 @@ public final class DrugMarijuana extends AbstractDrug implements IOrganic {
             @NotNull ItemFactory itemFactory,
             @NotNull DrugRegistry drugRegistry,
             @NotNull PlantMarijuana plantMarijuana,
-            @NotNull BluntUnlit bluntUnlit
-    ) {
+            @NotNull BluntUnlit bluntUnlit,
+            @NotNull DrugForms forms
+            ) {
         super(
                 itemFactory,
                 Utils.internalKey("marijuana"),
                 "Marijuana",
                 Material.GREEN_DYE,
                 "addictiveexperience.consumeweed",
-                bluntUnlit
+                forms.defaultForm()
         );
         this.defaultMeta =
                 DrugMeta.DEFAULT
