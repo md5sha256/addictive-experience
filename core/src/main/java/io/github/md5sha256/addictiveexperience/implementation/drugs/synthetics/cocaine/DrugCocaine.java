@@ -61,7 +61,7 @@ public final class DrugCocaine extends AbstractDrug implements ISynthetic {
                 )
                 .build();
         drugRegistry.registerComponent(this);
-        drugRegistry.metaData(plantCocaine, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(this));
+        drugRegistry.metaData(plantCocaine, DrugPlantMeta.KEY, DrugPlantMeta.defaultMeta(leafCocaine));
         this.recipe = createRecipe(plugin, leafCocaine, drugRegistry);
     }
 

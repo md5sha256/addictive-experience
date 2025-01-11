@@ -192,7 +192,7 @@ public final class PlantListener implements DeregisterableListener {
         final World world = block.getWorld();
         final Location location = block.getLocation();
         final ItemStack itemDrug = meta.result()
-                .asFunctionalItem(this.drugRegistry)
+                .asItem(this.drugRegistry)
                 .asQuantity(amountHarvest);
 
         world.dropItemNaturally(location, itemDrug);
