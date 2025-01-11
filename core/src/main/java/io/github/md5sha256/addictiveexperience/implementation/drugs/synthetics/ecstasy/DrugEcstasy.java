@@ -17,6 +17,7 @@ import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
 import io.github.md5sha256.addictiveexperience.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemFactory;
@@ -29,6 +30,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -89,11 +91,13 @@ public final class DrugEcstasy extends AbstractDrug {
 
     protected final @NotNull ItemMeta meta() {
         final ItemMeta meta = this.itemFactory.getItemMeta(Material.CYAN_DYE);
-        AdventureUtils.setDisplayName(meta, Component.text("Methamphetamine", NamedTextColor.BLUE));
+        AdventureUtils.setDisplayName(meta, Component.text("Ecstasy", NamedTextColor.GOLD));
         final List<Component> lore = Arrays.asList(
-                Component.text("Methamphetamine is a strong", NamedTextColor.WHITE),
-                Component.text("and highly addictive drug that", NamedTextColor.WHITE),
-                Component.text("affects the central nervous system", NamedTextColor.WHITE)
+                Component.text("Ecstasy or molly, is a psychoactive drug ", NamedTextColor.WHITE),
+                Component.text("primarily used as a recreational drug.", NamedTextColor.WHITE),
+                Component.text("The desired effects include altered sensations,",
+                        NamedTextColor.WHITE),
+                Component.text("increased energy, empathy, and pleasure.", NamedTextColor.WHITE)
         );
         AdventureUtils.setLore(meta, lore);
         return meta;
