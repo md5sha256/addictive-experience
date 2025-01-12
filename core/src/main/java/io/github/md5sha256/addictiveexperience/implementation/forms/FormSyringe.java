@@ -45,8 +45,8 @@ public final class FormSyringe extends AbstractDrugForm implements IDrugForm {
         this.plugin = plugin;
         this.server = server;
         this.registry = registry;
-        registerUnfilledSyringe();
         this.unfilledItem = createUnfilled();
+        registerUnfilledSyringe();
     }
 
     private ItemStack createUnfilled() {

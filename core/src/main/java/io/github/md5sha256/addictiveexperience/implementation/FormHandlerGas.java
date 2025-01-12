@@ -7,6 +7,7 @@ import io.github.md5sha256.addictiveexperience.api.effect.IEffectHandler;
 import io.github.md5sha256.addictiveexperience.api.forms.IDrugForm;
 import io.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import io.github.md5sha256.addictiveexperience.implementation.forms.DrugForms;
+import jakarta.inject.Inject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
@@ -27,7 +28,9 @@ public class FormHandlerGas extends AbstractFormHandler implements Listener {
 
     private final IDrugForm form;
 
-    protected FormHandlerGas(@NotNull Plugin plugin,
+
+    @Inject
+    FormHandlerGas(@NotNull Plugin plugin,
                              @NotNull DrugRegistry drugRegistry,
                              @NotNull DrugHandler drugHandler,
                              @NotNull SlurEffectState effectState,
