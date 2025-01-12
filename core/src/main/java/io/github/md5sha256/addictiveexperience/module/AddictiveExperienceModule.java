@@ -19,6 +19,7 @@ import io.github.md5sha256.addictiveexperience.implementation.FormHandlerLitBlun
 import io.github.md5sha256.addictiveexperience.implementation.FormHandlerPowder;
 import io.github.md5sha256.addictiveexperience.implementation.FormHandlerSyringe;
 import io.github.md5sha256.addictiveexperience.implementation.SlurEffectStateImpl;
+import io.github.md5sha256.addictiveexperience.implementation.SyringeRecipeHandler;
 import io.github.md5sha256.addictiveexperience.implementation.commands.AddictiveExperienceCommandHandler;
 import io.github.md5sha256.addictiveexperience.implementation.drugs.SimpleDrugRegistry;
 import io.github.md5sha256.addictiveexperience.implementation.effects.EffectsModule;
@@ -81,6 +82,8 @@ public final class AddictiveExperienceModule extends AbstractModule {
         bind(FormHandlerSyringe.class).asEagerSingleton();
         bind(FormHandlerLitBlunt.class).asEagerSingleton();
         bind(FormHandlerGas.class).asEagerSingleton();
+
+        bind(SyringeRecipeHandler.class).asEagerSingleton();
 
         // API bindings
         bind(IDrugForms.class).to(DrugForms.class).in(Singleton.class);

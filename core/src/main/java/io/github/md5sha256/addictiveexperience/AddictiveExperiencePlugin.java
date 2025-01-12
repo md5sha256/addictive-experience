@@ -11,6 +11,7 @@ import io.github.md5sha256.addictiveexperience.api.effect.IEffectHandler;
 import io.github.md5sha256.addictiveexperience.api.forms.IDrugForms;
 import io.github.md5sha256.addictiveexperience.api.slur.SlurEffectState;
 import io.github.md5sha256.addictiveexperience.configuration.AddictiveExperienceConfiguration;
+import io.github.md5sha256.addictiveexperience.implementation.SyringeRecipeHandler;
 import io.github.md5sha256.addictiveexperience.implementation.plant.PlantHandlerImpl;
 import io.github.md5sha256.addictiveexperience.module.AddictiveExperienceModule;
 import com.google.inject.Guice;
@@ -82,6 +83,8 @@ public final class AddictiveExperiencePlugin extends JavaPlugin implements Addic
         this.drugRegistry = injector.getInstance(DrugRegistry.class);
         this.plantHandler = injector.getInstance(IPlantHandler.class);
         this.effectHandler = injector.getInstance(IEffectHandler.class);
+        SyringeRecipeHandler recipeHandler = injector.getInstance(SyringeRecipeHandler.class);
+        recipeHandler.registerRecipes();
         getServer().getPluginManager().registerEvents(this.plantHandler, this);
         this.injector = injector;
     }
