@@ -19,7 +19,7 @@ hikaricp = "6.2.1"
 
 # Unit test
 junit = "5.11.4"
-mockbukkit = "4.0.0"
+mockbukkit = "4.32.0"
 
 
 [libraries]
