@@ -31,7 +31,7 @@ jobs:
         run: "./gradlew clean build shadowJar"
 
       - name: "Upload JAR as Artifact"
-        uses: "actions/upload-artifact@v3"
+        uses: "actions/upload-artifact@v4"
         with:
           name: "core-shadowJar"
           path: "core/build/libs/*.jar"
